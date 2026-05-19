@@ -28,7 +28,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Start Docker services (MySQL + Backend)
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
 
       - name: Wait for backend to be healthy
         run: |
@@ -62,4 +62,4 @@ jobs:
 
       - name: Stop Docker services
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
