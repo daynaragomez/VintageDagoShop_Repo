@@ -24,6 +24,6 @@
   }
 
   async screenshot(name) {
-    await this.page.screenshot({ path: 	est-results/screenshots/.png });
+    await this.page.screenshot({ path: `test-results/screenshots/${name}.png` });
   }
 }

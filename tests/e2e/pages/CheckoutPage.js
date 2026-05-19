@@ -1,39 +1,42 @@
-﻿import { BasePage } from './BasePage.js';
+import { BasePage } from './BasePage.js';
 
 export class CheckoutPage extends BasePage {
   constructor(page) {
     super(page);
-    this.nameInput      = page.locator('input[name=name]');
-    this.emailInput     = page.locator('input[name=email]');
-    this.addressInput   = page.locator('input[name=address]');
-    this.cardInput      = page.locator('input[name=card]');
-    this.placeOrderBtn  = page.locator('.btn-place-order');
-    this.orderItems     = page.locator('.order-item');
-    this.orderTotal     = page.locator('.order-total strong').last();
-    this.apiError       = page.locator('.api-error');
-    this.formErrors     = page.locator('.form-error');
-    this.emptyMsg       = page.locator('.checkout-empty h2');
+    this.checkoutPage  = page.getByTestId('checkout-page');
+    this.checkoutForm  = page.getByTestId('checkout-form');
+    this.inputName     = page.getByTestId('input-name');
+    this.inputEmail    = page.getByTestId('input-email');
+    this.inputAddress  = page.getByTestId('input-address');
+    this.inputCard     = page.getByTestId('input-card');
+    this.btnPlaceOrder = page.getByTestId('btn-place-order');
+    this.apiError      = page.getByTestId('api-error');
+    this.errorName     = page.getByTestId('error-name');
+    this.errorEmail    = page.getByTestId('error-email');
+    this.errorAddress  = page.getByTestId('error-address');
+    this.errorCard     = page.getByTestId('error-card');
+    this.orderSummary  = page.getByTestId('order-summary');
+    this.orderTotal    = page.getByTestId('order-total-value');
+    this.checkoutEmpty = page.getByTestId('checkout-empty');
   }
+
+  orderItem(id) { return this.page.getByTestId(`order-item-${id}`); }
 
   async goto() {
     await this.navigate('/checkout');
-    await this.waitForNetworkIdle();
+    await this.checkoutPage.waitFor({ state: 'visible' });
   }
 
   async fillForm({ name, email, address, card }) {
-    await this.nameInput.fill(name);
-    await this.emailInput.fill(email);
-    await this.addressInput.fill(address);
-    await this.cardInput.fill(card);
-  }
-
-  async placeOrder() {
-    await this.placeOrderBtn.click();
+    await this.inputName.fill(name);
+    await this.inputEmail.fill(email);
+    await this.inputAddress.fill(address);
+    await this.inputCard.fill(card);
   }
 
   async submitOrder(formData) {
     await this.fillForm(formData);
-    await this.placeOrder();
+    await this.btnPlaceOrder.click();
   }
 
   async getOrderTotal() {
@@ -42,26 +45,8 @@ export class CheckoutPage extends BasePage {
   }
 
   async getOrderItemCount() {
-    return this.orderItems.count();
+    return this.page.locator('[data-testid^="order-item-"]').count();
   }
 
-  async hasApiError() {
-    return this.apiError.isVisible();
-  }
-
-  async getApiErrorText() {
-    return this.apiError.textContent();
-  }
-
-  async hasFormErrors() {
-    return (await this.formErrors.count()) > 0;
-  }
-
-  async isSubmitDisabled() {
-    return this.placeOrderBtn.isDisabled();
-  }
-
-  async isCartEmpty() {
-    return this.emptyMsg.isVisible();
-  }
+  async isCartEmpty() { return this.checkoutEmpty.isVisible(); }
 }

@@ -1,26 +1,25 @@
-﻿import { BasePage } from './BasePage.js';
+import { BasePage } from './BasePage.js';
 
 export class ConfirmationPage extends BasePage {
   constructor(page) {
     super(page);
-    this.heading      = page.locator('.confirmation-page h1, .confirmation-page h2').first();
-    this.shopAgainBtn = page.locator('.btn-shop-again, .btn-back-shop');
+    this.confirmationPage = page.getByTestId('confirmation-page');
+    this.heading          = page.getByTestId('confirmation-heading');
+    this.message          = page.getByTestId('confirmation-message');
+    this.icon             = page.getByTestId('confirmation-icon');
+    this.btnShopAgain     = page.getByTestId('btn-shop-again');
   }
 
   async goto() {
     await this.navigate('/confirmation');
-    await this.waitForNetworkIdle();
+    await this.confirmationPage.waitFor({ state: 'visible' });
   }
 
-  async getHeadingText() {
-    return this.heading.textContent();
-  }
-
-  async isVisible() {
-    return this.heading.isVisible();
-  }
+  async getHeadingText() { return this.heading.textContent(); }
+  async isVisible()      { return this.confirmationPage.isVisible(); }
 
   async shopAgain() {
-    await this.shopAgainBtn.click();
+    await this.btnShopAgain.click();
+    await this.page.waitForURL('/');
   }
 }

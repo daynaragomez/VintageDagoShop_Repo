@@ -1,51 +1,48 @@
-﻿import { test, expect } from '../../fixtures/index.js';
-import { CONSTANTS }    from '../utils/constants.js';
+import { test }      from '../../fixtures/index.js';
+import { CONSTANTS } from '../utils/constants.js';
 
-const JACKET = CONSTANTS.PRODUCTS.LEATHER_JACKET;
+const { LEATHER_JACKET } = CONSTANTS.PRODUCTS;
 
-test.describe('Product Page', () => {
-  test.beforeEach(async ({ productPage }) => {
-    await productPage.goto(JACKET.id);
+test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+
+  test.beforeEach(async ({ productSteps }) => {
+    await productSteps.openProduct(LEATHER_JACKET.id);
   });
 
-  test('displays product name', async ({ productPage }) => {
-    const name = await productPage.getName();
-    expect(name).toContain(JACKET.name);
+  test('displays product name', { tag: '@smoke' }, async ({ productAssert }) => {
+    await productAssert.nameIs(LEATHER_JACKET.name);
   });
 
-  test('displays correct price', async ({ productPage }) => {
-    const price = await productPage.getPrice();
-    expect(price).toContain(JACKET.price.toFixed(2));
+  test('displays correct price', { tag: '@smoke' }, async ({ productAssert }) => {
+    await productAssert.priceContains(LEATHER_JACKET.price.toFixed(2));
   });
 
-  test('displays stock information', async ({ productPage }) => {
-    const stock = await productPage.getStock();
-    expect(stock).toContain('in stock');
+  test('displays in stock message', async ({ productAssert }) => {
+    await productAssert.stockContains('in stock');
   });
 
-  test('shows Add to Cart button initially', async ({ productPage }) => {
-    await expect(productPage.addToCartBtn).toBeVisible();
+  test('Add to Cart button is visible initially', async ({ productAssert }) => {
+    await productAssert.addToCartButtonVisible();
   });
 
-  test('after adding to cart, shows quantity controls', async ({ productPage }) => {
-    await productPage.addToCart();
-    await expect(productPage.qtyControls).toBeVisible();
-    const qty = await productPage.getQtyInCart();
-    expect(qty).toBe(1);
+  test('quantity controls appear after adding to cart', async ({ productSteps, productAssert }) => {
+    await productSteps.addToCart();
+    await productAssert.qtyControlsVisible();
+    await productAssert.qtyInCartIs(1);
   });
 
-  test('plus button disabled when quantity reaches stock', async ({ productPage, db }) => {
-    await productPage.addToCart();
-    for (let i = 1; i < JACKET.stock; i++) {
-      await productPage.incrementQty();
+  test('plus button is disabled when quantity equals stock',
+    { tag: '@boundary' },
+    async ({ db, productSteps, productAssert }) => {
+      await productSteps.addToCart();
+      await productSteps.increaseQuantityTo(LEATHER_JACKET.stock);
+      await productAssert.plusButtonIsDisabled();
     }
-    const disabled = await productPage.isPlusDisabled();
-    expect(disabled).toBe(true);
-  });
+  );
 
-  test('View Cart button navigates to cart page', async ({ productPage, page }) => {
-    await productPage.addToCart();
-    await productPage.goToCart();
-    await expect(page).toHaveURL(CONSTANTS.ROUTES.CART);
+  test('View Cart navigates to cart page', async ({ page, productSteps }) => {
+    await productSteps.addToCart();
+    await productSteps.navigateToCart();
+    await page.waitForURL('**/cart');
   });
 });

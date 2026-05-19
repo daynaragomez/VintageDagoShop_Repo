@@ -53,66 +53,66 @@ const CheckoutPage = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="checkout-page">
+      <div className="checkout-page" data-testid="checkout-page">
         <Navbar />
-        <div className="checkout-empty">
-          <h2>Your cart is empty</h2>
-          <button className="btn-back-shop" onClick={() => navigate("/")}>Back to Shop</button>
+        <div className="checkout-empty" data-testid="checkout-empty">
+          <h2 data-testid="checkout-empty-msg">Your cart is empty</h2>
+          <button className="btn-back-shop" data-testid="btn-back-shop" onClick={() => navigate("/")}>Back to Shop</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="checkout-page">
+    <div className="checkout-page" data-testid="checkout-page">
       <Navbar />
       <main className="checkout-main">
         <div className="container checkout-grid">
-          <form className="checkout-form" onSubmit={handleSubmit} noValidate>
+          <form className="checkout-form" data-testid="checkout-form" onSubmit={handleSubmit} noValidate>
             <h2>Shipping & Payment</h2>
 
-            {apiError && <div className="api-error">{apiError}</div>}
+            {apiError && <div className="api-error" data-testid="api-error">{apiError}</div>}
 
             <div className="form-group">
               <label>Full Name</label>
-              <input name="name" value={form.name} onChange={handleChange} placeholder="John Doe" />
-              {errors.name && <span className="form-error">{errors.name}</span>}
+              <input data-testid="input-name" name="name" value={form.name} onChange={handleChange} placeholder="John Doe" />
+              {errors.name && <span className="form-error" data-testid="error-name">{errors.name}</span>}
             </div>
 
             <div className="form-group">
               <label>Email</label>
-              <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="john@email.com" />
-              {errors.email && <span className="form-error">{errors.email}</span>}
+              <input data-testid="input-email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="john@email.com" />
+              {errors.email && <span className="form-error" data-testid="error-email">{errors.email}</span>}
             </div>
 
             <div className="form-group">
               <label>Shipping Address</label>
-              <input name="address" value={form.address} onChange={handleChange} placeholder="123 Main St, City" />
-              {errors.address && <span className="form-error">{errors.address}</span>}
+              <input data-testid="input-address" name="address" value={form.address} onChange={handleChange} placeholder="123 Main St, City" />
+              {errors.address && <span className="form-error" data-testid="error-address">{errors.address}</span>}
             </div>
 
             <div className="form-group">
               <label>Card Number</label>
-              <input name="card" value={form.card} onChange={handleChange} placeholder="1234 5678 9012 3456" maxLength={19} />
-              {errors.card && <span className="form-error">{errors.card}</span>}
+              <input data-testid="input-card" name="card" value={form.card} onChange={handleChange} placeholder="1234 5678 9012 3456" maxLength={19} />
+              {errors.card && <span className="form-error" data-testid="error-card">{errors.card}</span>}
             </div>
 
-            <button type="submit" className="btn-place-order" disabled={submitting}>
+            <button type="submit" className="btn-place-order" data-testid="btn-place-order" disabled={submitting}>
               {submitting ? "Placing Order..." : `Place Order - $${getCartTotal().toFixed(2)}`}
             </button>
           </form>
 
-          <div className="order-summary">
+          <div className="order-summary" data-testid="order-summary">
             <h2>Order Summary</h2>
             {cartItems.map((item) => (
-              <div key={item.id} className="order-item">
-                <span>{item.name} x{item.quantity}</span>
-                <span>${(parseFloat(item.price) * item.quantity).toFixed(2)}</span>
+              <div key={item.id} className="order-item" data-testid={`order-item-${item.id}`}>
+                <span data-testid={`order-item-name-${item.id}`}>{item.name} x{item.quantity}</span>
+                <span data-testid={`order-item-total-${item.id}`}>${(parseFloat(item.price) * item.quantity).toFixed(2)}</span>
               </div>
             ))}
-            <div className="order-total">
+            <div className="order-total" data-testid="order-total">
               <strong>Total</strong>
-              <strong>${getCartTotal().toFixed(2)}</strong>
+              <strong data-testid="order-total-value">${getCartTotal().toFixed(2)}</strong>
             </div>
           </div>
         </div>

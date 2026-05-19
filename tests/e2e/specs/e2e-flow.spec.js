@@ -1,84 +1,81 @@
-﻿import { test, expect } from '../../fixtures/index.js';
-import { CONSTANTS }    from '../utils/constants.js';
-import { testData }     from '../utils/testData.js';
+import { test }      from '../../fixtures/index.js';
+import { CONSTANTS } from '../utils/constants.js';
+import { testData }  from '../utils/testData.js';
 
-/**
- * Full end-to-end user journeys.
- * Each test exercises a complete flow from home to confirmation.
- */
-test.describe('E2E — Full Purchase Flow', () => {
-  test('user browses, adds to cart, checks out and sees confirmation', async ({
-    homePage, cartPage, checkoutPage, confirmationPage, page, db,
-  }) => {
-    // 1. Browse products
-    await homePage.goto();
-    const count = await homePage.getProductCount();
-    expect(count).toBe(3);
+const { LEATHER_JACKET, DENIM_JEANS } = CONSTANTS.PRODUCTS;
 
-    // 2. Add jacket to cart
-    await homePage.addToCart(0);
-    expect(await homePage.getCartBadgeCount()).toBe(1);
+test.describe('E2E — Full Purchase Flow', { tag: ['@e2e', '@critical', '@smoke'] }, () => {
 
-    // 3. Go to cart
-    await homePage.goToCart();
-    expect(await cartPage.getItemCount()).toBe(1);
-    expect(await cartPage.getOrderTotal()).toBeCloseTo(CONSTANTS.PRODUCTS.LEATHER_JACKET.price, 1);
+  test('user completes full purchase: browse → cart → checkout → confirmation',
+    { tag: ['@smoke', '@critical'] },
+    async ({ db, productApi, homeSteps, cartSteps, checkoutSteps,
+             homeAssert, cartAssert, confirmationAssert }) => {
 
-    // 4. Checkout
-    await cartPage.proceedToCheckout();
-    await checkoutPage.submitOrder(testData.validCustomer);
+      await productApi.expectProductsLoaded();
 
-    // 5. Confirmation
-    await expect(page).toHaveURL(CONSTANTS.ROUTES.CONFIRMATION, { timeout: CONSTANTS.TIMEOUTS.LONG });
-    const visible = await confirmationPage.isVisible();
-    expect(visible).toBe(true);
-  });
+      await homeSteps.openShop();
+      await homeAssert.productCountIs(3);
 
-  test('stock decrements in DB after purchase', async ({
-    homePage, cartPage, checkoutPage, page, db,
-  }) => {
-    const stockBefore = db.getStock(CONSTANTS.PRODUCTS.LEATHER_JACKET.name);
+      await homeSteps.addProductToCart(LEATHER_JACKET.id);
+      await homeAssert.cartBadgeCountIs(1);
 
-    await homePage.goto();
-    await homePage.addToCart(0);
-    await homePage.goToCart();
-    await cartPage.proceedToCheckout();
-    await checkoutPage.submitOrder(testData.validCustomer);
-    await page.waitForURL(CONSTANTS.ROUTES.CONFIRMATION, { timeout: CONSTANTS.TIMEOUTS.LONG });
+      await homeSteps.navigateToCart();
+      await cartAssert.itemCountIs(1);
+      await cartAssert.totalIsCloseTo(LEATHER_JACKET.price);
 
-    const stockAfter = db.getStock(CONSTANTS.PRODUCTS.LEATHER_JACKET.name);
-    expect(stockAfter).toBe(stockBefore - 1);
-  });
+      await cartSteps.proceedToCheckout();
+      await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
 
-  test('user can purchase multiple different products', async ({
-    homePage, cartPage, checkoutPage, page, db,
-  }) => {
-    await homePage.goto();
-    await homePage.addToCart(0);
-    await homePage.addToCart(1);
-    await homePage.goToCart();
+      await confirmationAssert.pageIsVisible();
+      await confirmationAssert.headingIsConfirmed();
+      await confirmationAssert.iconIsVisible();
+    }
+  );
 
-    expect(await cartPage.getItemCount()).toBe(2);
-    const expectedTotal = CONSTANTS.PRODUCTS.LEATHER_JACKET.price + CONSTANTS.PRODUCTS.DENIM_JEANS.price;
-    expect(await cartPage.getOrderTotal()).toBeCloseTo(expectedTotal, 1);
+  test('stock decrements in DB after purchase',
+    { tag: ['@critical', '@inventory'] },
+    async ({ db, productApi, homeSteps, cartSteps, checkoutSteps, confirmationAssert }) => {
+      const before = await productApi.getById(LEATHER_JACKET.id);
 
-    await cartPage.proceedToCheckout();
-    await checkoutPage.submitOrder(testData.validCustomer);
-    await expect(page).toHaveURL(CONSTANTS.ROUTES.CONFIRMATION, { timeout: CONSTANTS.TIMEOUTS.LONG });
-  });
+      await homeSteps.openShop();
+      await homeSteps.addProductToCart(LEATHER_JACKET.id);
+      await homeSteps.navigateToCart();
+      await cartSteps.proceedToCheckout();
+      await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
+      await confirmationAssert.pageIsVisible();
 
-  test('user can shop again after order confirmation', async ({
-    homePage, cartPage, checkoutPage, confirmationPage, page, db,
-  }) => {
-    await homePage.goto();
-    await homePage.addToCart(0);
-    await homePage.goToCart();
-    await cartPage.proceedToCheckout();
-    await checkoutPage.submitOrder(testData.validCustomer);
-    await page.waitForURL(CONSTANTS.ROUTES.CONFIRMATION, { timeout: CONSTANTS.TIMEOUTS.LONG });
+      const after = await productApi.getById(LEATHER_JACKET.id);
+      if (parseInt(after.stock) !== parseInt(before.stock) - 1) {
+        throw new Error(`Stock not decremented: before=${before.stock} after=${after.stock}`);
+      }
+    }
+  );
 
-    await confirmationPage.shopAgain();
-    await expect(page).toHaveURL(CONSTANTS.ROUTES.HOME);
-    expect(await homePage.getProductCount()).toBe(3);
-  });
+  test('user can purchase multiple products in one order',
+    { tag: '@e2e' },
+    async ({ db, homeSteps, cartSteps, checkoutSteps, cartAssert, confirmationAssert }) => {
+      await homeSteps.openShop();
+      await homeSteps.addProductToCart(LEATHER_JACKET.id);
+      await homeSteps.addProductToCart(DENIM_JEANS.id);
+      await homeSteps.navigateToCart();
+      await cartAssert.itemCountIs(2);
+      await cartAssert.totalIsCloseTo(LEATHER_JACKET.price + DENIM_JEANS.price);
+      await cartSteps.proceedToCheckout();
+      await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
+      await confirmationAssert.pageIsVisible();
+    }
+  );
+
+  test('user can shop again after order confirmation',
+    { tag: '@e2e' },
+    async ({ db, homeSteps, cartSteps, checkoutSteps, confirmationPage, homeAssert }) => {
+      await homeSteps.openShop();
+      await homeSteps.addProductToCart(LEATHER_JACKET.id);
+      await homeSteps.navigateToCart();
+      await cartSteps.proceedToCheckout();
+      await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
+      await confirmationPage.shopAgain();
+      await homeAssert.productCountIs(3);
+    }
+  );
 });

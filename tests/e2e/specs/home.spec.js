@@ -1,53 +1,50 @@
-﻿import { test, expect } from '../../fixtures/index.js';
-import { CONSTANTS }    from '../utils/constants.js';
+import { test }      from '../../fixtures/index.js';
+import { CONSTANTS } from '../utils/constants.js';
 
-test.describe('Home Page', () => {
-  test.beforeEach(async ({ homePage }) => {
-    await homePage.goto();
+const { LEATHER_JACKET, DENIM_JEANS, BAND_TSHIRT } = CONSTANTS.PRODUCTS;
+
+test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+
+  test.beforeEach(async ({ homeSteps }) => {
+    await homeSteps.openShop();
   });
 
-  test('displays the navbar with shop and cart links', async ({ page }) => {
-    await expect(page.locator('.navbar')).toBeVisible();
-    await expect(page.locator('.navbar-links')).toContainText('Shop');
-    await expect(page.locator('.navbar-links')).toContainText('Cart');
+  test('navbar is visible', { tag: '@smoke' }, async ({ homeAssert }) => {
+    await homeAssert.navbarIsVisible();
   });
 
-  test('renders 3 products from the database', async ({ homePage }) => {
-    const count = await homePage.getProductCount();
-    expect(count).toBe(3);
+  test('renders 3 products from the database', { tag: '@smoke' }, async ({ homeAssert }) => {
+    await homeAssert.productCountIs(3);
   });
 
-  test('product cards show name, price and stock', async ({ homePage }) => {
-    const names = await homePage.getAllProductNames();
-    expect(names).toContain(CONSTANTS.PRODUCTS.LEATHER_JACKET.name);
-    expect(names).toContain(CONSTANTS.PRODUCTS.DENIM_JEANS.name);
-    expect(names).toContain(CONSTANTS.PRODUCTS.BAND_TSHIRT.name);
+  test('displays all product names', async ({ homeAssert }) => {
+    await homeAssert.productNamesInclude([
+      LEATHER_JACKET.name,
+      DENIM_JEANS.name,
+      BAND_TSHIRT.name,
+    ]);
   });
 
-  test('cart badge is not visible when cart is empty', async ({ homePage }) => {
-    const count = await homePage.getCartBadgeCount();
-    expect(count).toBe(0);
+  test('cart badge is hidden when cart is empty', { tag: '@smoke' }, async ({ homeAssert }) => {
+    await homeAssert.cartBadgeNotVisible();
   });
 
-  test('add to cart button is enabled for in-stock product', async ({ homePage }) => {
-    const disabled = await homePage.isAddToCartDisabled(0);
-    expect(disabled).toBe(false);
+  test('Add to Cart button is enabled for in-stock product', async ({ homeAssert }) => {
+    await homeAssert.addToCartButtonIsEnabled(LEATHER_JACKET.id);
   });
 
-  test('adding a product shows cart badge count', async ({ homePage }) => {
-    await homePage.addToCart(0);
-    const count = await homePage.getCartBadgeCount();
-    expect(count).toBe(1);
+  test('cart badge shows 1 after adding a product', async ({ homeSteps, homeAssert }) => {
+    await homeSteps.addProductToCart(LEATHER_JACKET.id);
+    await homeAssert.cartBadgeCountIs(1);
   });
 
-  test('add to cart button label updates after adding', async ({ homePage }) => {
-    await homePage.addToCart(0);
-    const label = await homePage.getAddToCartLabel(0);
-    expect(label).toContain('In Cart');
+  test('Add to Cart label updates to In Cart after adding', async ({ homeSteps, homeAssert }) => {
+    await homeSteps.addProductToCart(LEATHER_JACKET.id);
+    await homeAssert.addToCartLabelContains(LEATHER_JACKET.id, 'In Cart');
   });
 
-  test('clicking View Details navigates to product page', async ({ homePage, page }) => {
-    await homePage.viewProduct(0);
-    await expect(page).toHaveURL(/\/product\/\d+/);
+  test('View Details navigates to product page', async ({ page, homeSteps }) => {
+    await homeSteps.navigateToProduct(LEATHER_JACKET.id);
+    await page.waitForURL(`**/product/${LEATHER_JACKET.id}`);
   });
 });

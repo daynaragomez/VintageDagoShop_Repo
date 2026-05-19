@@ -1,66 +1,55 @@
-﻿import { BasePage } from './BasePage.js';
+import { BasePage } from './BasePage.js';
 
 export class HomePage extends BasePage {
   constructor(page) {
     super(page);
-    this.productCards    = page.locator('.product-card');
-    this.navbar          = page.locator('.navbar');
-    this.cartLink        = page.locator('.navbar-links').getByText('Cart');
-    this.cartBadge       = page.locator('.cart-badge');
-    this.loadingMsg      = page.locator('.status-msg').first();
+    this.navbar       = page.getByTestId('navbar');
+    this.navShop      = page.getByTestId('nav-shop');
+    this.navCart      = page.getByTestId('nav-cart');
+    this.cartBadge    = page.getByTestId('cart-badge');
+    this.navCartTotal = page.getByTestId('navbar-cart-total');
+    this.productsGrid = page.getByTestId('products-grid');
   }
+
+  productCard(id)  { return this.page.getByTestId(`product-card-${id}`); }
+  productName(id)  { return this.page.getByTestId(`product-name-${id}`); }
+  productPrice(id) { return this.page.getByTestId(`product-price-${id}`); }
+  productStock(id) { return this.page.getByTestId(`product-stock-${id}`); }
+  btnAddToCart(id) { return this.page.getByTestId(`btn-add-to-cart-${id}`); }
+  btnView(id)      { return this.page.getByTestId(`btn-view-${id}`); }
 
   async goto() {
     await this.navigate('/');
-    await this.waitForNetworkIdle();
+    await this.productsGrid.waitFor({ state: 'visible' });
   }
 
-  // --- product grid ---
   async getProductCount() {
-    return this.productCards.count();
-  }
-
-  async getProductName(index) {
-    return this.productCards.nth(index).locator('h3').textContent();
-  }
-
-  async getProductPrice(index) {
-    return this.productCards.nth(index).locator('.product-price').textContent();
-  }
-
-  async getProductStock(index) {
-    return this.productCards.nth(index).locator('.product-stock').textContent();
+    return this.page.locator('[data-testid^="product-card-"]').count();
   }
 
   async getAllProductNames() {
-    return this.productCards.locator('h3').allTextContents();
+    return this.page.locator('[data-testid^="product-name-"]').allTextContents();
   }
 
-  // --- actions ---
-  async addToCart(index) {
-    await this.productCards.nth(index).locator('.btn-add-to-cart').click();
+  async addToCart(productId) {
+    await this.btnAddToCart(productId).click();
+    await this.btnAddToCart(productId).waitFor({ state: 'visible' });
   }
 
-  async viewProduct(index) {
-    await this.productCards.nth(index).locator('.btn-view').click();
+  async viewProduct(productId) {
+    await this.btnView(productId).click();
   }
 
-  async isAddToCartDisabled(index) {
-    return this.productCards.nth(index).locator('.btn-add-to-cart').isDisabled();
-  }
-
-  async getAddToCartLabel(index) {
-    return this.productCards.nth(index).locator('.btn-add-to-cart').textContent();
-  }
-
-  // --- navbar cart ---
   async getCartBadgeCount() {
     const visible = await this.cartBadge.isVisible();
     if (!visible) return 0;
     return parseInt(await this.cartBadge.textContent(), 10);
   }
 
-  async goToCart() {
-    await this.cartLink.click();
+  async getNavCartTotal() {
+    return this.navCartTotal.textContent();
   }
+
+  async goToCart()  { await this.navCart.click(); }
+  async goToShop()  { await this.navShop.click(); }
 }

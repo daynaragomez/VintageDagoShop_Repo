@@ -7,12 +7,12 @@ export class ProductApiClient {
   }
 
   async getAll() {
-    const res = await this.request.get(${this.baseUrl}/products);
+    const res = await this.request.get(`${this.baseUrl}/products`);
     return res.json();
   }
 
   async getById(id) {
-    const res = await this.request.get(${this.baseUrl}/products/);
+    const res = await this.request.get(`${this.baseUrl}/products/${id}`);
     return res.json();
   }
 

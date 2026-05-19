@@ -1,116 +1,127 @@
-﻿# VintageDagoShop
+# VintageDagoShop
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![React](https://img.shields.io/badge/react-18.2.0-61dafb)
-![License](https://img.shields.io/badge/license-MIT-green)
-
-E-commerce platform for vintage clothing. Built with Clean Architecture for web and future React Native mobile.
+E-commerce web app for vintage clothing. React 18 frontend, Express backend, MySQL 8 via Docker.
 
 ## Stack
 
-| Layer       | Technology                        |
-|-------------|-----------------------------------|
-| Frontend    | React 18 + Vite                   |
-| Styles      | CSS Modules                       |
-| Routing     | React Router v6                   |
-| State       | Context API + Hooks               |
-| Backend     | Node.js + Express                 |
-| Database    | MySQL 8.0 (Docker)                |
-| DB Admin    | phpMyAdmin (Docker)               |
-| Testing     | Vitest                            |
-| Code Quality| ESLint + Prettier                 |
-| Mobile      | React Native (planned)            |
-
-## Architecture
-
-Clean Architecture with four layers:
-
-```
-Presentation  →  Application  →  Domain  ←  Infrastructure
-  (React)        (Services)    (Entities)    (MySQL / API)
-```
-
-See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for details.
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, Vite, React Router v6 |
+| Backend | Node.js, Express |
+| Database | MySQL 8 (Docker) |
+| Testing | Playwright 1.60 (E2E), Vitest (unit/integration) |
 
 ## Prerequisites
 
-- Node.js >= 18.0.0
-- npm >= 9.0.0
-- Docker Desktop >= 4.0
+- Node.js 16+
+- Docker Desktop
 
-## Setup
+## Start the app
 
 ```bash
-git clone https://github.com/username/VintageDagoShop_Repo.git
-cd VintageDagoShop
+# 1. Start database and backend
+docker-compose up -d --build
+
+# 2. Install frontend dependencies (first time only)
 npm install
-cd backend && npm install && cd ..
-cp .env.example .env
-docker-compose up -d
+
+# 3. Start frontend dev server
 npm run dev
+# → http://localhost:5173
 ```
 
-| Service    | URL                          |
-|------------|------------------------------|
-| Frontend   | http://localhost:5173        |
-| Backend API| http://localhost:3000/api    |
-| phpMyAdmin | http://localhost:8080        |
+## Pages
+
+| Route | Page |
+|---|---|
+| `/` | Home — product grid |
+| `/product/:id` | Product detail |
+| `/cart` | Cart |
+| `/checkout` | Checkout form |
+| `/confirmation` | Order confirmation |
 
 ## Scripts
 
 ```bash
-npm run dev           # Start frontend dev server
-npm run build         # Production build
-npm run lint          # Run ESLint
-npm run format        # Run Prettier
-npm run test          # Run tests
-npm run test:coverage # Run tests with coverage
+npm run dev            # start Vite dev server
+npm run build          # production build
+npm run lint           # ESLint
+npm test               # Vitest unit + integration
+npm run test:e2e       # Playwright E2E suite
 ```
 
-## Naming Conventions
+## E2E Test Tags
 
-| Type        | Convention    | Example                    |
-|-------------|---------------|----------------------------|
-| Components  | PascalCase    | `ProductCard.jsx`          |
-| Functions   | camelCase     | `calculateTotal`           |
-| Constants   | UPPER_SNAKE   | `MAX_CART_ITEMS`           |
-| CSS Modules | kebab-case    | `product-card.module.css`  |
-| Env vars    | UPPER_SNAKE   | `DB_HOST`, `JWT_SECRET`    |
+Run a subset of tests by tag:
 
-## Security
+```bash
+npx playwright test --grep "@smoke"       # fast critical-path
+npx playwright test --grep "@api"         # API contract tests only
+npx playwright test --grep "@e2e"         # full purchase flows
+npx playwright test --grep "@validation"  # form validation
+npx playwright test --grep "@checkout"    # checkout feature area
+```
 
-- Never commit `.env`
-- Validate all user inputs
-- Use HTTPS in production
+| Tag | Scope |
+|---|---|
+| `@smoke` | Fast, must-pass on every run |
+| `@ui` | Browser UI interaction |
+| `@api` | Backend API contract |
+| `@e2e` | Full user journey |
+| `@critical` | Core business logic |
+| `@validation` | Form error handling |
+| `@boundary` | Edge cases (stock limits) |
+| `@inventory` | Stock decrement consistency |
+| `@home` `@product` `@cart` `@checkout` | Feature area |
 
-## Roadmap
+## Database operations
 
-### Phase 1 — MVP ✅
-- [x] Product catalog
-- [x] Shopping cart (LocalStorage)
-- [x] Checkout flow
-- [x] Inventory management
+```bash
+# Reset stock and clear orders (deterministic test state)
+docker exec vintagedago_mysql mysql -uroot -prootpassword vintagedago \
+  -e "UPDATE products SET stock=5 WHERE name='Vintage Leather Jacket'; \
+      UPDATE products SET stock=8 WHERE name='Retro Denim Jeans'; \
+      UPDATE products SET stock=12 WHERE name='Vintage Band T-Shirt'; \
+      DELETE FROM order_items; DELETE FROM orders;"
 
-### Phase 2 — Backend + MySQL + Docker 🚧
-- [ ] Node.js + Express REST API
-- [ ] MySQL 8.0 database (Docker)
-- [ ] JWT authentication
-- [ ] Payment gateway integration
+# phpMyAdmin
+open http://localhost:8080   # user: root  pass: rootpassword
+```
 
-### Phase 3 — Advanced Features
-- [ ] Search and filters
-- [ ] Reviews and ratings
-- [ ] Wishlist
-- [ ] Order history
+## Project structure
 
-### Phase 4 — Mobile
-- [ ] React Native iOS
-- [ ] React Native Android
+```
+src/
+  context/                  CartContext — global cart state
+  infrastructure/api/       productService — fetch wrapper
+  presentation/
+    components/layout/      Navbar
+    pages/                  HomePage, ProductPage, CartPage, CheckoutPage, ConfirmationPage
 
-## License
+database/
+  init.sql                  Schema creation
+  seeds.sql                 Initial product data
 
-MIT — see [LICENSE](./LICENSE)
+tests/
+  fixtures/                 Playwright custom fixtures (pages, steps, assertions, api, db)
+  e2e/
+    pages/                  Page Objects (data-testid locators only)
+    steps/                  Action orchestration
+    assertions/             Centralized expect() calls
+    api/                    productApiClient, orderApiClient
+    db/                     dbHelper — DB reset helper
+    utils/                  constants, testData
+    specs/                  Test suites (thin — call steps + assertions only)
 
-## Documentation
+.github/workflows/e2e.yml   CI pipeline
+docker-compose.yml          MySQL + Express + phpMyAdmin
+playwright.config.js        Playwright configuration
+```
 
-See [docs/](./docs/) for full documentation.
+## Prices
+
+All prices are stored in the `products` MySQL table and read from `GET /api/products`. Nothing is hardcoded in the frontend.
+
+## Repository
+
+https://github.com/daynaragomez/VintageDagoShop_Repo

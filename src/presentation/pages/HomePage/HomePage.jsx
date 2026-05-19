@@ -29,32 +29,34 @@ const HomePage = () => {
           {loading && <p className="status-msg">Loading products...</p>}
           {error && <p className="status-msg error">{error}</p>}
 
-          <div className="products-grid">
+          <div className="products-grid" data-testid="products-grid">
             {products.map((product) => {
               const cartItem = cartItems.find((i) => i.id === product.id);
               const inCart = cartItem ? cartItem.quantity : 0;
               const remaining = product.stock - inCart;
               return (
-              <div key={product.id} className="product-card">
+              <div key={product.id} className="product-card" data-testid={`product-card-${product.id}`}>
                 <img
                   src={product.image}
                   alt={product.name}
                   className="product-image"
+                  data-testid={`product-image-${product.id}`}
                   onClick={() => navigate(`/product/${product.id}`)}
                 />
                 <div className="product-info">
-                  <h3 onClick={() => navigate(`/product/${product.id}`)}>{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
-                  <p className="product-price">${parseFloat(product.price).toFixed(2)}</p>
-                  <p className="product-stock">
+                  <h3 data-testid={`product-name-${product.id}`} onClick={() => navigate(`/product/${product.id}`)}>{product.name}</h3>
+                  <p className="product-description" data-testid={`product-desc-${product.id}`}>{product.description}</p>
+                  <p className="product-price" data-testid={`product-price-${product.id}`}>${parseFloat(product.price).toFixed(2)}</p>
+                  <p className="product-stock" data-testid={`product-stock-${product.id}`}>
                     {remaining > 0 ? `${remaining} in stock` : inCart > 0 ? "All in cart" : "Out of stock"}
                   </p>
                   <div className="product-actions">
-                    <button className="btn-view" onClick={() => navigate(`/product/${product.id}`)}>
+                    <button className="btn-view" data-testid={`btn-view-${product.id}`} onClick={() => navigate(`/product/${product.id}`)}>
                       View Details
                     </button>
                     <button
                       className="btn-add-to-cart"
+                      data-testid={`btn-add-to-cart-${product.id}`}
                       onClick={() => addToCart(product)}
                       disabled={remaining <= 0}
                     >

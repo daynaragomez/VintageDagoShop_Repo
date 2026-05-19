@@ -1,48 +1,70 @@
-﻿import { test, expect } from '../../fixtures/index.js';
-import { CONSTANTS }    from '../utils/constants.js';
-import { testData }     from '../utils/testData.js';
+import { test }      from '../../fixtures/index.js';
+import { CONSTANTS } from '../utils/constants.js';
+import { testData }  from '../utils/testData.js';
 
-test.describe('Checkout Page', () => {
-  test.beforeEach(async ({ homePage, cartPage }) => {
-    await homePage.goto();
-    await homePage.addToCart(0);
-    await homePage.goToCart();
-    await cartPage.proceedToCheckout();
+const { LEATHER_JACKET } = CONSTANTS.PRODUCTS;
+
+test.describe('Checkout Page', { tag: ['@ui', '@checkout'] }, () => {
+
+  test.beforeEach(async ({ homeSteps, cartSteps }) => {
+    await homeSteps.openShop();
+    await homeSteps.addProductToCart(LEATHER_JACKET.id);
+    await homeSteps.navigateToCart();
+    await cartSteps.proceedToCheckout();
   });
 
-  test('displays order summary with correct item', async ({ checkoutPage }) => {
-    const count = await checkoutPage.getOrderItemCount();
-    expect(count).toBe(1);
+  test('checkout form is visible', { tag: '@smoke' }, async ({ checkoutAssert }) => {
+    await checkoutAssert.formIsVisible();
   });
 
-  test('order total matches product price', async ({ checkoutPage }) => {
-    const total = await checkoutPage.getOrderTotal();
-    expect(total).toBeCloseTo(CONSTANTS.PRODUCTS.LEATHER_JACKET.price, 1);
+  test('order summary shows 1 item', async ({ checkoutAssert }) => {
+    await checkoutAssert.orderItemCountIs(1);
   });
 
-  test('shows validation errors when form is empty and submitted', async ({ checkoutPage }) => {
-    await checkoutPage.placeOrder();
-    const hasErrors = await checkoutPage.hasFormErrors();
-    expect(hasErrors).toBe(true);
+  test('order total matches product price', async ({ checkoutAssert }) => {
+    await checkoutAssert.orderTotalIsCloseTo(LEATHER_JACKET.price);
   });
 
-  test('does not submit with invalid email', async ({ checkoutPage }) => {
-    await checkoutPage.fillForm(testData.invalidCustomer.badEmail);
-    await checkoutPage.placeOrder();
-    const hasErrors = await checkoutPage.hasFormErrors();
-    expect(hasErrors).toBe(true);
-  });
+  test('shows name error when name is empty',
+    { tag: '@validation' },
+    async ({ checkoutSteps, checkoutAssert }) => {
+      await checkoutSteps.submitWithInvalidData(testData.invalidCustomer.missingName);
+      await checkoutAssert.nameErrorVisible();
+    }
+  );
 
-  test('successful order navigates to confirmation page', async ({ checkoutPage, page, db }) => {
-    await checkoutPage.submitOrder(testData.validCustomer);
-    await expect(page).toHaveURL(CONSTANTS.ROUTES.CONFIRMATION, { timeout: CONSTANTS.TIMEOUTS.LONG });
-  });
+  test('shows email error when email is invalid',
+    { tag: '@validation' },
+    async ({ checkoutSteps, checkoutAssert }) => {
+      await checkoutSteps.submitWithInvalidData(testData.invalidCustomer.badEmail);
+      await checkoutAssert.emailErrorVisible();
+    }
+  );
 
-  test('cart is empty after successful order', async ({ checkoutPage, cartPage, page, db }) => {
-    await checkoutPage.submitOrder(testData.validCustomer);
-    await page.waitForURL(CONSTANTS.ROUTES.CONFIRMATION, { timeout: CONSTANTS.TIMEOUTS.LONG });
-    await page.goto(CONSTANTS.ROUTES.CART);
-    const empty = await cartPage.isEmpty();
-    expect(empty).toBe(true);
-  });
+  test('shows card error when card is missing',
+    { tag: '@validation' },
+    async ({ checkoutSteps, checkoutAssert }) => {
+      await checkoutSteps.submitWithInvalidData(testData.invalidCustomer.missingCard);
+      await checkoutAssert.cardErrorVisible();
+    }
+  );
+
+  test('successful order navigates to confirmation',
+    { tag: ['@smoke', '@critical'] },
+    async ({ db, checkoutSteps, confirmationAssert }) => {
+      await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
+      await confirmationAssert.pageIsVisible();
+      await confirmationAssert.urlIsConfirmation();
+    }
+  );
+
+  test('cart is empty after successful order',
+    { tag: '@critical' },
+    async ({ db, checkoutSteps, cartAssert, page }) => {
+      await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
+      await page.waitForURL('**/confirmation');
+      await page.goto('/cart');
+      await cartAssert.cartIsEmpty();
+    }
+  );
 });
