@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [master, main]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
@@ -18,14 +21,29 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
-      - name: Install frontend dependencies
-        run: npm ci
+      - name: Install Docker Compose plugin
+        run: |
+          DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+          mkdir -p $DOCKER_CONFIG/cli-plugins
+          curl -SL https://github.com/docker/compose/releases/download/v2.27.1/docker-compose-linux-x86_64 \
+            -o $DOCKER_CONFIG/cli-plugins/docker-compose
+          chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+          docker compose version
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+      - name: Create .env file for CI
+        run: |
+          cat > .env << 'EOF'
+          DB_HOST=localhost
+          DB_PORT=3306
+          DB_NAME=vintagedago
+          DB_USER=vintagedago_user
+          DB_PASSWORD=secret
+          DB_ROOT_PASSWORD=rootsecret
+          NODE_ENV=production
+          EOF
 
       - name: Start Docker services (MySQL + Backend)
         run: docker compose up -d --build
@@ -33,11 +51,17 @@ jobs:
       - name: Wait for backend to be healthy
         run: |
           echo 'Waiting for backend...'
-          for i in {1..20}; do
-            curl -sf http://localhost:3000/api/products && break
-            echo 'Not ready yet, retrying...'
-            sleep 3
+          for i in {1..30}; do
+            curl -sf http://localhost:3000/api/products && echo 'Backend ready' && break
+            echo "Attempt $i/30 — not ready yet..."
+            sleep 5
           done
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
 
       - name: Run Playwright E2E tests
         run: npx playwright test --project=chromium
@@ -51,6 +75,7 @@ jobs:
           name: playwright-html-report
           path: test-results/html-report/
           retention-days: 14
+          if-no-files-found: warn
 
       - name: Upload JUnit results
         if: always()
@@ -59,6 +84,7 @@ jobs:
           name: junit-results
           path: test-results/junit.xml
           retention-days: 14
+          if-no-files-found: warn
 
       - name: Stop Docker services
         if: always()
