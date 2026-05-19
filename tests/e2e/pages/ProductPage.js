@@ -1,43 +1,64 @@
-import { BasePage } from './BasePage.js';
+﻿import { BasePage } from './BasePage.js';
 
 export class ProductPage extends BasePage {
   constructor(page) {
     super(page);
-    this.productCards = page.locator('.product-card');
-    this.productsGrid = page.locator('.products-grid');
-    this.sectionTitle = page.locator('main h2');
+    this.productName    = page.locator('.product-detail-name');
+    this.productPrice   = page.locator('.product-detail-price');
+    this.productStock   = page.locator('.product-detail-stock');
+    this.productDesc    = page.locator('.product-detail-desc');
+    this.addToCartBtn   = page.locator('.btn-add-to-cart-detail');
+    this.qtyControls    = page.locator('.detail-qty-controls');
+    this.qtyValue       = page.locator('.qty-value');
+    this.qtyPlus        = page.locator('.detail-qty-controls .btn-qty').last();
+    this.qtyMinus       = page.locator('.detail-qty-controls .btn-qty').first();
+    this.viewCartBtn    = page.locator('.btn-go-cart');
+    this.backBtn        = page.locator('.btn-back');
   }
 
-  async goto() {
-    await this.navigate('/');
+  async goto(productId) {
+    await this.navigate(/product/);
+    await this.waitForNetworkIdle();
   }
 
-  async getAllProductNames() {
-    return this.productCards.locator('h3').allTextContents();
+  async getName() {
+    return this.productName.textContent();
   }
 
-  async getAllProductPrices() {
-    return this.productCards.locator('.product-price').allTextContents();
+  async getPrice() {
+    return this.productPrice.textContent();
   }
 
-  async getStockText(index) {
-    return this.productCards.nth(index).locator('.product-stock').textContent();
+  async getStock() {
+    return this.productStock.textContent();
   }
 
-  async getDescriptionText(index) {
-    return this.productCards.nth(index).locator('.product-description').textContent();
+  async addToCart() {
+    await this.addToCartBtn.click();
   }
 
-  async getQuantityInCart(index) {
-    const badge = this.productCards.nth(index).locator('.quantity-badge');
-    const visible = await badge.isVisible();
-    if (!visible) return 0;
-    const text = await badge.textContent();
-    const match = text.match(/\d+/);
-    return match ? parseInt(match[0]) : 0;
+  async incrementQty() {
+    await this.qtyPlus.click();
   }
 
-  async clickAddToCart(index) {
-    await this.productCards.nth(index).locator('.btn-add-to-cart').click();
+  async decrementQty() {
+    await this.qtyMinus.click();
+  }
+
+  async getQtyInCart() {
+    const text = await this.qtyValue.textContent();
+    return parseInt(text, 10);
+  }
+
+  async isPlusDisabled() {
+    return this.qtyPlus.isDisabled();
+  }
+
+  async goToCart() {
+    await this.viewCartBtn.click();
+  }
+
+  async goBack() {
+    await this.backBtn.click();
   }
 }

@@ -1,4 +1,4 @@
-export class BasePage {
+﻿export class BasePage {
   constructor(page) {
     this.page = page;
   }
@@ -7,27 +7,23 @@ export class BasePage {
     await this.page.goto(path);
   }
 
+  async waitForNetworkIdle() {
+    await this.page.waitForLoadState('networkidle');
+  }
+
   async getTitle() {
     return this.page.title();
   }
 
-  async waitForSelector(selector) {
-    await this.page.waitForSelector(selector);
+  async getCurrentUrl() {
+    return this.page.url();
   }
 
-  async click(selector) {
-    await this.page.click(selector);
+  async waitForUrl(urlPattern) {
+    await this.page.waitForURL(urlPattern);
   }
 
-  async fill(selector, value) {
-    await this.page.fill(selector, value);
-  }
-
-  async getText(selector) {
-    return this.page.locator(selector).textContent();
-  }
-
-  async isVisible(selector) {
-    return this.page.locator(selector).isVisible();
+  async screenshot(name) {
+    await this.page.screenshot({ path: 	est-results/screenshots/.png });
   }
 }

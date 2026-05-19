@@ -1,35 +1,53 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage.js';
-import { ProductPage } from '../pages/ProductPage.js';
+﻿import { test, expect } from '../../fixtures/index.js';
+import { CONSTANTS }    from '../utils/constants.js';
 
 test.describe('Home Page', () => {
-  test('displays page title', async ({ page }) => {
-    const homePage = new HomePage(page);
+  test.beforeEach(async ({ homePage }) => {
     await homePage.goto();
-    const title = await homePage.getText('header h1');
-    expect(title).toBe('Vintage Dago Shop');
   });
 
-  test('renders product grid with 3 products', async ({ page }) => {
-    const productPage = new ProductPage(page);
-    await productPage.goto();
-    const count = await productPage.productCards.count();
+  test('displays the navbar with shop and cart links', async ({ page }) => {
+    await expect(page.locator('.navbar')).toBeVisible();
+    await expect(page.locator('.navbar-links')).toContainText('Shop');
+    await expect(page.locator('.navbar-links')).toContainText('Cart');
+  });
+
+  test('renders 3 products from the database', async ({ homePage }) => {
+    const count = await homePage.getProductCount();
     expect(count).toBe(3);
   });
 
-  test('displays product names, prices and stock', async ({ page }) => {
-    const productPage = new ProductPage(page);
-    await productPage.goto();
-    const names = await productPage.getAllProductNames();
-    expect(names).toContain('Vintage Leather Jacket');
-    expect(names).toContain('Retro Denim Jeans');
-    expect(names).toContain('Vintage Band T-Shirt');
+  test('product cards show name, price and stock', async ({ homePage }) => {
+    const names = await homePage.getAllProductNames();
+    expect(names).toContain(CONSTANTS.PRODUCTS.LEATHER_JACKET.name);
+    expect(names).toContain(CONSTANTS.PRODUCTS.DENIM_JEANS.name);
+    expect(names).toContain(CONSTANTS.PRODUCTS.BAND_TSHIRT.name);
   });
 
-  test('cart icon shows 0 items initially', async ({ page }) => {
-    const homePage = new HomePage(page);
-    await homePage.goto();
-    const count = await homePage.getCartCountText();
-    expect(count).toContain('0');
+  test('cart badge is not visible when cart is empty', async ({ homePage }) => {
+    const count = await homePage.getCartBadgeCount();
+    expect(count).toBe(0);
+  });
+
+  test('add to cart button is enabled for in-stock product', async ({ homePage }) => {
+    const disabled = await homePage.isAddToCartDisabled(0);
+    expect(disabled).toBe(false);
+  });
+
+  test('adding a product shows cart badge count', async ({ homePage }) => {
+    await homePage.addToCart(0);
+    const count = await homePage.getCartBadgeCount();
+    expect(count).toBe(1);
+  });
+
+  test('add to cart button label updates after adding', async ({ homePage }) => {
+    await homePage.addToCart(0);
+    const label = await homePage.getAddToCartLabel(0);
+    expect(label).toContain('In Cart');
+  });
+
+  test('clicking View Details navigates to product page', async ({ homePage, page }) => {
+    await homePage.viewProduct(0);
+    await expect(page).toHaveURL(/\/product\/\d+/);
   });
 });

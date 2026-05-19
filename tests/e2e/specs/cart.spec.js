@@ -1,67 +1,81 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage.js';
-import { CartPage } from '../pages/CartPage.js';
-import { ProductPage } from '../pages/ProductPage.js';
+﻿import { test, expect } from '../../fixtures/index.js';
+import { CONSTANTS }    from '../utils/constants.js';
 
-test.describe('Cart', () => {
-  test('cart summary is hidden when empty', async ({ page }) => {
-    const cartPage = new CartPage(page);
+test.describe('Cart Page', () => {
+  test('shows empty message when cart has no items', async ({ cartPage }) => {
     await cartPage.goto();
-    const visible = await cartPage.isCartVisible();
-    expect(visible).toBe(false);
+    const empty = await cartPage.isEmpty();
+    expect(empty).toBe(true);
   });
 
-  test('adds a product and shows cart summary', async ({ page }) => {
-    const homePage = new HomePage(page);
+  test('shows item after adding from home page', async ({ homePage, cartPage }) => {
     await homePage.goto();
-    await homePage.addProductToCart(0);
-    const visible = await homePage.isCartSummaryVisible();
-    expect(visible).toBe(true);
+    await homePage.addToCart(0);
+    await homePage.goToCart();
+    const count = await cartPage.getItemCount();
+    expect(count).toBe(1);
   });
 
-  test('cart count increments after adding product', async ({ page }) => {
-    const homePage = new HomePage(page);
+  test('item name matches product added', async ({ homePage, cartPage }) => {
     await homePage.goto();
-    await homePage.addProductToCart(0);
-    const countText = await homePage.getCartCountText();
-    expect(countText).toContain('1');
+    await homePage.addToCart(0);
+    await homePage.goToCart();
+    const name = await cartPage.getItemName(0);
+    expect(name).toContain(CONSTANTS.PRODUCTS.LEATHER_JACKET.name);
   });
 
-  test('cart total updates after adding product', async ({ page }) => {
-    const homePage = new HomePage(page);
+  test('order total matches product price', async ({ homePage, cartPage }) => {
     await homePage.goto();
-    await homePage.addProductToCart(0);
-    const total = await homePage.getCartTotalText();
-    expect(total).toContain('89.99');
+    await homePage.addToCart(0);
+    await homePage.goToCart();
+    const total = await cartPage.getOrderTotal();
+    expect(total).toBeCloseTo(CONSTANTS.PRODUCTS.LEATHER_JACKET.price, 1);
   });
 
-  test('removes product from cart', async ({ page }) => {
-    const homePage = new HomePage(page);
-    const cartPage = new CartPage(page);
+  test('removing item leaves cart empty', async ({ homePage, cartPage }) => {
     await homePage.goto();
-    await homePage.addProductToCart(0);
+    await homePage.addToCart(0);
+    await homePage.goToCart();
     await cartPage.removeItem(0);
-    const visible = await cartPage.isCartVisible();
-    expect(visible).toBe(false);
+    const empty = await cartPage.isEmpty();
+    expect(empty).toBe(true);
   });
 
-  test('adding same product increases quantity badge', async ({ page }) => {
-    const homePage = new HomePage(page);
-    const productPage = new ProductPage(page);
+  test('adding 2 different products shows 2 rows', async ({ homePage, cartPage }) => {
     await homePage.goto();
-    await homePage.addProductToCart(0);
-    await homePage.addProductToCart(0);
-    const qty = await productPage.getQuantityInCart(0);
-    expect(qty).toBe(2);
-  });
-
-  test('adds multiple different products', async ({ page }) => {
-    const homePage = new HomePage(page);
-    const cartPage = new CartPage(page);
-    await homePage.goto();
-    await homePage.addProductToCart(0);
-    await homePage.addProductToCart(1);
+    await homePage.addToCart(0);
+    await homePage.addToCart(1);
+    await homePage.goToCart();
     const count = await cartPage.getItemCount();
     expect(count).toBe(2);
+  });
+
+  test('order total sums multiple products', async ({ homePage, cartPage }) => {
+    await homePage.goto();
+    await homePage.addToCart(0);
+    await homePage.addToCart(1);
+    await homePage.goToCart();
+    const total = await cartPage.getOrderTotal();
+    const expected = CONSTANTS.PRODUCTS.LEATHER_JACKET.price + CONSTANTS.PRODUCTS.DENIM_JEANS.price;
+    expect(total).toBeCloseTo(expected, 1);
+  });
+
+  test('plus button disabled when quantity reaches stock limit', async ({ homePage, cartPage }) => {
+    await homePage.goto();
+    await homePage.addToCart(0);
+    await homePage.goToCart();
+    for (let i = 1; i < CONSTANTS.PRODUCTS.LEATHER_JACKET.stock; i++) {
+      await cartPage.incrementItem(0);
+    }
+    const disabled = await cartPage.isPlusDisabled(0);
+    expect(disabled).toBe(true);
+  });
+
+  test('Proceed to Checkout navigates to checkout page', async ({ homePage, cartPage, page }) => {
+    await homePage.goto();
+    await homePage.addToCart(0);
+    await homePage.goToCart();
+    await cartPage.proceedToCheckout();
+    await expect(page).toHaveURL(CONSTANTS.ROUTES.CHECKOUT);
   });
 });

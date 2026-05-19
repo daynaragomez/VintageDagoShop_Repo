@@ -1,47 +1,73 @@
-import { BasePage } from './BasePage.js';
+﻿import { BasePage } from './BasePage.js';
 
 export class CartPage extends BasePage {
   constructor(page) {
     super(page);
-    this.cartSummary = page.locator('.cart-summary');
-    this.cartItems = page.locator('.cart-item');
-    this.cartTotalSection = page.locator('.cart-total-section strong');
-    this.cartIcon = page.locator('.cart-icon');
+    this.cartRows        = page.locator('.cart-row');
+    this.emptyMsg        = page.locator('.cart-empty h2');
+    this.orderTotal      = page.locator('.summary-total strong').last();
+    this.checkoutBtn     = page.locator('.btn-checkout');
+    this.continueBtn     = page.locator('.btn-continue-shopping');
+    this.browseBtn       = page.locator('.btn-shop');
   }
 
   async goto() {
-    await this.navigate('/');
+    await this.navigate('/cart');
+    await this.waitForNetworkIdle();
   }
 
-  async isCartVisible() {
-    return this.cartSummary.isVisible();
+  async isEmpty() {
+    return this.emptyMsg.isVisible();
   }
 
   async getItemCount() {
-    return this.cartItems.count();
+    return this.cartRows.count();
   }
 
-  async getItemText(index) {
-    return this.cartItems.nth(index).locator('span').first().textContent();
+  async getItemName(index) {
+    return this.cartRows.nth(index).locator('h3').textContent();
+  }
+
+  async getItemQty(index) {
+    const text = await this.cartRows.nth(index).locator('.cart-row-qty span').textContent();
+    return parseInt(text, 10);
   }
 
   async getItemSubtotal(index) {
-    return this.cartItems.nth(index).locator('span').last().textContent();
+    const text = await this.cartRows.nth(index).locator('.cart-row-subtotal').textContent();
+    return parseFloat(text.replace('$', ''));
+  }
+
+  async getOrderTotal() {
+    const text = await this.orderTotal.textContent();
+    return parseFloat(text.replace('$', ''));
+  }
+
+  async incrementItem(index) {
+    await this.cartRows.nth(index).locator('.btn-qty').last().click();
+  }
+
+  async decrementItem(index) {
+    await this.cartRows.nth(index).locator('.btn-qty').first().click();
+  }
+
+  async isPlusDisabled(index) {
+    return this.cartRows.nth(index).locator('.btn-qty').last().isDisabled();
   }
 
   async removeItem(index) {
-    await this.cartItems.nth(index).locator('.btn-remove').click();
+    await this.cartRows.nth(index).locator('.btn-remove').click();
   }
 
-  async getTotalText() {
-    return this.cartTotalSection.textContent();
+  async proceedToCheckout() {
+    await this.checkoutBtn.click();
   }
 
-  async getCartIconCount() {
-    return this.cartIcon.locator('span').first().textContent();
+  async continueShopping() {
+    await this.continueBtn.click();
   }
 
-  async getCartIconTotal() {
-    return this.cartIcon.locator('.cart-total').textContent();
+  async browseShopping() {
+    await this.browseBtn.click();
   }
 }
