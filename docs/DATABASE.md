@@ -2,6 +2,92 @@
 
 Complete guide for the MySQL relational database setup, schema, and Docker configuration.
 
+---
+
+## Quick Reference — Common Commands
+
+### Start the database (first time or after a stop)
+```bash
+docker-compose up -d
+```
+
+### Stop all services
+```bash
+docker-compose down
+```
+
+### Reset the database (wipe all data and re-seed from scratch)
+```bash
+docker-compose down -v
+docker-compose up -d
+```
+> `-v` removes the MySQL volume so schema.sql and seeds.sql run again automatically.
+
+### Reset ONLY the product stock counters (without wiping orders)
+```bash
+docker exec -i vintagedago_mysql mysql -u root -prootpassword vintagedago -e "
+UPDATE products SET stock = 5  WHERE name = 'Vintage Leather Jacket';
+UPDATE products SET stock = 8  WHERE name = 'Retro Denim Jeans';
+UPDATE products SET stock = 12 WHERE name = 'Vintage Band T-Shirt';
+"
+```
+
+### Reset auto-increment counters (after deleting test orders)
+```bash
+docker exec -i vintagedago_mysql mysql -u root -prootpassword vintagedago -e "
+DELETE FROM order_items;
+DELETE FROM orders;
+ALTER TABLE orders      AUTO_INCREMENT = 1;
+ALTER TABLE order_items AUTO_INCREMENT = 1;
+"
+```
+
+### Full reset — wipe orders + restore stock in one shot
+```bash
+docker exec -i vintagedago_mysql mysql -u root -prootpassword vintagedago -e "
+DELETE FROM order_items;
+DELETE FROM orders;
+ALTER TABLE orders      AUTO_INCREMENT = 1;
+ALTER TABLE order_items AUTO_INCREMENT = 1;
+UPDATE products SET stock = 5  WHERE name = 'Vintage Leather Jacket';
+UPDATE products SET stock = 8  WHERE name = 'Retro Denim Jeans';
+UPDATE products SET stock = 12 WHERE name = 'Vintage Band T-Shirt';
+"
+```
+
+### Check current stock live
+```bash
+docker exec -i vintagedago_mysql mysql -u root -prootpassword vintagedago -e "SELECT id, name, price, stock FROM products;"
+```
+
+### Open MySQL shell interactively
+```bash
+docker exec -it vintagedago_mysql mysql -u root -prootpassword vintagedago
+```
+
+### Check container health
+```bash
+docker-compose ps
+```
+
+---
+
+## Pricing — Where prices live
+
+**Prices are stored in MySQL**, in the `products.price` column (`DECIMAL(10,2)`).  
+The backend reads them with `SELECT` and sends them to the frontend via the API.  
+There are **no hardcoded prices** in the frontend — to change a price, update the database:
+
+```bash
+docker exec -i vintagedago_mysql mysql -u root -prootpassword vintagedago -e "
+UPDATE products SET price = 99.99 WHERE name = 'Vintage Leather Jacket';
+"
+```
+
+Or edit `database/seeds.sql` and do a full reset (`docker-compose down -v && docker-compose up -d`).
+
+---
+
 ## Overview
 
 VintageDagoShop uses **MySQL 8.0** as its relational database, managed via **Docker Compose** for consistent development and production environments.
