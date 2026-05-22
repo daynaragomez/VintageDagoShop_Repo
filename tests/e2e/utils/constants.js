@@ -13,7 +13,7 @@
     CART:         '/cart',
     CHECKOUT:     '/checkout',
     CONFIRMATION: '/confirmation',
-    PRODUCT:      (id) => /product/,
+    PRODUCT:      (id) => `/product/${id}`,
   },
 
   TIMEOUTS: {

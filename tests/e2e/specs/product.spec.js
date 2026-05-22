@@ -33,6 +33,7 @@ test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
 
   test('plus button is disabled when quantity equals stock',
     { tag: '@boundary' },
+    // eslint-disable-next-line no-unused-vars
     async ({ db, productSteps, productAssert }) => {
       await productSteps.addToCart();
       await productSteps.increaseQuantityTo(LEATHER_JACKET.stock);

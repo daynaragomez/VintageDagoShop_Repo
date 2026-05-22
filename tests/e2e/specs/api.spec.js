@@ -39,6 +39,7 @@ test.describe('API — Orders', { tag: ['@api', '@inventory'] }, () => {
 
   test('POST /api/orders decrements stock by quantity ordered',
     { tag: '@critical' },
+    // eslint-disable-next-line no-unused-vars
     async ({ db, productApi, orderApi }) => {
       const before = await productApi.getById(LEATHER_JACKET.id);
       await orderApi.placeOrderExpectSuccess({
@@ -54,6 +55,7 @@ test.describe('API — Orders', { tag: ['@api', '@inventory'] }, () => {
 
   test('POST /api/orders returns 400 when quantity exceeds stock',
     { tag: '@boundary' },
+    // eslint-disable-next-line no-unused-vars
     async ({ db, orderApi }) => {
       const { status, body } = await orderApi.placeOrder({
         name:    testData.validCustomer.name,

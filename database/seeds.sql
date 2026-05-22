@@ -1,10 +1,23 @@
-INSERT INTO products (name, price, description, details, category, image, stock) VALUES
+-- ─────────────────────────────────────────────
+-- VintageDagoShop — Seed Data
+-- Order matters: parent tables before child tables (FK constraints)
+-- ─────────────────────────────────────────────
+
+-- 1. Categories
+INSERT INTO categories (name, slug) VALUES
+  ('Jackets',     'jackets'),
+  ('Bottoms',     'bottoms'),
+  ('Tops',        'tops'),
+  ('Accessories', 'accessories');
+
+-- 2. Products (category_id references categories above)
+INSERT INTO products (name, price, description, details, category_id, image, stock) VALUES
 (
   'Vintage Leather Jacket',
   89.99,
   'Classic brown leather jacket from the 80s',
   'Genuine leather, fully lined, two front pockets, silver zipper. A timeless piece from the golden era of rock and roll.',
-  'Jackets',
+  (SELECT id FROM categories WHERE slug = 'jackets'),
   'https://via.placeholder.com/600x800/8B4513/FFF?text=Leather+Jacket',
   5
 ),
@@ -13,7 +26,7 @@ INSERT INTO products (name, price, description, details, category, image, stock)
   45.50,
   'High-waisted denim jeans, vintage style',
   'High-rise cut, straight leg, 100% cotton denim. Pre-washed for that authentic worn-in look from the 70s.',
-  'Bottoms',
+  (SELECT id FROM categories WHERE slug = 'bottoms'),
   'https://via.placeholder.com/600x800/4169E1/FFF?text=Denim+Jeans',
   8
 ),
@@ -22,7 +35,24 @@ INSERT INTO products (name, price, description, details, category, image, stock)
   29.99,
   'Original 90s rock band t-shirt',
   'Screen-printed graphic tee, pre-shrunk cotton, crew neck. Authentic piece from the 1990s grunge era.',
-  'Tops',
+  (SELECT id FROM categories WHERE slug = 'tops'),
   'https://via.placeholder.com/600x800/FF6347/FFF?text=Band+T-Shirt',
   12
 );
+
+-- 3. Sample customer
+INSERT INTO customers (name, email, phone) VALUES
+  ('Jane Doe', 'jane@example.com', '514-555-0100');
+
+-- 4. Sample address (references customer above)
+INSERT INTO addresses (customer_id, street, city, state, zip_code, country) VALUES
+  (1, '123 Rue Sainte-Catherine', 'Montreal', 'Quebec', 'H3B 1A1', 'Canada');
+
+-- 5. Sample order (references customer + address)
+INSERT INTO orders (customer_id, address_id, subtotal, tax, total, status) VALUES
+  (1, 1, 89.99, 13.50, 103.49, 'confirmed');
+
+-- 6. Sample order item (references order + product)
+INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES
+  (1, 1, 1, 89.99);
+

@@ -8,6 +8,7 @@ test.describe('E2E — Full Purchase Flow', { tag: ['@e2e', '@critical', '@smoke
 
   test('user completes full purchase: browse → cart → checkout → confirmation',
     { tag: ['@smoke', '@critical'] },
+    // eslint-disable-next-line no-unused-vars
     async ({ db, productApi, homeSteps, cartSteps, checkoutSteps,
              homeAssert, cartAssert, confirmationAssert }) => {
 
@@ -34,7 +35,8 @@ test.describe('E2E — Full Purchase Flow', { tag: ['@e2e', '@critical', '@smoke
 
   test('stock decrements in DB after purchase',
     { tag: ['@critical', '@inventory'] },
-    async ({ db, productApi, homeSteps, cartSteps, checkoutSteps, confirmationAssert }) => {
+    // eslint-disable-next-line no-unused-vars
+    async ({ _db, productApi, homeSteps, cartSteps, checkoutSteps, confirmationAssert }) => {
       const before = await productApi.getById(LEATHER_JACKET.id);
 
       await homeSteps.openShop();
@@ -53,7 +55,8 @@ test.describe('E2E — Full Purchase Flow', { tag: ['@e2e', '@critical', '@smoke
 
   test('user can purchase multiple products in one order',
     { tag: '@e2e' },
-    async ({ db, homeSteps, cartSteps, checkoutSteps, cartAssert, confirmationAssert }) => {
+    // eslint-disable-next-line no-unused-vars
+    async ({ _db, homeSteps, cartSteps, checkoutSteps, cartAssert, confirmationAssert }) => {
       await homeSteps.openShop();
       await homeSteps.addProductToCart(LEATHER_JACKET.id);
       await homeSteps.addProductToCart(DENIM_JEANS.id);
@@ -68,7 +71,8 @@ test.describe('E2E — Full Purchase Flow', { tag: ['@e2e', '@critical', '@smoke
 
   test('user can shop again after order confirmation',
     { tag: '@e2e' },
-    async ({ db, homeSteps, cartSteps, checkoutSteps, confirmationPage, homeAssert }) => {
+    // eslint-disable-next-line no-unused-vars
+    async ({ _db, homeSteps, cartSteps, checkoutSteps, confirmationPage, homeAssert }) => {
       await homeSteps.openShop();
       await homeSteps.addProductToCart(LEATHER_JACKET.id);
       await homeSteps.navigateToCart();

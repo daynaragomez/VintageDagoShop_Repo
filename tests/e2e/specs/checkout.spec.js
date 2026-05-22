@@ -51,6 +51,7 @@ test.describe('Checkout Page', { tag: ['@ui', '@checkout'] }, () => {
 
   test('successful order navigates to confirmation',
     { tag: ['@smoke', '@critical'] },
+    // eslint-disable-next-line no-unused-vars
     async ({ db, checkoutSteps, confirmationAssert }) => {
       await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
       await confirmationAssert.pageIsVisible();
@@ -60,6 +61,7 @@ test.describe('Checkout Page', { tag: ['@ui', '@checkout'] }, () => {
 
   test('cart is empty after successful order',
     { tag: '@critical' },
+    // eslint-disable-next-line no-unused-vars
     async ({ db, checkoutSteps, cartAssert, page }) => {
       await checkoutSteps.fillAndSubmitOrder(testData.validCustomer);
       await page.waitForURL('**/confirmation');

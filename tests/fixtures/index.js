@@ -80,6 +80,7 @@ export const test = base.extend({
   },
 
   // ── DB Helper — resets DB before and after each test ─────────────────────
+  // eslint-disable-next-line no-empty-pattern
   db: async ({}, use) => {
     dbHelper.fullReset();
     await use(dbHelper);

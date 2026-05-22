@@ -77,15 +77,27 @@ npx playwright test --grep "@checkout"    # checkout feature area
 ## Database operations
 
 ```bash
-# Reset stock and clear orders (deterministic test state)
-docker exec vintagedago_mysql mysql -uroot -prootpassword vintagedago \
+# First time / full reset — destroys volume and re-applies schema + seeds
+docker-compose down -v
+docker-compose up -d --build
+
+# Reset stock and clear orders (deterministic test state, keeps DB running)
+docker exec vintagedago_mysql mysql -uvintagedago_user -psecret vintagedago \
   -e "UPDATE products SET stock=5 WHERE name='Vintage Leather Jacket'; \
       UPDATE products SET stock=8 WHERE name='Retro Denim Jeans'; \
       UPDATE products SET stock=12 WHERE name='Vintage Band T-Shirt'; \
-      DELETE FROM order_items; DELETE FROM orders;"
+      DELETE FROM order_items; DELETE FROM orders; \
+      DELETE FROM addresses; DELETE FROM customers;"
 
-# phpMyAdmin
-open http://localhost:8080   # user: root  pass: rootpassword
+# Stop containers (keeps data volume)
+docker-compose down
+
+# View logs
+docker-compose logs -f backend
+docker-compose logs -f mysql
+
+# phpMyAdmin — visual table browser
+# http://localhost:8080   user: vintagedago_user   pass: secret
 ```
 
 ## Project structure
