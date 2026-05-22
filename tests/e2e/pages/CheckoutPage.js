@@ -7,13 +7,20 @@ export class CheckoutPage extends BasePage {
     this.checkoutForm  = page.getByTestId('checkout-form');
     this.inputName     = page.getByTestId('input-name');
     this.inputEmail    = page.getByTestId('input-email');
-    this.inputAddress  = page.getByTestId('input-address');
+    this.inputPhone    = page.getByTestId('input-phone');
+    this.inputStreet   = page.getByTestId('input-street');
+    this.inputCity     = page.getByTestId('input-city');
+    this.inputState    = page.getByTestId('input-state');
+    this.inputZip      = page.getByTestId('input-zip');
+    this.inputCountry  = page.getByTestId('input-country');
     this.inputCard     = page.getByTestId('input-card');
     this.btnPlaceOrder = page.getByTestId('btn-place-order');
     this.apiError      = page.getByTestId('api-error');
     this.errorName     = page.getByTestId('error-name');
     this.errorEmail    = page.getByTestId('error-email');
-    this.errorAddress  = page.getByTestId('error-address');
+    this.errorStreet   = page.getByTestId('error-street');
+    this.errorCity     = page.getByTestId('error-city');
+    this.errorCountry  = page.getByTestId('error-country');
     this.errorCard     = page.getByTestId('error-card');
     this.orderSummary  = page.getByTestId('order-summary');
     this.orderTotal    = page.getByTestId('order-total-value');
@@ -27,10 +34,15 @@ export class CheckoutPage extends BasePage {
     await this.checkoutPage.waitFor({ state: 'visible' });
   }
 
-  async fillForm({ name, email, address, card }) {
+  async fillForm({ name, email, phone, street, city, state, zipCode, country, card }) {
     await this.inputName.fill(name);
     await this.inputEmail.fill(email);
-    await this.inputAddress.fill(address);
+    if (phone)   await this.inputPhone.fill(phone);
+    await this.inputStreet.fill(street);
+    await this.inputCity.fill(city);
+    if (state)   await this.inputState.fill(state);
+    if (zipCode) await this.inputZip.fill(zipCode);
+    await this.inputCountry.fill(country);
     await this.inputCard.fill(card);
   }
 

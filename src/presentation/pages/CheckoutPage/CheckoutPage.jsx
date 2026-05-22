@@ -8,16 +8,22 @@ import "./CheckoutPage.css";
 const CheckoutPage = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", address: "", card: "" });
+  const [form, setForm] = useState({
+    name: "", email: "", phone: "",
+    street: "", city: "", state: "", zipCode: "", country: "Canada",
+    card: "",
+  });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState(null);
 
   const validate = () => {
     const e = {};
-    if (!form.name.trim()) e.name = "Name is required";
+    if (!form.name.trim())   e.name    = "Name is required";
     if (!form.email.includes("@")) e.email = "Valid email is required";
-    if (!form.address.trim()) e.address = "Address is required";
+    if (!form.street.trim()) e.street  = "Street is required";
+    if (!form.city.trim())   e.city    = "City is required";
+    if (!form.country.trim()) e.country = "Country is required";
     if (form.card.replace(/\s/g, "").length !== 16) e.card = "Card must be 16 digits";
     return e;
   };
@@ -35,7 +41,14 @@ const CheckoutPage = () => {
       await placeOrder({
         name: form.name,
         email: form.email,
-        address: form.address,
+        phone: form.phone || undefined,
+        address: {
+          street:  form.street,
+          city:    form.city,
+          state:   form.state   || undefined,
+          zipCode: form.zipCode || undefined,
+          country: form.country,
+        },
         items: cartItems.map((item) => ({
           productId: item.id,
           quantity: item.quantity,
@@ -86,9 +99,37 @@ const CheckoutPage = () => {
             </div>
 
             <div className="form-group">
-              <label>Shipping Address</label>
-              <input data-testid="input-address" name="address" value={form.address} onChange={handleChange} placeholder="123 Main St, City" />
-              {errors.address && <span className="form-error" data-testid="error-address">{errors.address}</span>}
+              <label>Phone (optional)</label>
+              <input data-testid="input-phone" name="phone" value={form.phone} onChange={handleChange} placeholder="514-555-0100" />
+            </div>
+
+            <div className="form-group">
+              <label>Street</label>
+              <input data-testid="input-street" name="street" value={form.street} onChange={handleChange} placeholder="123 Main St" />
+              {errors.street && <span className="form-error" data-testid="error-street">{errors.street}</span>}
+            </div>
+
+            <div className="form-group">
+              <label>City</label>
+              <input data-testid="input-city" name="city" value={form.city} onChange={handleChange} placeholder="Montreal" />
+              {errors.city && <span className="form-error" data-testid="error-city">{errors.city}</span>}
+            </div>
+
+            <div className="form-group form-row">
+              <div>
+                <label>State / Province (optional)</label>
+                <input data-testid="input-state" name="state" value={form.state} onChange={handleChange} placeholder="Quebec" />
+              </div>
+              <div>
+                <label>ZIP / Postal Code (optional)</label>
+                <input data-testid="input-zip" name="zipCode" value={form.zipCode} onChange={handleChange} placeholder="H3B 1A1" />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Country</label>
+              <input data-testid="input-country" name="country" value={form.country} onChange={handleChange} placeholder="Canada" />
+              {errors.country && <span className="form-error" data-testid="error-country">{errors.country}</span>}
             </div>
 
             <div className="form-group">

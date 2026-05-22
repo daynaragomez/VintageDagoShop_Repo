@@ -45,7 +45,14 @@ test.describe('API — Orders', { tag: ['@api', '@inventory'] }, () => {
       await orderApi.placeOrderExpectSuccess({
         name:    testData.validCustomer.name,
         email:   testData.validCustomer.email,
-        address: testData.validCustomer.address,
+        phone:   testData.validCustomer.phone,
+        address: {
+          street:  testData.validCustomer.street,
+          city:    testData.validCustomer.city,
+          state:   testData.validCustomer.state,
+          zipCode: testData.validCustomer.zipCode,
+          country: testData.validCustomer.country,
+        },
         items:   testData.orderItems(LEATHER_JACKET.id, 1, LEATHER_JACKET.price),
       });
       const after = await productApi.getById(LEATHER_JACKET.id);
@@ -60,7 +67,14 @@ test.describe('API — Orders', { tag: ['@api', '@inventory'] }, () => {
       const { status, body } = await orderApi.placeOrder({
         name:    testData.validCustomer.name,
         email:   testData.validCustomer.email,
-        address: testData.validCustomer.address,
+        phone:   testData.validCustomer.phone,
+        address: {
+          street:  testData.validCustomer.street,
+          city:    testData.validCustomer.city,
+          state:   testData.validCustomer.state,
+          zipCode: testData.validCustomer.zipCode,
+          country: testData.validCustomer.country,
+        },
         items:   testData.orderItems(LEATHER_JACKET.id, 999, LEATHER_JACKET.price),
       });
       expect(status).toBe(400);

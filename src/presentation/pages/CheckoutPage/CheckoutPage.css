@@ -72,6 +72,12 @@
   border-color: #3498db;
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
 .form-error {
   color: #e74c3c;
   font-size: 0.85rem;

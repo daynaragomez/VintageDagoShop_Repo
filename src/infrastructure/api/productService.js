@@ -12,11 +12,11 @@ export async function fetchProduct(id) {
   return res.json();
 }
 
-export async function placeOrder({ name, email, address, items }) {
+export async function placeOrder({ name, email, phone, address, items }) {
   const res = await fetch(`${BASE_URL}/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, address, items }),
+    body: JSON.stringify({ name, email, phone, address, items }),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Failed to place order');

@@ -6,9 +6,9 @@ export class OrderApiClient {
     this.baseUrl = CONSTANTS.API_BASE_URL;
   }
 
-  async placeOrder({ name, email, address, items }) {
+  async placeOrder({ name, email, phone, address, items }) {
     const res = await this.request.post(`${this.baseUrl}/orders`, {
-      data: { name, email, address, items },
+      data: { name, email, phone, address, items },
     });
     return { status: res.status(), body: await res.json() };
   }
