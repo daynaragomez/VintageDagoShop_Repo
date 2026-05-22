@@ -8,6 +8,11 @@ export class ConfirmationPage extends BasePage {
     this.message          = page.getByTestId('confirmation-message');
     this.icon             = page.getByTestId('confirmation-icon');
     this.btnShopAgain     = page.getByTestId('btn-shop-again');
+    this.summary          = page.getByTestId('confirmation-summary');
+    this.orderIdValue     = page.getByTestId('confirmation-order-id-value');
+    this.subtotalValue    = page.getByTestId('confirmation-subtotal-value');
+    this.taxValue         = page.getByTestId('confirmation-tax-value');
+    this.totalValue       = page.getByTestId('confirmation-total-value');
   }
 
   async goto() {

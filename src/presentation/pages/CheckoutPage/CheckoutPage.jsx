@@ -38,7 +38,7 @@ const CheckoutPage = () => {
     setSubmitting(true);
     setApiError(null);
     try {
-      await placeOrder({
+      const order = await placeOrder({
         name: form.name,
         email: form.email,
         phone: form.phone || undefined,
@@ -56,7 +56,7 @@ const CheckoutPage = () => {
         })),
       });
       clearCart();
-      navigate("/confirmation");
+      navigate('/confirmation', { state: { orderId: order.orderId, subtotal: order.subtotal, tax: order.tax, total: order.total } });
     } catch (err) {
       setApiError(err.message);
     } finally {

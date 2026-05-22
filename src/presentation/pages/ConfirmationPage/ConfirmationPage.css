@@ -56,3 +56,30 @@
 .btn-continue:hover {
   background-color: #2980b9;
 }
+
+.confirmation-summary {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.confirmation-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #555;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.confirmation-row:last-child {
+  border-bottom: none;
+}
+
+.confirmation-total {
+  padding-top: 0.8rem;
+  font-size: 1.05rem;
+  color: #2c3e50;
+}
