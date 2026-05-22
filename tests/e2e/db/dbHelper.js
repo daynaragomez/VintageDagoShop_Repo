@@ -2,8 +2,8 @@ import { execSync } from 'child_process';
 
 const CONTAINER  = 'vintagedago_mysql';
 const DB         = 'vintagedago';
-const MYSQL_USER = 'root';
-const MYSQL_PASS = 'rootpassword';
+const MYSQL_USER = 'vintagedago_user';
+const MYSQL_PASS = 'secret';
 
 function runSql(sql) {
   execSync(
@@ -25,8 +25,12 @@ export const dbHelper = {
     runSql(
       "DELETE FROM order_items;" +
       "DELETE FROM orders;" +
+      "DELETE FROM addresses;" +
+      "DELETE FROM customers;" +
+      "ALTER TABLE order_items AUTO_INCREMENT = 1;" +
       "ALTER TABLE orders      AUTO_INCREMENT = 1;" +
-      "ALTER TABLE order_items AUTO_INCREMENT = 1;"
+      "ALTER TABLE addresses   AUTO_INCREMENT = 1;" +
+      "ALTER TABLE customers   AUTO_INCREMENT = 1;"
     );
   },
 
@@ -42,12 +46,5 @@ export const dbHelper = {
     ).toString().trim();
     return parseInt(out, 10);
   },
-
-  getOrderCount() {
-    const out = execSync(
-      `docker exec ${CONTAINER} mysql -u${MYSQL_USER} -p${MYSQL_PASS} ${DB} -se "SELECT COUNT(*) FROM orders;"`,
-      { stdio: 'pipe' }
-    ).toString().trim();
-    return parseInt(out, 10);
-  },
 };
+

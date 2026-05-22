@@ -15,10 +15,4 @@
     CONFIRMATION: '/confirmation',
     PRODUCT:      (id) => `/product/${id}`,
   },
-
-  TIMEOUTS: {
-    SHORT:  3000,
-    MEDIUM: 8000,
-    LONG:   15000,
-  },
 };
