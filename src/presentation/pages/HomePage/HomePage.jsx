@@ -13,6 +13,8 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 6;
 
   useEffect(() => {
     fetchProducts()
@@ -29,6 +31,19 @@ const HomePage = () => {
     return matchesCategory && matchesSearch;
   });
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  function handleSearch(e) {
+    setSearch(e.target.value);
+    setCurrentPage(1);
+  }
+
+  function handleCategory(cat) {
+    setActiveCategory(cat);
+    setCurrentPage(1);
+  }
+
   return (
     <div className="homepage">
       <Navbar />
@@ -42,7 +57,7 @@ const HomePage = () => {
               className="search-input"
               placeholder="Search products…"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={handleSearch}
               data-testid="search-input"
             />
             <div className="category-filters" data-testid="category-filters">
@@ -50,7 +65,7 @@ const HomePage = () => {
                 <button
                   key={cat}
                   className={`category-btn${activeCategory === cat ? ' category-btn--active' : ''}`}
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => handleCategory(cat)}
                   data-testid={`category-btn-${cat.toLowerCase().replace(/\s+/g, '-')}`}
                 >
                   {cat}
@@ -66,7 +81,7 @@ const HomePage = () => {
           )}
 
           <div className="products-grid" data-testid="products-grid">
-            {filtered.map((product) => {
+            {paginated.map((product) => {
               const cartItem = cartItems.find((i) => i.id === product.id);
               const inCart = cartItem ? cartItem.quantity : 0;
               const remaining = product.stock - inCart;
@@ -104,6 +119,39 @@ const HomePage = () => {
               );
             })}
           </div>
+
+          {totalPages > 1 && (
+            <div className="pagination" data-testid="pagination">
+              <button
+                className="pagination__btn"
+                onClick={() => setCurrentPage((p) => p - 1)}
+                disabled={currentPage === 1}
+                data-testid="pagination-prev"
+              >
+                ← Prev
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  className={`pagination__btn${currentPage === page ? ' pagination__btn--active' : ''}`}
+                  onClick={() => setCurrentPage(page)}
+                  data-testid={`pagination-page-${page}`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                className="pagination__btn"
+                onClick={() => setCurrentPage((p) => p + 1)}
+                disabled={currentPage === totalPages}
+                data-testid="pagination-next"
+              >
+                Next →
+              </button>
+            </div>
+          )}
         </div>
       </main>
     </div>
