@@ -54,10 +54,11 @@ export const CartProvider = ({ children }) => {
       removeFromCart(productId);
       return;
     }
-    
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === productId
+          ? { ...item, quantity: Math.min(quantity, item.stock) }
+          : item
       )
     );
   };
