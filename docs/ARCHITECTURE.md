@@ -13,11 +13,11 @@ The frontend is a React SPA with client-side routing. The backend is a thin Expr
 ```
 presentation/pages      Routed page components
 presentation/components Shared UI (Navbar)
-context/                CartContext — client-side cart state (in-memory)
+context/                CartContext — client-side cart state (localStorage-backed)
 infrastructure/api/     productService — all fetch calls
 ```
 
-Cart state lives in React context (in-memory per session). On order submission the backend decrements stock atomically. The frontend re-fetches product data from the API — no local stock tracking.
+Cart state lives in React context, persisted to `localStorage` per session. On order submission the backend inserts customer, address, and order records atomically and decrements stock. The frontend re-fetches product data from the API — no local stock tracking.
 
 ## Backend
 
@@ -26,18 +26,27 @@ Single Express router at `backend/`. Key endpoints:
 ```
 GET  /api/products        list all products with current stock
 GET  /api/products/:id    single product
-POST /api/orders          place order — decrements stock in a transaction, returns 400 if insufficient
+POST /api/orders          place order — inserts customer + address + order in a transaction,
+                          decrements stock with row-level locks, returns 400 if stock insufficient
 ```
 
-## Database schema
-
-```sql
-products    (id, name, description, price, stock, category, image)
-orders      (id, name, email, address, total, created_at)
-order_items (id, order_id, product_id, quantity, unit_price)
+POST /api/orders response:
+```json
+{ "orderId": 7, "subtotal": 89.99, "tax": 13.50, "total": 103.49 }
 ```
 
-Stock decrement is wrapped in a MySQL transaction with a row-level lock to prevent overselling.
+## Database schema (3NF)
+
+```
+categories  (id, name, slug)
+products    (id, name, description, details, price, stock, category_id → categories, image, created_at)
+customers   (id, name, email, phone, created_at)
+addresses   (id, customer_id → customers, street, city, state, zip_code, country, created_at)
+orders      (id, customer_id → customers, address_id → addresses, subtotal, tax, total, status, created_at)
+order_items (id, order_id → orders, product_id → products, quantity, unit_price)
+```
+
+Stock decrement is wrapped in a MySQL transaction with `FOR UPDATE` row-level locks to prevent overselling.
 
 ## Test automation layers
 
