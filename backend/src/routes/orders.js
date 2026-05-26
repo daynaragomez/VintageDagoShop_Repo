@@ -2,6 +2,97 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/connection');
 
+const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+
+// GET /api/orders — list all orders with customer name and totals
+router.get('/', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT
+        o.id,
+        o.status,
+        o.subtotal,
+        o.tax,
+        o.total,
+        o.created_at,
+        c.name  AS customer_name,
+        c.email AS customer_email
+      FROM orders o
+      JOIN customers c ON c.id = o.customer_id
+      ORDER BY o.created_at DESC
+    `);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/orders/:id — full order detail with address and line items
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [[order]] = await pool.query(`
+      SELECT
+        o.id,
+        o.status,
+        o.subtotal,
+        o.tax,
+        o.total,
+        o.created_at,
+        c.name    AS customer_name,
+        c.email   AS customer_email,
+        c.phone   AS customer_phone,
+        a.street,
+        a.city,
+        a.state,
+        a.zip_code,
+        a.country
+      FROM orders o
+      JOIN customers c ON c.id = o.customer_id
+      JOIN addresses a ON a.id = o.address_id
+      WHERE o.id = ?
+    `, [id]);
+
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+
+    const [items] = await pool.query(`
+      SELECT
+        oi.quantity,
+        oi.unit_price,
+        p.id   AS product_id,
+        p.name AS product_name
+      FROM order_items oi
+      JOIN products p ON p.id = oi.product_id
+      WHERE oi.order_id = ?
+    `, [id]);
+
+    res.json({ ...order, items });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// PATCH /api/orders/:id/status — update order status
+router.patch('/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status || !VALID_STATUSES.includes(status)) {
+    return res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(', ')}` });
+  }
+
+  try {
+    const [result] = await pool.query(
+      'UPDATE orders SET status = ? WHERE id = ?',
+      [status, id]
+    );
+    if (result.affectedRows === 0) return res.status(404).json({ error: 'Order not found' });
+    res.json({ orderId: Number(id), status });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.post('/', async (req, res) => {
   const { name, email, phone, address, items } = req.body;
 

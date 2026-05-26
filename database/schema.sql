@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS orders (
   subtotal    DECIMAL(10, 2) NOT NULL,
   tax         DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   total       DECIMAL(10, 2) NOT NULL,
-  status      ENUM('pending', 'confirmed', 'shipped', 'delivered') DEFAULT 'confirmed',
+  status      ENUM('pending', 'confirmed', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE RESTRICT,
   FOREIGN KEY (address_id)  REFERENCES addresses(id)  ON DELETE RESTRICT

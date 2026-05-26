@@ -6,6 +6,8 @@ import ProductPage from './presentation/pages/ProductPage/ProductPage';
 import CartPage from './presentation/pages/CartPage/CartPage';
 import CheckoutPage from './presentation/pages/CheckoutPage/CheckoutPage';
 import ConfirmationPage from './presentation/pages/ConfirmationPage/ConfirmationPage';
+import AdminOrdersPage from './presentation/pages/AdminOrdersPage/AdminOrdersPage';
+import AdminOrderDetailPage from './presentation/pages/AdminOrderDetailPage/AdminOrderDetailPage';
 import './App.css';
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
+            <Route path="/admin/orders" element={<AdminOrdersPage />} />
+            <Route path="/admin/orders/:id" element={<AdminOrderDetailPage />} />
           </Routes>
         </div>
       </CartProvider>

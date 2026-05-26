@@ -1,0 +1,71 @@
+.admin-orders {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.admin-orders__title {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.admin-orders__empty {
+  color: #666;
+}
+
+.admin-orders-loading,
+.admin-orders-error {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.admin-orders__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.admin-orders__table th,
+.admin-orders__table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-orders__table th {
+  background: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+}
+
+.admin-orders__row:hover {
+  background: #fafafa;
+}
+
+/* Status badges */
+.admin-orders__badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.admin-orders__badge--pending   { background: #fff3cd; color: #856404; }
+.admin-orders__badge--confirmed { background: #cce5ff; color: #004085; }
+.admin-orders__badge--shipped   { background: #d4edda; color: #155724; }
+.admin-orders__badge--delivered { background: #c3e6cb; color: #0a3d1f; }
+.admin-orders__badge--cancelled { background: #f8d7da; color: #721c24; }
+
+.admin-orders__view-link {
+  color: #333;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.admin-orders__view-link:hover {
+  color: #000;
+}
