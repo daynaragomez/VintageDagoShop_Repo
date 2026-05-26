@@ -11,6 +11,8 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
 
   useEffect(() => {
     fetchProducts()
@@ -19,6 +21,14 @@ const HomePage = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const categories = ['All', ...Array.from(new Set(products.map((p) => p.category))).sort()];
+
+  const filtered = products.filter((p) => {
+    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
   return (
     <div className="homepage">
       <Navbar />
@@ -26,11 +36,37 @@ const HomePage = () => {
         <div className="container">
           <h2>Featured Vintage Clothing</h2>
 
+          <div className="search-filter-bar">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search products…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              data-testid="search-input"
+            />
+            <div className="category-filters" data-testid="category-filters">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`category-btn${activeCategory === cat ? ' category-btn--active' : ''}`}
+                  onClick={() => setActiveCategory(cat)}
+                  data-testid={`category-btn-${cat.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {loading && <p className="status-msg">Loading products...</p>}
           {error && <p className="status-msg error">{error}</p>}
+          {!loading && !error && filtered.length === 0 && (
+            <p className="status-msg" data-testid="no-results">No products match your search.</p>
+          )}
 
           <div className="products-grid" data-testid="products-grid">
-            {products.map((product) => {
+            {filtered.map((product) => {
               const cartItem = cartItems.find((i) => i.id === product.id);
               const inCart = cartItem ? cartItem.quantity : 0;
               const remaining = product.stock - inCart;
