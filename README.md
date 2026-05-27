@@ -137,3 +137,21 @@ All prices are stored in the `products` MySQL table and read from `GET /api/prod
 ## Repository
 
 https://github.com/daynaragomez/VintageDagoShop_Repo
+
+---
+
+## ?? Project Status & Documentation
+
+**Current Development Phase:** Post-Audit - Planning Remediation
+
+For complete project status, audit findings, and next steps, see:
+- **[?? PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** - Living document with current status and roadmap
+- **[?? SDD-AUDIT-REPORT.md](docs/SDD-AUDIT-REPORT.md)** - Complete compliance audit
+- **[?? Documentation Index](docs/)** - All technical documentation
+
+**Quick Status:**
+- ? Engineering Maturity: 85/100 (Excellent)
+- ? QA Maturity: 88/100 (Excellent)  
+- ?? SDD Compliance: 35/100 (Critical - Missing PRD and traceability)
+
+**Next Actions:** Create PRD, establish requirements traceability, document deployment strategy
