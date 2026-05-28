@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/connection');
+const { authenticateToken } = require('../middleware/auth');
 
 const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
 
-// GET /api/orders â€” list all orders with customer name and totals
-router.get('/', async (req, res) => {
+// GET /api/orders – list all orders with customer name and totals (PROTECTED - Admin only)
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const [rows] = await pool.query(`
       SELECT
@@ -27,8 +28,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/orders/:id â€” full order detail with address and line items
-router.get('/:id', async (req, res) => {
+// GET /api/orders/:id – full order detail with address and line items (PROTECTED - Admin only)
+router.get('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const [[order]] = await pool.query(`
@@ -39,14 +40,11 @@ router.get('/:id', async (req, res) => {
         o.tax,
         o.total,
         o.created_at,
-        c.name    AS customer_name,
-        c.email   AS customer_email,
-        c.phone   AS customer_phone,
-        a.street,
-        a.city,
-        a.state,
-        a.zip_code,
-        a.country
+        c.id    AS customer_id,
+        c.name  AS customer_name,
+        c.email AS customer_email,
+        c.phone AS customer_phone,
+        a.street, a.city, a.state, a.zip_code, a.country
       FROM orders o
       JOIN customers c ON c.id = o.customer_id
       JOIN addresses a ON a.id = o.address_id
@@ -72,8 +70,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// PATCH /api/orders/:id/status â€” update order status
-router.patch('/:id/status', async (req, res) => {
+// PATCH /api/orders/:id/status – update order status (PROTECTED - Admin only)
+router.patch('/:id/status', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -93,6 +91,7 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
+// POST /api/orders – create new order (PUBLIC - Used by checkout)
 router.post('/', async (req, res) => {
   const { name, email, phone, address, items } = req.body;
 
@@ -169,4 +168,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-

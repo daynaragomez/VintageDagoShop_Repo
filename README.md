@@ -39,6 +39,8 @@ npm run dev
 | `/cart` | Cart |
 | `/checkout` | Checkout form |
 | `/confirmation` | Order confirmation |
+| `/admin/orders` | Admin — order management dashboard |
+| `/admin/orders/:id` | Admin — order detail & status update |
 
 ## Scripts
 

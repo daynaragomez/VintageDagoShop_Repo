@@ -2,12 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const productsRouter = require('./routes/products');
 const ordersRouter = require('./routes/orders');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
+app.use('/api/auth', authRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/orders', ordersRouter);
 

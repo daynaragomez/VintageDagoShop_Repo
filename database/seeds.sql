@@ -56,3 +56,9 @@ INSERT INTO orders (customer_id, address_id, subtotal, tax, total, status) VALUE
 INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES
   (1, 1, 1, 89.99);
 
+
+-- 7. Admin user for testing (password: admin123)
+-- Password hash: bcrypt.hashSync('admin123', 10)
+INSERT INTO users (email, password_hash, role) VALUES
+  ('admin@vintagedago.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye/IjmFG4kYLHXN8p5Q7dqYz5BqYMZjPa', 'admin')
+ON DUPLICATE KEY UPDATE email=email;

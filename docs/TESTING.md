@@ -56,6 +56,44 @@ npm run test:coverage   # with coverage report
 
 Test files: `tests/unit/`, `tests/integration/`
 
+### Coverage Status
+
+**Current Status:** ⚠️ **DEGRADED - Test Failures**
+
+**Environment:** ✅ Node.js v24.16.0, npm v11.13.0, @vitest/coverage-v8 installed
+
+**Coverage Command:** `npm run test:coverage`
+
+**Baseline Measurement (2024-05-28):**
+
+| Metric | Result | Notes |
+|--------|--------|-------|
+| Test Suites | 3 files | unit/components, unit/context, integration |
+| Tests Total | 21 tests | 9 passing, 12 failing |
+| Test Status | ⚠️ DEGRADED | Test failures block clean coverage measurement |
+
+**Known Test Issues:**
+1. **HomePage tests (7 failures):** Missing `<Router>` wrapper - `useNavigate()` requires `<Router>` context in test setup
+2. **CartContext test (1 failure):** `updateQuantity` produces NaN instead of expected value
+3. **Cart integration tests (4 failures):** Same Router context issue
+
+**Coverage Metrics:** Unable to generate full report due to test failures. Coverage tool runs successfully but test failures prevent accurate measurement.
+
+**Target Coverage:** 80% line coverage for unit tests
+
+**Current Test Files:**
+- `tests/unit/components/HomePage.test.jsx` - ❌ 7/7 failing (Router context)
+- `tests/unit/context/CartContext.test.jsx` - ⚠️ 9/10 passing (1 NaN issue)
+- `tests/integration/cart-flow.test.jsx` - ❌ 0/4 passing (Router context)
+
+**Next Steps:**
+1. Fix test setup to wrap components in `<MemoryRouter>` for Router context
+2. Fix CartContext `updateQuantity` NaN bug
+3. Re-run coverage to establish clean baseline
+4. Add unit tests for remaining 5 page components (ProductPage, CartPage, CheckoutPage, AdminOrders, AdminOrderDetail)
+
+**Gap Identified:** Very low unit test coverage - only 2 unit test files exist for ~7 page components + CartContext. See docs/PROJECT_STATUS.md Gap #5 for remediation plan.
+
 ## CI
 
 GitHub Actions workflow: `.github/workflows/e2e.yml`
