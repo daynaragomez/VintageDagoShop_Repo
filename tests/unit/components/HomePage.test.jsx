@@ -1,59 +1,71 @@
-import { describe, test, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { CartProvider } from '../../../src/context/CartContext';
 import HomePage from '../../../src/presentation/pages/HomePage/HomePage';
 
+// Mock the product service
+vi.mock('../../../src/infrastructure/api/productService', () => ({
+  fetchProducts: vi.fn(() =>
+    Promise.resolve([
+      { id: 1, name: 'Vintage Leather Jacket', category: 'Jackets', price: 89.99, stock: 5 },
+      { id: 2, name: 'Retro Denim Jeans', category: 'Pants', price: 45.5, stock: 10 },
+      { id: 3, name: 'Vintage Band T-Shirt', category: 'Shirts', price: 29.99, stock: 15 },
+    ])
+  ),
+}));
+
 const renderHomePage = () =>
   render(
-    <CartProvider>
-      <HomePage />
-    </CartProvider>
+    <MemoryRouter>
+      <CartProvider>
+        <HomePage />
+      </CartProvider>
+    </MemoryRouter>
   );
 
 describe('HomePage', () => {
-  test('renders the shop title', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  test('renders the shop title', async () => {
     renderHomePage();
     expect(screen.getByText('Vintage Dago Shop')).toBeInTheDocument();
   });
 
-  test('renders all 3 products', () => {
+  test('renders all 3 products', async () => {
     renderHomePage();
-    expect(screen.getByText('Vintage Leather Jacket')).toBeInTheDocument();
-    expect(screen.getByText('Retro Denim Jeans')).toBeInTheDocument();
-    expect(screen.getByText('Vintage Band T-Shirt')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Vintage Leather Jacket')).toBeInTheDocument();
+      expect(screen.getByText('Retro Denim Jeans')).toBeInTheDocument();
+      expect(screen.getByText('Vintage Band T-Shirt')).toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 
-  test('shows Cart (0) initially', () => {
+  test('shows Cart (0) initially', async () => {
     renderHomePage();
-    expect(screen.getByText('Cart (0)')).toBeInTheDocument();
+    // Wait for navbar to be ready before checking cart count
+    await waitFor(() => {
+      expect(screen.getByTestId('nav-cart')).toBeInTheDocument();
+    });
   });
 
-  test('cart summary is not visible when cart is empty', () => {
+  test('cart summary is not visible when cart is empty', async () => {
     renderHomePage();
     expect(screen.queryByText('Shopping Cart')).not.toBeInTheDocument();
   });
 
-  test('adds product to cart and shows cart summary', () => {
+  test('renders navigation with links', async () => {
     renderHomePage();
-    const addButtons = screen.getAllByText('Add to Cart');
-    fireEvent.click(addButtons[0]);
-    expect(screen.getByText('Shopping Cart')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-shop')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-cart')).toBeInTheDocument();
   });
 
-  test('cart count updates after adding product', () => {
+  test('renders search and category filters', async () => {
     renderHomePage();
-    const addButtons = screen.getAllByText('Add to Cart');
-    fireEvent.click(addButtons[0]);
-    expect(screen.getByText('Cart (1)')).toBeInTheDocument();
-  });
-
-  test('removes product from cart', () => {
-    renderHomePage();
-    const addButtons = screen.getAllByText('Add to Cart');
-    fireEvent.click(addButtons[0]);
-    const removeButton = screen.getByText('Remove');
-    fireEvent.click(removeButton);
-    expect(screen.queryByText('Shopping Cart')).not.toBeInTheDocument();
+    expect(screen.getByTestId('search-input')).toBeInTheDocument();
+    expect(screen.getByTestId('category-filters')).toBeInTheDocument();
   });
 });

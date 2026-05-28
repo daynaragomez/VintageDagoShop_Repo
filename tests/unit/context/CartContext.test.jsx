@@ -18,7 +18,7 @@ describe('CartContext', () => {
   test('addToCart adds a new item', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
     });
     expect(result.current.cartItems).toHaveLength(1);
     expect(result.current.cartItems[0].quantity).toBe(1);
@@ -27,8 +27,8 @@ describe('CartContext', () => {
   test('addToCart increments quantity for existing item', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
     });
     expect(result.current.cartItems).toHaveLength(1);
     expect(result.current.cartItems[0].quantity).toBe(2);
@@ -37,7 +37,7 @@ describe('CartContext', () => {
   test('removeFromCart removes item by id', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
       result.current.removeFromCart(1);
     });
     expect(result.current.cartItems).toHaveLength(0);
@@ -46,7 +46,7 @@ describe('CartContext', () => {
   test('updateQuantity changes item quantity', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
       result.current.updateQuantity(1, 5);
     });
     expect(result.current.cartItems[0].quantity).toBe(5);
@@ -55,7 +55,7 @@ describe('CartContext', () => {
   test('updateQuantity with 0 removes item', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
       result.current.updateQuantity(1, 0);
     });
     expect(result.current.cartItems).toHaveLength(0);
@@ -64,8 +64,8 @@ describe('CartContext', () => {
   test('clearCart empties all items', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
-      result.current.addToCart({ id: 2, name: 'Jeans', price: 45.5 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
+      result.current.addToCart({ id: 2, name: 'Jeans', price: 45.5, stock: 10 });
       result.current.clearCart();
     });
     expect(result.current.cartItems).toHaveLength(0);
@@ -74,8 +74,8 @@ describe('CartContext', () => {
   test('getCartTotal calculates correct total', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
-      result.current.addToCart({ id: 2, name: 'Jeans', price: 45.5 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
+      result.current.addToCart({ id: 2, name: 'Jeans', price: 45.5, stock: 10 });
     });
     expect(result.current.getCartTotal()).toBeCloseTo(135.49, 2);
   });
@@ -83,9 +83,9 @@ describe('CartContext', () => {
   test('getCartCount returns total quantity across all items', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     act(() => {
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
-      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99 });
-      result.current.addToCart({ id: 2, name: 'Jeans', price: 45.5 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
+      result.current.addToCart({ id: 1, name: 'Jacket', price: 89.99, stock: 10 });
+      result.current.addToCart({ id: 2, name: 'Jeans', price: 45.5, stock: 10 });
     });
     expect(result.current.getCartCount()).toBe(3);
   });
