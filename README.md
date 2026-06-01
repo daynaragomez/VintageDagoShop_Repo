@@ -3,7 +3,13 @@
 E-commerce web app for vintage clothing. React 18 frontend, Express backend, MySQL 8 via Docker.
 
 **📊 Project Status**: ✅ 85% implemented | 🔴 Critical gaps: Admin auth | 🟠 Performance monitoring  
-**📚 Documentation**: [Full Index](./MASTER_INDEX.md) | [Roadmap](./ROADMAP.md) | [What's Missing?](./ROADMAP.md)
+**📚 Documentation**: [Full Index](./MASTER_INDEX.md) | [Roadmap](./ROADMAP.md) | **[🔍 Structure Verified](./00_VERIFICACION_COMPLETADA.md)** | **[📋 Next Steps?](./DECISION_GUIDE_NEXT_STEPS.md)**
+
+### ⚡ Quick Navigation (First Time?)
+- **New to project?** → [START_HERE.md](./START_HERE.md) (5 min read)
+- **Want to go live?** → [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) (2-3 weeks)
+- **Code structure validated** → [00_VERIFICACION_COMPLETADA.md](./00_VERIFICACION_COMPLETADA.md) (52% match with automation-framework pattern)
+- **Confused what to do next?** → [DECISION_GUIDE_NEXT_STEPS.md](./DECISION_GUIDE_NEXT_STEPS.md) (3 clear options)
 
 ## Stack
 
@@ -153,6 +159,31 @@ playwright.config.js        Playwright configuration
 ## Prices
 
 All prices are stored in the `products` MySQL table and read from `GET /api/products`. Nothing is hardcoded in the frontend.
+
+## 📁 Project Structure
+
+```
+src/                   ← React frontend (Clean Architecture)
+├── presentation/      ← UI components & pages
+├── application/       ← Business logic
+├── domain/            ← Entities & interfaces
+├── infrastructure/    ← API calls
+└── context/           ← State management
+
+backend/src/           ← Express backend
+├── routes/            ← API endpoints
+├── middleware/        ← Auth, CORS, validation
+└── db/                ← Database connection
+
+tests/                 ← Testing
+├── e2e/               ← Playwright E2E tests
+├── integration/       ← API + DB tests
+├── unit/              ← Component tests
+├── fixtures/          ← Test data
+└── utils/             ← Test helpers
+```
+
+**✅ Structure verified**: [See 00_VERIFICACION_COMPLETADA.md](./00_VERIFICACION_COMPLETADA.md) for full analysis (52% match with automation-framework pattern)
 
 ## Repository
 
