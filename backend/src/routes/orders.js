@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/connection');
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, requireRole } = require('../middleware/auth');
 
 const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
 
-// GET /api/orders – list all orders with customer name and totals (PROTECTED - Admin only)
-router.get('/', authenticateToken, async (req, res) => {
+// GET /api/orders ï¿½ list all orders with customer name and totals (PROTECTED - Admin only)
+router.get('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
     const [rows] = await pool.query(`
       SELECT
@@ -28,8 +28,8 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-// GET /api/orders/:id – full order detail with address and line items (PROTECTED - Admin only)
-router.get('/:id', authenticateToken, async (req, res) => {
+// GET /api/orders/:id ï¿½ full order detail with address and line items (PROTECTED - Admin only)
+router.get('/:id', authenticateToken, requireRole('admin'), async (req, res) => {
   const { id } = req.params;
   try {
     const [[order]] = await pool.query(`
@@ -70,8 +70,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// PATCH /api/orders/:id/status – update order status (PROTECTED - Admin only)
-router.patch('/:id/status', authenticateToken, async (req, res) => {
+// PATCH /api/orders/:id/status ï¿½ update order status (PROTECTED - Admin only)
+router.patch('/:id/status', authenticateToken, requireRole('admin'), async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -91,7 +91,7 @@ router.patch('/:id/status', authenticateToken, async (req, res) => {
   }
 });
 
-// POST /api/orders – create new order (PUBLIC - Used by checkout)
+// POST /api/orders ï¿½ create new order (PUBLIC - Used by checkout)
 router.post('/', async (req, res) => {
   const { name, email, phone, address, items } = req.body;
 

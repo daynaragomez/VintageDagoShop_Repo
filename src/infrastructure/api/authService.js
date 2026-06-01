@@ -1,5 +1,16 @@
-// Frontend Authentication Service
 const API_BASE_URL = '/api';
+const TOKEN_KEY = 'token';
+const USER_KEY = 'user';
+
+function notifyAuthChanged() {
+  window.dispatchEvent(new Event('auth:changed'));
+}
+
+function persistAuth(data) {
+  localStorage.setItem(TOKEN_KEY, data.token);
+  localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+  notifyAuthChanged();
+}
 
 /**
  * Login user and store JWT token
@@ -8,7 +19,7 @@ const API_BASE_URL = '/api';
  * @returns {Promise<{token: string, user: object}>}
  */
 export const login = async (email, password) => {
-  const response = await fetch(`{API_BASE_URL}/auth/login`, {
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -22,10 +33,8 @@ export const login = async (email, password) => {
   }
 
   const data = await response.json();
-  
-  // Store token and user in localStorage
-  localStorage.setItem('token', data.token);
-  localStorage.setItem('user', JSON.stringify(data.user));
+
+  persistAuth(data);
   
   return data;
 };
@@ -34,8 +43,9 @@ export const login = async (email, password) => {
  * Logout user and clear stored data
  */
 export const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  notifyAuthChanged();
 };
 
 /**
@@ -43,7 +53,7 @@ export const logout = () => {
  * @returns {string|null}
  */
 export const getToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem(TOKEN_KEY);
 };
 
 /**
@@ -51,7 +61,7 @@ export const getToken = () => {
  * @returns {object|null}
  */
 export const getUser = () => {
-  const userStr = localStorage.getItem('user');
+  const userStr = localStorage.getItem(USER_KEY);
   return userStr ? JSON.parse(userStr) : null;
 };
 
@@ -87,7 +97,7 @@ export const authenticatedFetch = async (url, options = {}) => {
 
   const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer {token}`,
+    Authorization: `Bearer ${token}`,
     ...options.headers,
   };
 

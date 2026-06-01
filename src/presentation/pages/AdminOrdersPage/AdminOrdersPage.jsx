@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchOrders } from '../../../infrastructure/api/orderService';
+import AdminPageLayout from '../../components/layout/AdminPageLayout/AdminPageLayout';
 import './AdminOrdersPage.css';
 
 const STATUS_LABELS = {
@@ -23,12 +24,15 @@ export default function AdminOrdersPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="admin-orders-loading">Loading orders…</div>;
-  if (error)   return <div className="admin-orders-error">Error: {error}</div>;
+  if (loading) return <AdminPageLayout title="Order Management"><div className="admin-orders-loading">Loading orders…</div></AdminPageLayout>;
+  if (error)   return <AdminPageLayout title="Order Management"><div className="admin-orders-error">Error: {error}</div></AdminPageLayout>;
 
   return (
+    <AdminPageLayout
+      title="Order Management"
+      subtitle="Review customer orders and keep the ecommerce fulfillment flow updated."
+    >
     <div className="admin-orders">
-      <h1 className="admin-orders__title">Order Management</h1>
 
       {orders.length === 0 ? (
         <p className="admin-orders__empty">No orders yet.</p>
@@ -73,5 +77,6 @@ export default function AdminOrdersPage() {
         </table>
       )}
     </div>
+    </AdminPageLayout>
   );
 }

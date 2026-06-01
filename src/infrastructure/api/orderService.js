@@ -15,7 +15,7 @@ export async function fetchOrders() {
  * Fetch single order by ID (requires authentication)
  */
 export async function fetchOrder(id) {
-  const res = await authenticatedFetch(`{BASE_URL}/{id}`);
+  const res = await authenticatedFetch(`${BASE_URL}/${id}`);
   if (!res.ok) throw new Error('Order not found');
   return res.json();
 }
@@ -24,7 +24,7 @@ export async function fetchOrder(id) {
  * Update order status (requires authentication)
  */
 export async function updateOrderStatus(id, status) {
-  const res = await authenticatedFetch(`{BASE_URL}/{id}/status`, {
+  const res = await authenticatedFetch(`${BASE_URL}/${id}/status`, {
     method: 'PATCH',
     body: JSON.stringify({ status }),
   });

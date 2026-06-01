@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchOrder, updateOrderStatus } from '../../../infrastructure/api/orderService';
+import AdminPageLayout from '../../components/layout/AdminPageLayout/AdminPageLayout';
 import './AdminOrderDetailPage.css';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
@@ -42,18 +43,18 @@ export default function AdminOrderDetailPage() {
     }
   }
 
-  if (loading) return <div className="order-detail-loading">Loading order…</div>;
-  if (error)   return <div className="order-detail-error">Error: {error}</div>;
+  if (loading) return <AdminPageLayout title="Order detail" backTo="/admin/orders" backLabel="Back to orders"><div className="order-detail-loading">Loading order…</div></AdminPageLayout>;
+  if (error)   return <AdminPageLayout title="Order detail" backTo="/admin/orders" backLabel="Back to orders"><div className="order-detail-error">Error: {error}</div></AdminPageLayout>;
   if (!order)  return null;
 
   return (
+    <AdminPageLayout
+      title={`Order #${order.id}`}
+      subtitle={`Placed on ${new Date(order.created_at).toLocaleString()}`}
+      backTo="/admin/orders"
+      backLabel="Back to orders"
+    >
     <div className="order-detail">
-      <Link to="/admin/orders" className="order-detail__back">← Back to orders</Link>
-
-      <h1 className="order-detail__title">Order #{order.id}</h1>
-      <p className="order-detail__date">
-        Placed on {new Date(order.created_at).toLocaleString()}
-      </p>
 
       <section className="order-detail__section">
         <h2>Status</h2>
@@ -127,5 +128,6 @@ export default function AdminOrderDetailPage() {
         </div>
       </section>
     </div>
+    </AdminPageLayout>
   );
 }

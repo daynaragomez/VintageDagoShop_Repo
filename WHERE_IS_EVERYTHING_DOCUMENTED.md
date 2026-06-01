@@ -1,394 +1,157 @@
-# 🗺️ DONDE ESTÁ DOCUMENTADO TODO
+# 🗺️ WHERE EVERYTHING IS DOCUMENTED
 
-**Referencia Rápida - Ubicaciones de Documentación**
-
----
-
-## 📍 DOCUMENTOS PRINCIPALES (Lo que creamos hoy)
-
-### 1. **PRODUCTION_READINESS_PLAN.md** ⭐ DOCUMENTO PRINCIPAL
-
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\PRODUCTION_READINESS_PLAN.md
-```
-
-**Tamaño**: 18.2 KB (638 líneas)
-
-**Qué contiene**:
-
-| Sección | Líneas | Contenido |
-|---------|--------|----------|
-| Current State Assessment | 10-85 | Fortalezas, gaps, métricas |
-| Security Assessment | 87-180 | Admin auth blocker (CRÍTICO) |
-| Architecture Assessment | 182-250 | Design review + oportunidades |
-| Quality Metrics | 252-280 | 67/100 → 92/100 |
-| **WEEK 1-3 ACTION PLAN** | 282-450 | **⭐ Tasks por semana** |
-| **PRE-DEPLOYMENT CHECKLIST** | 452-550 | **⭐ 50+ verification items** |
-| Timeline & Risks | 552-600 | Roadmap realista |
-| Related Documents | 602-615 | Links a otros docs |
-| Next Steps | 617-638 | Cómo empezar |
-
-**Dónde encontrar cada cosa**:
-
-```
-🔍 ¿Quiero ver Week 1 tasks?
-   → Línea 282: "### WEEK 1: CRITICAL (6-8 hours)"
-   → Task 1.1: AuthContext (línea 294)
-   → Task 1.2: Login UI (línea 302)
-   → Task 1.3: PrivateRoute (línea 309)
-   → Task 1.4: Backend auth (línea 315)
-   → Task 1.5: Security tests (línea 322)
-
-🔍 ¿Quiero ver pre-deployment checklist?
-   → Línea 452: "## ✅ PRE-DEPLOYMENT CHECKLIST"
-   → Security Checks (línea 460)
-   → Performance Checks (línea 490)
-   → Testing Checks (línea 510)
-   → Data Checks (línea 535)
-   → Deployment Checks (línea 548)
-
-🔍 ¿Quiero ver el blocker crítico?
-   → Línea 87: "## 🚨 SECURITY ASSESSMENT"
-   → "Admin Routes Unprotected" (línea 90)
-```
+**Quick reference for active and archived documentation locations**
 
 ---
 
-### 2. **00_QUICK_START.md** (Entry point)
+## 📍 Primary Active Documents
 
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\00_QUICK_START.md
-```
+### README.md
+Path: [README.md](README.md)
 
-**Tamaño**: 5.8 KB (190 líneas)
+Use it for:
+- project overview
+- local setup
+- run commands
+- top-level navigation
 
-**Qué contiene**:
-- Tu pregunta y respuesta (línea 5)
-- Qué documentos se crearon (línea 12)
-- Quick start por rol (línea 45)
-- Critical status (línea 75)
-- Timeline (línea 95)
-- Document locations (línea 115)
+### MASTER_INDEX.md
+Path: [MASTER_INDEX.md](MASTER_INDEX.md)
 
-**Uso**: Entry point para el team (5 min lectura)
+Use it for:
+- the main documentation hub
+- reading order by role
+- reading order by task
 
----
+### START_HERE.md
+Path: [START_HERE.md](START_HERE.md)
 
-### 3. **DOCUMENTATION_NAVIGATION_MAP.md** (Guía visual)
+Use it for:
+- quick onboarding
+- fast next-step orientation
 
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\DOCUMENTATION_NAVIGATION_MAP.md
-```
+### ROADMAP.md
+Path: [ROADMAP.md](ROADMAP.md)
 
-**Tamaño**: 11.8 KB (370 líneas)
+Use it for:
+- ecommerce implementation status
+- feature gaps
+- priorities for upcoming work
 
-**Qué contiene**:
-- Entry points (línea 1)
-- Document structure (línea 35)
-- Relationships & data flow (línea 85)
-- By-role reading order (línea 120)
-- Quick links (línea 200)
+### PRODUCTION_READINESS_PLAN.md
+Path: [PRODUCTION_READINESS_PLAN.md](PRODUCTION_READINESS_PLAN.md)
 
-**Uso**: Entender cómo están conectados los docs
-
----
-
-### 4. **DOCUMENTATION_UPDATE_SUMMARY.md** (Resumen)
-
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\DOCUMENTATION_UPDATE_SUMMARY.md
-```
-
-**Tamaño**: 10.2 KB (280 líneas)
-
-**Qué contiene**:
-- What was done (línea 8)
-- New documents created (línea 15)
-- Updated documents (línea 45)
-- How to consume (línea 65)
-- Integration with framework (línea 135)
+Use it for:
+- production priorities
+- security status
+- release checklist
+- week-by-week execution plan
 
 ---
 
-### 5. **UPLOAD_VERIFICATION_REPORT.md** (Verificación)
+## 🧭 Active Planning and Decision Documents
 
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\UPLOAD_VERIFICATION_REPORT.md
-```
+### DECISION_FRAMEWORK.md
+Path: [DECISION_FRAMEWORK.md](DECISION_FRAMEWORK.md)
 
-**Tamaño**: 12 KB (338 líneas)
+Use it for deciding what to do next.
 
-**Qué contiene**:
-- Push status (línea 8)
-- Root files verified (línea 18)
-- /docs/ files verified (línea 45)
-- Archive structure (línea 75)
-- Framework verified (línea 110)
-- Verification checklist (línea 135)
-- How to access (línea 200)
-- Next steps (línea 225)
+### IMPLEMENTATION_SUMMARY.md
+Path: [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)
+
+Use it for consolidation history, rationale, and implementation context.
+
+### FOLDER_EXPANSION_PLAN.md
+Path: [FOLDER_EXPANSION_PLAN.md](FOLDER_EXPANSION_PLAN.md)
+
+Use it for the planned test-structure expansion work.
 
 ---
 
-## 📚 DOCUMENTOS ACTUALIZADOS
+## 🏗️ Technical Documentation
 
-### **START_HERE.md**
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\START_HERE.md
-```
+### Architecture and Structure
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+- [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md)
 
-**Cambios**:
-- Nueva sección "I'm Ready to Deploy" (línea ~70)
-- DevOps role section actualizado (línea ~80)
-- Links a PRODUCTION_READINESS_PLAN.md agregados
+### API and Data
+- [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)
+- [docs/DATABASE.md](docs/DATABASE.md)
 
-**Buscar**: "PRODUCTION_READINESS_PLAN" en este archivo
+### Product and Planning
+- [docs/PRD.md](docs/PRD.md)
+- [docs/TRACEABILITY.md](docs/TRACEABILITY.md)
+- [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
 
----
+### Operations
+- [docs/TESTING.md](docs/TESTING.md)
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+- [docs/DEPLOYMENT_CHECKLIST.md](docs/DEPLOYMENT_CHECKLIST.md)
 
-### **MASTER_INDEX.md**
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\MASTER_INDEX.md
-```
-
-**Cambios**:
-- PRODUCTION_READINESS_PLAN.md added (línea ~45)
-- DevOps role agregado (línea ~150)
-- Role-based navigation mejorado
+### Documentation Navigation
+- [docs/README.md](docs/README.md)
+- [docs/DOCUMENTATION_INDEX_BY_ROLE.md](docs/DOCUMENTATION_INDEX_BY_ROLE.md)
 
 ---
 
-### **README.md**
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\README.md
-```
+## 🧪 Framework Documentation
 
-**Cambios**:
-- Nueva línea en Documentation table (línea ~75)
-- Link a PRODUCTION_READINESS_PLAN.md
+All framework planning is in [docs/framework](docs/framework):
 
----
-
-## 🗂️ DOCUMENTOS CONSOLIDADOS
-
-### **ROADMAP.md** (Feature status)
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\ROADMAP.md
-```
-
-**Contiene**:
-- 85% implemented status (línea ~5)
-- Funcionalidades completadas (línea ~25)
-- Gaps identificadas (línea ~150)
-- Timeline (línea ~250)
+- [docs/framework/IMPLEMENTATION_PLAN.md](docs/framework/IMPLEMENTATION_PLAN.md)
+- [docs/framework/FRAMEWORK_ANALYSIS.md](docs/framework/FRAMEWORK_ANALYSIS.md)
+- [docs/framework/FRAMEWORK_INDEX.md](docs/framework/FRAMEWORK_INDEX.md)
+- [docs/framework/FRAMEWORK_QUICK_SUMMARY.md](docs/framework/FRAMEWORK_QUICK_SUMMARY.md)
+- [docs/framework/ARCHITECTURE_DIAGRAMS.md](docs/framework/ARCHITECTURE_DIAGRAMS.md)
+- [docs/framework/REFACTORING_EXAMPLES.md](docs/framework/REFACTORING_EXAMPLES.md)
 
 ---
 
-### **EXECUTIVE_SUMMARY.md** (1 página)
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\EXECUTIVE_SUMMARY.md
-```
+## 🗂️ Archived Documentation
 
-**Contiene**:
-- Ultra-conciso (1 página)
-- Status, resultados, roadmap
+### Historical audits
+Path: [docs/archive/audits](docs/archive/audits)
 
----
+### Historical logs
+Path: [docs/archive/logs](docs/archive/logs)
 
-### **FINAL_STATUS.md** (Reporte completo)
-**Ubicación**:
-```
-C:\workspace2\VintageDagoShop\FINAL_STATUS.md
-```
+### Historical sessions
+Path: [docs/archive/sessions](docs/archive/sessions)
 
-**Contiene**:
-- Consolidation report completo
-- Ecommerce analysis
-- Next steps
+### Archived translations
+Path: [docs/archive/translations](docs/archive/translations)
 
----
+Contains superseded Spanish originals such as:
+- `00_VERIFICACION_COMPLETADA.md`
+- `DECISION_GUIDE_NEXT_STEPS.md`
+- `FOLDER_STRUCTURE.md`
+- `RESUMEN_INDEX.md`
+- `RESUMEN_TODO_LO_QUE_HICE.md`
 
-## 📁 DIRECTORIOS ESPECIALES
+### Archived obsolete summaries and analysis
+Path: [docs/archive/obsolete](docs/archive/obsolete)
 
-### **/docs/archive/**
-```
-C:\workspace2\VintageDagoShop\docs\archive\
-```
-
-**Contenido**:
-```
-archive/audits/        → 8 old audit files
-archive/logs/          → 2 old log files
-archive/sessions/      → 3 old session reports
-```
-
-**Qué está ahí**: Documentación histórica (no en root ya)
+Contains superseded summary, verification, and consolidation files moved out of active navigation.
 
 ---
 
-### **/docs/framework/**
-```
-C:\workspace2\VintageDagoShop\docs\framework\
-```
+## ✅ Recommended Reading Order
 
-**Contenido**:
-```
-IMPLEMENTATION_PLAN.md     → ⭐ QA framework (Phases 1-5)
-FRAMEWORK_ANALYSIS.md
-FRAMEWORK_INDEX.md
-FRAMEWORK_QUICK_SUMMARY.md
-ARCHITECTURE_DIAGRAMS.md
-REFACTORING_EXAMPLES.md
-```
+### Fast path
+1. [README.md](README.md)
+2. [ROADMAP.md](ROADMAP.md)
+3. [PRODUCTION_READINESS_PLAN.md](PRODUCTION_READINESS_PLAN.md)
 
-**Qué está ahí**: Testing framework (preservado 100%)
+### Deep path
+1. [MASTER_INDEX.md](MASTER_INDEX.md)
+2. [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+3. [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)
+4. [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
 
 ---
 
-## 🔗 EN GITHUB (REMOTO)
+## 📌 Current Rule
 
-Todos estos archivos están en:
-```
-https://github.com/daynaragomez/VintageDagoShop_Repo.git
-Branch: master
-Commit: 88a9cca
-```
-
-**Ver online**:
-```
-Root files:
-https://github.com/daynaragomez/VintageDagoShop_Repo/tree/master
-
-PRODUCTION_READINESS_PLAN.md:
-https://github.com/daynaragomez/VintageDagoShop_Repo/blob/master/PRODUCTION_READINESS_PLAN.md
-
-Archive:
-https://github.com/daynaragomez/VintageDagoShop_Repo/tree/master/docs/archive
-
-Framework:
-https://github.com/daynaragomez/VintageDagoShop_Repo/tree/master/docs/framework
-```
-
----
-
-## 🎯 QUICK REFERENCE - DÓNDE ENCONTRAR CADA COSA
-
-### ❓ "¿Qué tengo que hacer?"
-→ `PRODUCTION_READINESS_PLAN.md` línea 282 (WEEK 1-3 ACTION PLAN)
-
-### ❓ "¿Cuánto tiempo toma?"
-→ `PRODUCTION_READINESS_PLAN.md` línea 552 (TIMELINE & RISKS)
-
-### ❓ "¿Qué tengo que verificar antes de deploy?"
-→ `PRODUCTION_READINESS_PLAN.md` línea 452 (PRE-DEPLOYMENT CHECKLIST)
-
-### ❓ "¿Cuál es el blocker crítico?"
-→ `PRODUCTION_READINESS_PLAN.md` línea 87 (SECURITY ASSESSMENT)
-
-### ❓ "¿Qué archivos se subieron?"
-→ `UPLOAD_VERIFICATION_REPORT.md` línea 18 (ROOT LEVEL FILES VERIFIED)
-
-### ❓ "¿Dónde está el framework plan?"
-→ `docs/framework/IMPLEMENTATION_PLAN.md`
-
-### ❓ "¿Dónde está la documentación vieja?"
-→ `docs/archive/` (audits, logs, sessions)
-
-### ❓ "¿Cómo empiezo?"
-→ `00_QUICK_START.md` (5 min)
-→ Luego: `PRODUCTION_READINESS_PLAN.md` (15 min)
-
-### ❓ "¿Cómo es la estructura?"
-→ `DOCUMENTATION_NAVIGATION_MAP.md`
-
----
-
-## 📊 RESUMEN DE UBICACIONES
-
-| Tipo | Documento | Ubicación | Líneas |
-|------|-----------|-----------|--------|
-| **Main Plan** | PRODUCTION_READINESS_PLAN.md | Root | 638 |
-| **Quick Start** | 00_QUICK_START.md | Root | 190 |
-| **Navigation** | DOCUMENTATION_NAVIGATION_MAP.md | Root | 370 |
-| **Feature Status** | ROADMAP.md | Root | 531 |
-| **Executive** | EXECUTIVE_SUMMARY.md | Root | 234 |
-| **Verification** | UPLOAD_VERIFICATION_REPORT.md | Root | 338 |
-| **Framework** | IMPLEMENTATION_PLAN.md | /docs/framework/ | 800+ |
-| **Archive** | Various | /docs/archive/ | Multiple |
-
----
-
-## ✅ CÓMO ACCEDER A TODO
-
-### **Opción 1: Localmente (Tu PC)**
-```
-C:\workspace2\VintageDagoShop\PRODUCTION_READINESS_PLAN.md
-C:\workspace2\VintageDagoShop\00_QUICK_START.md
-C:\workspace2\VintageDagoShop\ROADMAP.md
-... etc
-```
-
-### **Opción 2: GitHub (Compartir con team)**
-```
-https://github.com/daynaragomez/VintageDagoShop_Repo/blob/master/PRODUCTION_READINESS_PLAN.md
-https://github.com/daynaragomez/VintageDagoShop_Repo/blob/master/00_QUICK_START.md
-... etc
-```
-
-### **Opción 3: Clonar todo**
-```bash
-git clone https://github.com/daynaragomez/VintageDagoShop_Repo.git
-cd VintageDagoShop
-# Todos los archivos disponibles localmente
-```
-
----
-
-## 🎬 PRÓXIMOS PASOS
-
-1. **Leer PRODUCTION_READINESS_PLAN.md** (15 min)
-   - Entender qué hay que hacer
-   - Ver Week 1 tasks
-   - Revisar pre-deploy checklist
-
-2. **Compartir con team**
-   - Link a GitHub
-   - O: git pull origin master
-
-3. **Empezar Week 1** (6-8h)
-   - Admin authentication blocker
-   - Tasks 1.1-1.5
-
----
-
-## 📞 REFERENCIA RÁPIDA
-
-```
-🔍 Main action plan:
-   PRODUCTION_READINESS_PLAN.md
-
-🔍 Quick entry:
-   00_QUICK_START.md
-
-🔍 Everything documented where:
-   YOU ARE HERE (este archivo)
-
-🔍 GitHub:
-   https://github.com/daynaragomez/VintageDagoShop_Repo.git
-```
-
----
-
-**Creado**: 2026-05-28  
-**Status**: ✅ COMPLETO
-**Último actualización**: Hoy
+Active documentation should remain in English.  
+Historical and superseded documents are preserved in archive folders.

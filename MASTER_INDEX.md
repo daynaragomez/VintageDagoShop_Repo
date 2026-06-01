@@ -1,391 +1,275 @@
 # 📚 MASTER INDEX - VintageDagoShop Documentation
 
-**Versión**: 1.0  
-**Fecha**: 2026-05-28  
-**Estado**: Consolidación completada  
-**Propósito**: Índice único de entrada a toda la documentación
+**Version**: 2.0  
+**Date**: 2026-06-01  
+**Status**: Active documentation updated  
+**Purpose**: Single English entry point to all active documentation
 
 ---
 
-## 🎯 ¿POR DÓNDE EMPEZAR?
+## 🎯 Where to Start
 
-### Si tienes 5 minutos ⏱️
+### If you have 5 minutes ⏱️
 ```
-Lee: README.md (raíz)
-Comprenderás: Stack, cómo hacer run, estructura básica
-```
-
-### Si tienes 15 minutos ⏱️
-```
-Lee: ROADMAP.md
-Comprenderás: Qué está implementado, qué falta, prioridades
+Read: README.md
+You will understand: stack, setup, current status, quick links
 ```
 
-### Si tienes 30 minutos ⏱️
+### If you have 15 minutes ⏱️
 ```
-Lee en orden:
-  1. README.md - Stack y setup
-  2. ROADMAP.md - Estado actual vs roadmap
-  3. DOCUMENTATION_DUPLICATION_ANALYSIS.md - Análisis de consolidación
-```
-
-### Si quieres implementar nuevas funciones 💻
-```
-Lee: DOCUMENTATION_INDEX.md (/docs/)
-Luego: ARCHITECTURE.md
-Luego: Implementación específica en /docs/
+Read in order:
+  1. README.md
+  2. ROADMAP.md
+  3. PRODUCTION_READINESS_PLAN.md
 ```
 
-### Si quieres mejorar el testing framework 🧪
+### If you have 30 minutes ⏱️
 ```
-Lee: IMPLEMENTATION_PLAN.md
-Luego: FRAMEWORK_ANALYSIS.md (/docs/framework/)
-Luego: REFACTORING_EXAMPLES.md
+Read in order:
+  1. README.md
+  2. ROADMAP.md
+  3. PRODUCTION_READINESS_PLAN.md
+  4. IMPLEMENTATION_SUMMARY.md
+```
+
+### If you want to implement new features 💻
+```
+Read:
+  1. docs/DOCUMENTATION_INDEX_BY_ROLE.md
+  2. docs/ARCHITECTURE.md
+  3. docs/API_DOCUMENTATION.md
+  4. docs/PRD.md
+```
+
+### If you want to improve the testing framework 🧪
+```
+Read:
+  1. docs/framework/IMPLEMENTATION_PLAN.md
+  2. FOLDER_EXPANSION_PLAN.md
+  3. docs/framework/FRAMEWORK_ANALYSIS.md
+  4. docs/framework/REFACTORING_EXAMPLES.md
 ```
 
 ---
 
-## 📁 ESTRUCTURA DE DOCUMENTACIÓN ACTUALIZADA
+## 📁 Documentation Structure
 
-### Raíz (5 archivos - Quick Reference)
+### Root (Active entry points)
 ```
-README.md                           → Start here (project overview)
-ROADMAP.md                          → What's implemented vs missing
-PRODUCTION_READINESS_PLAN.md        → Action plan to production 🆕 CRITICAL
-MASTER_INDEX.md                     → This file (navigation)
-DOCUMENTATION_DUPLICATION_ANALYSIS.md → Why we consolidated
+README.md                         → Project overview and setup
+START_HERE.md                     → Fast onboarding by role
+MASTER_INDEX.md                   → This file
+ROADMAP.md                        → What's implemented vs missing
+PRODUCTION_READINESS_PLAN.md      → Production action plan
+WHERE_IS_EVERYTHING_DOCUMENTED.md → Cross-reference index
+DECISION_FRAMEWORK.md             → Choose what to do next
+FOLDER_EXPANSION_PLAN.md          → Testing structure expansion plan
+IMPLEMENTATION_SUMMARY.md         → Consolidation and implementation history
+GIT_COMMIT_GUIDE.md               → Commit guidance
 ```
 
-### /docs (15 archivos - Technical Documentation)
+### docs/ (Technical documentation)
 ```
-README.md                          → Docs index by role
-DOCUMENTATION_INDEX_BY_ROLE.md     → Detailed navigation guide
+README.md                         → Docs landing page
+DOCUMENTATION_INDEX_BY_ROLE.md    → Reading paths by role and task
 
 PROJECT:
-├── PROJECT_STATUS.md              → Current phase, roadmap
-├── PROJECT_STRUCTURE.md           → Folder organization
-├── FOLDER_STRUCTURE.md            → Updated structure explanation
+├── PROJECT_STATUS.md             → Current phase and status tracking
+├── PROJECT_STRUCTURE.md          → Codebase organization
 
 ARCHITECTURE:
-├── ARCHITECTURE.md                → System design, layers
-├── API_DOCUMENTATION.md           → REST endpoints, contracts
-├── DATABASE.md                    → Schema, operations
-├── CODING_STANDARDS.md            → Code conventions, patterns
+├── ARCHITECTURE.md               → System architecture and layer reality
+├── API_DOCUMENTATION.md          → API contracts
+├── DATABASE.md                   → Schema and DB operations
+├── CODING_STANDARDS.md           → Coding conventions
 
-TECHNICAL:
-├── TESTING.md                     → Test strategy, frameworks
-├── DEPLOYMENT.md                  → Production deployment
-├── DEPLOYMENT_CHECKLIST.md        → Pre-deploy checklist
-├── TRACEABILITY.md                → Requirements mapping
-├── PRD.md                         → Product requirements
+OPERATIONS:
+├── TESTING.md                    → Test strategy and commands
+├── DEPLOYMENT.md                 → Deployment strategy
+├── DEPLOYMENT_CHECKLIST.md       → Pre-deployment checklist
+
+PRODUCT & TRACEABILITY:
+├── PRD.md                        → Product requirements
+├── TRACEABILITY.md               → Requirements mapping
 
 COMPLIANCE:
-└── SDD-AUDIT-REPORT.md            → Compliance audit
+└── SDD-AUDIT-REPORT.md           → Audit and compliance report
+```
 
-FRAMEWORK (/docs/framework/):
-├── IMPLEMENTATION_PLAN.md         → Implementation roadmap (Phases 1-5)
-├── FRAMEWORK_ANALYSIS.md          → Framework evaluation
-├── FRAMEWORK_INDEX.md             → Framework navigation
-├── FRAMEWORK_QUICK_SUMMARY.md     → Quick reference
-├── ARCHITECTURE_DIAGRAMS.md       → Visual diagrams
-└── REFACTORING_EXAMPLES.md        → Code examples
+### docs/framework/ (Canonical framework plan)
+```
+IMPLEMENTATION_PLAN.md            → Canonical framework roadmap
+FRAMEWORK_ANALYSIS.md             → Framework evaluation
+FRAMEWORK_INDEX.md                → Framework navigation
+FRAMEWORK_QUICK_SUMMARY.md        → Quick framework reference
+ARCHITECTURE_DIAGRAMS.md          → Visual diagrams
+REFACTORING_EXAMPLES.md           → Practical examples
+```
 
-ARCHIVE (/docs/archive/):
-├── /audits/                       → Historical audit reports
-├── /sessions/                     → Session summaries
-└── /logs/                         → Update logs
+### docs/archive/ (Historical material)
+```
+audits/                           → Historical audit reports
+sessions/                         → Session summaries and handoffs
+logs/                             → Documentation update logs
 ```
 
 ---
 
-## 👥 POR ROL - Qué documentación leer
+## 👥 What to Read by Role
 
-### 👨‍💻 Desarrollador Frontend
-
-**Setup (primer día)**:
-1. README.md (raíz)
-2. /docs/PROJECT_STRUCTURE.md
-3. ROADMAP.md
-
-**Qué construir primero**:
-1. PRODUCTION_READINESS_PLAN.md (Week 1: Admin auth)
-2. /docs/ARCHITECTURE.md
-3. /docs/API_DOCUMENTATION.md
-
-**Desarrollo**:
-1. /docs/CODING_STANDARDS.md
-2. /docs/TESTING.md
-
-**Testing**:
-1. /docs/framework/FRAMEWORK_ANALYSIS.md
-
----
-
-### 🔧 Desarrollador Backend
-
-**Setup**:
-1. README.md (raíz)
-2. /docs/PROJECT_STRUCTURE.md
-3. ROADMAP.md
-
-**Qué arreglar primero**:
-1. PRODUCTION_READINESS_PLAN.md (Week 1: Admin auth + security)
-2. /docs/ARCHITECTURE.md
-3. /docs/DATABASE.md
-
-**Desarrollo**:
-1. /docs/API_DOCUMENTATION.md
-2. /docs/CODING_STANDARDS.md
-
-**Deployment**:
-1. /docs/DEPLOYMENT.md
-2. /docs/DEPLOYMENT_CHECKLIST.md
-
----
-
-### 🚀 DevOps / Infrastructure
-
-**Setup**:
-1. README.md (raíz)
-2. PRODUCTION_READINESS_PLAN.md (read everything)
-3. /docs/DEPLOYMENT.md
-
-**Action Plan**:
-1. PRODUCTION_READINESS_PLAN.md → Week 3 (Deployment strategy)
-2. /docs/DEPLOYMENT_CHECKLIST.md → Pre-deployment validation
-
----
-
-### 🧪 QA / SDET
-
-**Setup**:
-1. README.md (raíz)
+### Frontend Developer
+1. README.md
 2. ROADMAP.md
-3. /docs/TESTING.md
+3. PRODUCTION_READINESS_PLAN.md
+4. docs/ARCHITECTURE.md
+5. docs/API_DOCUMENTATION.md
+6. docs/CODING_STANDARDS.md
 
-**Framework Development**:
-1. /docs/framework/FRAMEWORK_ANALYSIS.md
-2. /docs/framework/IMPLEMENTATION_PLAN.md
-3. /docs/framework/REFACTORING_EXAMPLES.md
+### Backend Developer
+1. README.md
+2. ROADMAP.md
+3. PRODUCTION_READINESS_PLAN.md
+4. docs/ARCHITECTURE.md
+5. docs/DATABASE.md
+6. docs/API_DOCUMENTATION.md
 
-**Security & Performance Testing** (New):
-1. PRODUCTION_READINESS_PLAN.md → Pre-deployment checklist (Week 3)
-2. /docs/TESTING.md → Performance & Security sections
+### QA / SDET
+1. README.md
+2. docs/TESTING.md
+3. docs/framework/IMPLEMENTATION_PLAN.md
+4. FOLDER_EXPANSION_PLAN.md
+5. docs/framework/REFACTORING_EXAMPLES.md
 
----
+### Product Manager
+1. README.md
+2. ROADMAP.md
+3. PRODUCTION_READINESS_PLAN.md
+4. docs/PRD.md
+5. docs/PROJECT_STATUS.md
 
-### 📋 Gestor de Producto (PM)
-
-**Setup**:
-1. README.md (raíz)
-2. ROADMAP.md (15 min read)
-
-**Roadmap & Prioritization**:
-1. PRODUCTION_READINESS_PLAN.md → Timeline & Risks
-2. ROADMAP.md → Feature status & gaps
-
-**Stakeholder Communication**:
-1. EXECUTIVE_SUMMARY.md (si existe)
-2. PRODUCTION_READINESS_PLAN.md → Metrics & Timeline section
-
-**Test Writing**:
-1. /docs/framework/FRAMEWORK_INDEX.md
-2. /docs/framework/ARCHITECTURE_DIAGRAMS.md
-
----
-
-### 📋 Product Manager
-
-**Understanding**:
-1. /docs/PRD.md (Product Requirements)
-2. /docs/PROJECT_STATUS.md
-3. ROADMAP.md
-
-**Traceability**:
-1. /docs/TRACEABILITY.md
+### DevOps / Infrastructure
+1. README.md
+2. PRODUCTION_READINESS_PLAN.md
+3. docs/DEPLOYMENT.md
+4. docs/DEPLOYMENT_CHECKLIST.md
+5. docs/PROJECT_STATUS.md
 
 ---
 
-### 🚀 DevOps / Infrastructure
+## 🗺️ What to Read by Task
 
-**Setup**:
-1. README.md (raíz)
-2. /docs/DEPLOYMENT.md
-3. /docs/DEPLOYMENT_CHECKLIST.md
-
-**Monitoring**:
-1. /docs/PROJECT_STATUS.md
-2. .github/workflows/e2e.yml (CI/CD pipeline)
-
----
-
-## 🗺️ NAVEGACIÓN POR TAREA
-
-### "Quiero escribir un test"
+### “I want to write a test”
 ```
-1. /docs/TESTING.md - Estrategia general
-2. /docs/framework/FRAMEWORK_ANALYSIS.md - Análisis del framework
-3. /docs/framework/FRAMEWORK_INDEX.md - Cómo escribir tests
-4. /docs/framework/REFACTORING_EXAMPLES.md - Ejemplos prácticos
-5. /docs/framework/IMPLEMENTATION_PLAN.md - Guía completa
+1. docs/TESTING.md
+2. docs/framework/FRAMEWORK_INDEX.md
+3. docs/framework/REFACTORING_EXAMPLES.md
+4. docs/framework/IMPLEMENTATION_PLAN.md
+5. FOLDER_EXPANSION_PLAN.md
 ```
 
-### "Quiero entender la arquitectura"
+### “I want to understand the architecture”
 ```
-1. /docs/ARCHITECTURE.md - Arquitectura general
-2. /docs/framework/ARCHITECTURE_DIAGRAMS.md - Diagramas visuales
-3. /docs/API_DOCUMENTATION.md - API contracts
-4. /docs/DATABASE.md - Schema
-```
-
-### "Quiero desplegar a producción"
-```
-1. /docs/DEPLOYMENT.md - Estrategia
-2. /docs/DEPLOYMENT_CHECKLIST.md - Checklist pre-deploy
-3. ROADMAP.md - Verificar prerequisites
-4. /docs/PROJECT_STATUS.md - Estado actual
+1. docs/ARCHITECTURE.md
+2. docs/framework/ARCHITECTURE_DIAGRAMS.md
+3. docs/API_DOCUMENTATION.md
+4. docs/DATABASE.md
 ```
 
-### "Quiero extender la funcionalidad"
+### “I want to deploy to production”
 ```
-1. /docs/PRD.md - Qué está permitido (scope)
-2. ROADMAP.md - Qué falta implementar
-3. /docs/API_DOCUMENTATION.md - Cómo extender API
-4. /docs/CODING_STANDARDS.md - Cómo hacerlo bien
+1. PRODUCTION_READINESS_PLAN.md
+2. docs/DEPLOYMENT.md
+3. docs/DEPLOYMENT_CHECKLIST.md
+4. docs/PROJECT_STATUS.md
 ```
 
-### "Tengo un bug"
+### “I want to extend functionality”
 ```
-1. ROADMAP.md - ¿Es un gap conocido?
-2. /docs/ARCHITECTURE.md - Entiende dónde está el bug
-3. /docs/TESTING.md - Cómo escribir test para el bug
-4. /docs/DEPLOYMENT_CHECKLIST.md - Cómo deployed fix
+1. docs/PRD.md
+2. ROADMAP.md
+3. docs/API_DOCUMENTATION.md
+4. docs/CODING_STANDARDS.md
+5. docs/TRACEABILITY.md
+```
+
+### “I have a bug”
+```
+1. ROADMAP.md
+2. docs/ARCHITECTURE.md
+3. docs/TESTING.md
+4. docs/PROJECT_STATUS.md
 ```
 
 ---
 
-## 📊 ESTADO CONSOLIDACIÓN
+## 📊 Consolidation Snapshot
 
-| Aspecto | Antes | Después | Mejora |
-|---------|-------|---------|--------|
-| Archivos markdown | 43 | 27 | -37% |
-| Duplicación | 30% | <5% | -83% |
+| Area | Before | After | Improvement |
+|------|--------|-------|-------------|
+| Markdown files | 43 | 27 | -37% |
+| Duplication | 30% | <5% | -83% |
 | Clarity | 40/100 | 90/100 | +125% |
-| Tiempo búsqueda | 10-15 min | 2-3 min | -80% |
-| Nuevo dev confusión | ALTA | BAJA | Significativa |
+| Search time | 10-15 min | 2-3 min | -80% |
 
 ---
 
-## ✅ CONSOLIDACIÓN ACTIONS COMPLETADAS
+## 🎯 Current Implementation Summary
 
-### Deletado
-- ❌ QUICK_REFERENCE.md (80% duplicado de FRAMEWORK_QUICK_SUMMARY)
-
-### Fusionado
-- ✅ IMPLEMENTATION_CHECKLIST.md → IMPLEMENTATION_PLAN.md (checklist integrado)
-
-### Archivado en /docs/archive/
-- ✅ 8 reportes de auditoría (mantuvimos SDD-AUDIT-REPORT oficial)
-- ✅ 3 reportes de sesión
-- ✅ 2 logs de documentación
-
-### Actualizado
-- ✅ FOLDER_STRUCTURE.md (removidas fases no implementadas)
-- ✅ Este archivo (MASTER_INDEX.md) como entrada única
-
-### Creado
-- ✅ ROADMAP.md (implementación vs PRD)
-- ✅ CONSOLIDATION_GUIDE.md (cómo se consolidó)
-- ✅ SUMMARY_DOCUMENTATION_ANALYSIS.md (análisis de consolidación)
-- ✅ QUICK_ANALYSIS_CARD.md (tarjeta rápida)
-- ✅ DOCUMENTATION_DUPLICATION_ANALYSIS.md (análisis detallado)
-
----
-
-## 🎯 ROADMAP NEXT STEPS
-
-### Semana 1 (CRÍTICA - BLOQUEA PRODUCCIÓN)
-- [ ] Implementar autenticación en /admin routes
-- [ ] Proteger GET /api/orders con authorization
-- [ ] Proteger PATCH /api/orders/:id/status
-- [ ] Validar payload en backend
-
-### Semana 2
-- [ ] Agregar búsqueda y filtrado
-- [ ] Configurar monitoreo de performance
-- [ ] Load testing
-
-### Semana 3
-- [ ] Documentar estrategia de deployment
-- [ ] Configurar CI/CD pipeline
-- [ ] Production checklist
-
-### Backlog
-- [ ] User authentication & accounts
-- [ ] Order history
-- [ ] Payment integration
-- [ ] Email notifications
-- [ ] Admin panel para productos
-
----
-
-## 🔗 ENLACES RÁPIDOS
-
-### Entrada Principal
-- [README.md](../README.md) - Start here
-
-### Roadmap
-- [ROADMAP.md](../ROADMAP.md) - What's missing and next
-
-### Architecture
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - System design
-- [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) - API contracts
-- [DATABASE.md](./DATABASE.md) - Schema
-
-### Testing
-- [TESTING.md](./TESTING.md) - Test strategy
-- [framework/IMPLEMENTATION_PLAN.md](./framework/IMPLEMENTATION_PLAN.md) - Framework roadmap
-
-### Deployment
-- [DEPLOYMENT.md](./DEPLOYMENT.md) - How to deploy
-- [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) - Pre-deploy checklist
-
-### Project Management
-- [PRD.md](./PRD.md) - Product requirements
-- [PROJECT_STATUS.md](./PROJECT_STATUS.md) - Current status
-- [TRACEABILITY.md](./TRACEABILITY.md) - Requirements tracing
-
----
-
-## 📞 Resumen Ejecutivo
-
-> **VintageDagoShop es 85% funcional, pero tiene 2 gaps críticos:**
-> 1. 🔴 **Seguridad**: Admin routes sin autenticación (BLOQUEANTE PRODUCCIÓN)
-> 2. 🟠 **Features**: Búsqueda/filtrado, performance monitoring
+> **VintageDagoShop is 85% implemented.**
 >
-> **Tiempo a producción**: 2-3 semanas con trabajo full-time
+> Current production blockers:
+> 1. 🔴 Frontend admin authentication flow is incomplete
+> 2. 🟠 Search/filtering is missing
+> 3. 🟠 Performance monitoring is not configured
+> 4. 🟠 Deployment process needs hardening
 >
-> **Documentación**: Consolidada, 37% menos archivos, 80% menos confusión
->
-> **Próxima acción**: Implementar autenticación en rutas admin
+> Backend JWT protection exists, but the frontend admin login + protected route flow still needs completion.
 
 ---
 
-## 📋 Quick Reference: Key Files
+## 🔗 Quick Links
 
-| Archivo | Tamaño | Propósito | Lee si... |
-|---------|--------|----------|----------|
-| README.md | 5 KB | Overview | Quieres start |
-| ROADMAP.md | 15 KB | Qué falta | Quieres saber estado |
-| ARCHITECTURE.md | 6 KB | Diseño sistema | Quieres entender arch |
-| API_DOCUMENTATION.md | 4 KB | Endpoints | Desarrollas backend |
-| PRD.md | 18 KB | Requerimientos | Eres PM |
-| TESTING.md | 2 KB | Estrategia testing | Escribes tests |
-| DEPLOYMENT.md | 3 KB | Cómo desplegar | Haces deploy |
+### Core entry points
+- [README.md](README.md) - Start here
+- [START_HERE.md](START_HERE.md) - Fast onboarding
+- [ROADMAP.md](ROADMAP.md) - Feature status and gaps
+- [PRODUCTION_READINESS_PLAN.md](PRODUCTION_READINESS_PLAN.md) - Week-by-week plan
+
+### Implementation context
+- [DECISION_FRAMEWORK.md](DECISION_FRAMEWORK.md) - Decision support
+- [FOLDER_EXPANSION_PLAN.md](FOLDER_EXPANSION_PLAN.md) - Test structure expansion
+- [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) - Consolidation history
+
+### Technical reference
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) - System design
+- [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) - API contracts
+- [docs/DATABASE.md](docs/DATABASE.md) - Database reference
+- [docs/TESTING.md](docs/TESTING.md) - Testing strategy
+- [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) - Current phase details
+
+### Framework
+- [docs/framework/IMPLEMENTATION_PLAN.md](docs/framework/IMPLEMENTATION_PLAN.md) - Canonical framework plan
+- [docs/framework/FRAMEWORK_ANALYSIS.md](docs/framework/FRAMEWORK_ANALYSIS.md) - Framework evaluation
+- [docs/framework/REFACTORING_EXAMPLES.md](docs/framework/REFACTORING_EXAMPLES.md) - Examples
 
 ---
 
-**Versión**: 1.0  
-**Última actualización**: 2026-05-28  
-**Próxima revisión**: Después de implementar autenticación  
-**Responsable**: Equipo de desarrollo
+## 📋 Key Files at a Glance
+
+| File | Purpose | Read when... |
+|------|---------|--------------|
+| README.md | Overview and setup | You are starting work |
+| ROADMAP.md | Implementation status | You need current priorities |
+| PRODUCTION_READINESS_PLAN.md | Production tasks | You are planning delivery |
+| docs/ARCHITECTURE.md | Architecture reality | You need system context |
+| docs/API_DOCUMENTATION.md | API contracts | You touch backend or integration |
+| docs/PRD.md | Requirements | You need product scope |
+| docs/TESTING.md | Test strategy | You are adding/fixing tests |
+| docs/framework/IMPLEMENTATION_PLAN.md | Framework roadmap | You are improving QA automation |
+
+---
+
+**Version**: 2.0  
+**Last updated**: 2026-06-01  
+**Language policy**: Active documentation should remain in English  
+**Owner**: Development team

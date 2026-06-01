@@ -2,14 +2,16 @@
 
 E-commerce web app for vintage clothing. React 18 frontend, Express backend, MySQL 8 via Docker.
 
-**📊 Project Status**: ✅ 85% implemented | 🔴 Critical gaps: Admin auth | 🟠 Performance monitoring  
-**📚 Documentation**: [Full Index](./MASTER_INDEX.md) | [Roadmap](./ROADMAP.md) | **[🔍 Structure Verified](./00_VERIFICACION_COMPLETADA.md)** | **[📋 Next Steps?](./DECISION_GUIDE_NEXT_STEPS.md)**
+**📊 Project Status**: ✅ 85% implemented | 🔴 Critical gap: frontend admin auth flow | 🟠 Performance monitoring  
+**📚 Documentation**: [Full Index](./MASTER_INDEX.md) | [Roadmap](./ROADMAP.md) | [Production Plan](./PRODUCTION_READINESS_PLAN.md) | [Decision Framework](./DECISION_FRAMEWORK.md)
+**🌐 Documentation Language**: English only for active documentation
 
 ### ⚡ Quick Navigation (First Time?)
 - **New to project?** → [START_HERE.md](./START_HERE.md) (5 min read)
 - **Want to go live?** → [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) (2-3 weeks)
-- **Code structure validated** → [00_VERIFICACION_COMPLETADA.md](./00_VERIFICACION_COMPLETADA.md) (52% match with automation-framework pattern)
-- **Confused what to do next?** → [DECISION_GUIDE_NEXT_STEPS.md](./DECISION_GUIDE_NEXT_STEPS.md) (3 clear options)
+- **Need implementation history?** → [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md) (full consolidation + rationale)
+- **Need testing structure expansion?** → [FOLDER_EXPANSION_PLAN.md](./FOLDER_EXPANSION_PLAN.md) (phase-based plan)
+- **Confused what to do next?** → [DECISION_FRAMEWORK.md](./DECISION_FRAMEWORK.md) (3 clear options)
 
 ## Stack
 
@@ -92,10 +94,13 @@ npx playwright test --grep "@checkout"    # checkout feature area
 | **📌 Start here** | [MASTER_INDEX.md](./MASTER_INDEX.md) | 5 min |
 | **🗺️ What's implemented vs what's missing** | [ROADMAP.md](./ROADMAP.md) | 10 min |
 | **🚀 Action plan to production** | [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) | 15 min |
-| **📚 Full docs by role** | [docs/DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) | 3 min |
+| **📚 Full docs by role** | [docs/DOCUMENTATION_INDEX_BY_ROLE.md](./docs/DOCUMENTATION_INDEX_BY_ROLE.md) | 3 min |
 | **🏗️ System architecture** | [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 10 min |
 | **📖 Product requirements** | [docs/PRD.md](./docs/PRD.md) | 15 min |
 | **🧪 Testing & framework** | [docs/TESTING.md](./docs/TESTING.md) + [docs/framework/IMPLEMENTATION_PLAN.md](./docs/framework/IMPLEMENTATION_PLAN.md) | 20 min |
+| **🧭 Decision support** | [DECISION_FRAMEWORK.md](./DECISION_FRAMEWORK.md) | 5 min |
+| **🧱 Test structure expansion** | [FOLDER_EXPANSION_PLAN.md](./FOLDER_EXPANSION_PLAN.md) | 10 min |
+| **📝 Consolidation history** | [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md) | 20-30 min |
 | **🚀 Deployment** | [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) | 5 min |
 
 ---
@@ -183,7 +188,7 @@ tests/                 ← Testing
 └── utils/             ← Test helpers
 ```
 
-**✅ Structure verified**: [See 00_VERIFICACION_COMPLETADA.md](./00_VERIFICACION_COMPLETADA.md) for full analysis (52% match with automation-framework pattern)
+**✅ Structure planning**: [See FOLDER_EXPANSION_PLAN.md](./FOLDER_EXPANSION_PLAN.md) for the phase-based testing structure expansion plan.
 
 ## Repository
 
@@ -195,7 +200,7 @@ https://github.com/daynaragomez/VintageDagoShop_Repo
 
 | Gap | Severity | Impact | Timeline |
 |-----|----------|--------|----------|
-| **Admin routes have NO authentication** | 🔴 CRITICAL | Anyone can view/edit all orders | 6-8h |
+| **Frontend admin auth flow incomplete** | 🔴 CRITICAL | Admin UI cannot complete protected workflow end-to-end | 4-6h |
 | **Performance not measured** | 🟠 MEDIUM | No SLA visibility | 4-6h |
 | **Search & filtering missing** | 🟠 MEDIUM | Poor UX for discovery | 4-5h |
 | **Deployment undocumented** | 🟠 MEDIUM | Manual deployment risk | 5-7h |
@@ -208,7 +213,7 @@ https://github.com/daynaragomez/VintageDagoShop_Repo
 
 **Implementation**: ✅ 85% (Core ecommerce flows done)  
 **Testing**: ✅ 88% (Excellent Playwright framework)  
-**Security**: 🔴 20% (Admin routes unprotected - CRITICAL)  
+**Security**: 🟠 Partial (backend protection exists, frontend auth flow incomplete)  
 **Performance**: 🟠 60% (Not measured)  
 **Overall Score**: 77/100 (Good, but production-blocked)
 

@@ -13,24 +13,30 @@
 ```
 00_QUICK_START.md                      ← Entry point guide
 PRODUCTION_READINESS_PLAN.md           ← Main action plan (18.2 KB)
-DOCUMENTATION_NAVIGATION_MAP.md        ← Doc structure guide
-DOCUMENTATION_UPDATE_SUMMARY.md        ← What was created
 START_HERE.md                          ← By-role quick start
 MASTER_INDEX.md                        ← Navigation hub
 README.md                              ← Updated with new links
+DECISION_FRAMEWORK.md                  ← English decision guide
+FOLDER_EXPANSION_PLAN.md               ← English folder plan
+IMPLEMENTATION_SUMMARY.md              ← English implementation summary
 ```
 
 **Documentation Files (8 files)**:
 ```
-CONSOLIDATION_SUMMARY.md               ← Summary of consolidation
-DOCUMENTATION_DUPLICATION_ANALYSIS.md  ← Analysis of doc cleanup
-EXECUTIVE_SUMMARY.md                   ← 1-page executive brief
-FINAL_STATUS.md                        ← Consolidation complete report
-FOLDER_STRUCTURE.md                    ← Folder organization
+docs/archive/obsolete/CONSOLIDATION_SUMMARY.md              ← Archived summary of consolidation
+docs/archive/obsolete/DOCUMENTATION_DUPLICATION_ANALYSIS.md ← Archived analysis of doc cleanup
+docs/archive/obsolete/EXECUTIVE_SUMMARY.md                  ← Archived 1-page executive brief
+docs/archive/obsolete/FINAL_STATUS.md                       ← Archived consolidation complete report
+docs/archive/obsolete/VISUAL_SUMMARY.md                     ← Archived visual diagrams
+docs/archive/translations/00_VERIFICACION_COMPLETADA.md      ← Archived Spanish verification doc
+docs/archive/translations/DECISION_GUIDE_NEXT_STEPS.md       ← Archived Spanish decision guide
+docs/archive/translations/FOLDER_STRUCTURE.md                ← Archived Spanish folder structure
+docs/archive/translations/RESUMEN_INDEX.md                   ← Archived Spanish summary index
+docs/archive/translations/RESUMEN_TODO_LO_QUE_HICE.md        ← Archived Spanish implementation summary
+FOLDER_EXPANSION_PLAN.md               ← Folder expansion plan
 ROADMAP.md                             ← Feature status & timeline
-RESUMEN_INDEX.md                       ← Spanish index
-RESUMEN_TODO_LO_QUE_HICE.md           ← Spanish summary
-VISUAL_SUMMARY.md                      ← Visual diagrams
+IMPLEMENTATION_SUMMARY.md              ← English implementation summary
+DECISION_FRAMEWORK.md                  ← English decision guide
 ```
 
 **Directories (2)**:
@@ -79,7 +85,7 @@ These are old audit/session reports that are now archived:
 
 ```bash
 # Add all new documentation
-git add 00_QUICK_START.md PRODUCTION_READINESS_PLAN.md DOCUMENTATION_NAVIGATION_MAP.md DOCUMENTATION_UPDATE_SUMMARY.md START_HERE.md MASTER_INDEX.md README.md CONSOLIDATION_SUMMARY.md DOCUMENTATION_DUPLICATION_ANALYSIS.md EXECUTIVE_SUMMARY.md FINAL_STATUS.md FOLDER_STRUCTURE.md ROADMAP.md RESUMEN_INDEX.md RESUMEN_TODO_LO_QUE_HICE.md VISUAL_SUMMARY.md docs/DOCUMENTATION_INDEX_BY_ROLE.md docs/README.md docs/archive docs/framework
+git add 00_QUICK_START.md PRODUCTION_READINESS_PLAN.md START_HERE.md MASTER_INDEX.md README.md FOLDER_EXPANSION_PLAN.md ROADMAP.md IMPLEMENTATION_SUMMARY.md DECISION_FRAMEWORK.md docs/DOCUMENTATION_INDEX_BY_ROLE.md docs/README.md docs/archive docs/framework
 
 # Remove old audit files
 git rm docs/AUDIT-COMPLETE-2026-05-28.md docs/AUDIT-CONSOLIDATION-CHECK.md docs/AUDIT-VERIFICATION-COMPLETE.md docs/AUDIT_FINAL_2026_05_28.md docs/DOCUMENTATION-ALIGNMENT-REPORT.md docs/DOCUMENTATION_ANALYSIS_REPORT.md docs/DOCUMENTATION_UPDATE_LOG.md docs/EXECUTIVE-SUMMARY-AUDIT-2026-05-28.md docs/FINAL-ANSWER-ALIGNMENT-AND-PHASE.md docs/P1_DOCUMENTATION_UPDATE_LOG.md docs/SESSION-SUMMARY-AND-HANDOFF-2026-05-28.md docs/SESSION_REPORT_2026_05_28.md docs/SYSTEM-AUDIT-ACTUAL.md
@@ -139,15 +145,15 @@ git commit -m "docs: enhance documentation navigation & add links
 - Help team find resources faster"
 
 # Commit 3: Add consolidated documentation
-git add CONSOLIDATION_SUMMARY.md DOCUMENTATION_DUPLICATION_ANALYSIS.md EXECUTIVE_SUMMARY.md FINAL_STATUS.md FOLDER_STRUCTURE.md ROADMAP.md RESUMEN_INDEX.md RESUMEN_TODO_LO_QUE_HICE.md VISUAL_SUMMARY.md docs/DOCUMENTATION_INDEX_BY_ROLE.md docs/archive docs/framework
+git add FOLDER_EXPANSION_PLAN.md ROADMAP.md IMPLEMENTATION_SUMMARY.md DECISION_FRAMEWORK.md docs/DOCUMENTATION_INDEX_BY_ROLE.md docs/archive docs/framework
 git commit -m "docs: add consolidated documentation structure
 
 - Add ROADMAP.md: feature status & gaps (85% implemented)
 - Add CONSOLIDATION_SUMMARY.md: overview of doc consolidation
 - Add DOCUMENTATION_DUPLICATION_ANALYSIS.md: analysis of what was cleaned
-- Add EXECUTIVE_SUMMARY.md: 1-page project status
-- Add FINAL_STATUS.md: complete consolidation report
-- Add FOLDER_STRUCTURE.md: documentation organization
+- Add docs/archive/obsolete/EXECUTIVE_SUMMARY.md: archived 1-page project status
+- Add docs/archive/obsolete/FINAL_STATUS.md: archived consolidation report
+- Add FOLDER_EXPANSION_PLAN.md: documentation organization
 - Add VISUAL_SUMMARY.md: visual diagrams & charts
 - Add RESUMEN files: Spanish language documentation
 - Add framework/: QA testing framework docs (Phases 1-5)

@@ -35,6 +35,17 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+const requireRole = (role) => (req, res, next) => {
+  if (!req.user || req.user.role !== role) {
+    return res.status(403).json({
+      error: 'Forbidden',
+      message: 'You do not have permission to access this resource'
+    });
+  }
+
+  next();
+};
+
 /**
  * Generate JWT token for a user
  * @param {Object} user - User object with id, email, role
@@ -53,6 +64,7 @@ const generateToken = (user, expiresIn = '24h') => {
 
 module.exports = {
   authenticateToken,
+  requireRole,
   generateToken,
   JWT_SECRET
 };
