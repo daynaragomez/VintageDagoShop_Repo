@@ -86,6 +86,27 @@
   border-color: #2c3e50;
 }
 
+.price-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.price-input {
+  width: 100%;
+  max-width: 180px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 24px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.price-input:focus {
+  border-color: #2c3e50;
+}
+
 .category-filters {
   display: flex;
   flex-wrap: wrap;

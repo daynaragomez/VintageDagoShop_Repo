@@ -6,21 +6,38 @@ Base URL: `http://localhost:3000/api`
 
 ## GET /products
 
-Returns all products with their current stock level.
+Returns products with their current stock level.
+
+**Query parameters**
+- `q` — search text matched against product name
+- `category` — category name filter
+- `minPrice` — minimum price filter
+- `maxPrice` — maximum price filter
+- `page` — page number, starting at 1
+- `limit` — number of items per page
 
 **Response 200**
 ```json
-[
-  {
-    "id": 1,
-    "name": "Vintage Leather Jacket",
-    "price": "89.99",
-    "stock": 5,
-    "category": "Jackets",
-    "description": "Classic brown leather jacket from the 80s",
-    "image": "https://..."
-  }
-]
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Vintage Leather Jacket",
+      "price": "89.99",
+      "stock": 5,
+      "category": "Jackets",
+      "description": "Classic brown leather jacket from the 80s",
+      "image": "https://..."
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 12,
+    "total": 3,
+    "totalPages": 1
+  },
+  "categories": ["Jackets", "Pants", "Shirts"]
+}
 ```
 
 ---

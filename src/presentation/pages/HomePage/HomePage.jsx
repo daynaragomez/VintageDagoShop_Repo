@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
 import Navbar from "../../components/layout/Navbar/Navbar";
@@ -9,30 +9,45 @@ const HomePage = () => {
   const { addToCart, cartItems } = useCart();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(['All']);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const PAGE_SIZE = 6;
+  const [pagination, setPagination] = useState({ page: 1, limit: 12, total: 0, totalPages: 1 });
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
   useEffect(() => {
-    fetchProducts()
-      .then(setProducts)
+    const timer = window.setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [search]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+
+    fetchProducts({
+      q: debouncedSearch,
+      category: activeCategory,
+        minPrice,
+        maxPrice,
+      page: currentPage,
+      limit: 12,
+    })
+      .then((result) => {
+        setProducts(result.products);
+        setPagination(result.pagination);
+        setCategories(['All', ...(result.categories || [])]);
+      })
       .catch(() => setError("Could not load products. Make sure the backend is running."))
       .finally(() => setLoading(false));
-  }, []);
-
-  const categories = ['All', ...Array.from(new Set(products.map((p) => p.category))).sort()];
-
-  const filtered = products.filter((p) => {
-    const matchesCategory = activeCategory === 'All' || p.category === activeCategory;
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  }, [debouncedSearch, activeCategory, currentPage]);
 
   function handleSearch(e) {
     setSearch(e.target.value);
@@ -43,6 +58,18 @@ const HomePage = () => {
     setActiveCategory(cat);
     setCurrentPage(1);
   }
+
+  function handleMinPrice(e) {
+    setMinPrice(e.target.value);
+    setCurrentPage(1);
+  }
+
+  function handleMaxPrice(e) {
+    setMaxPrice(e.target.value);
+    setCurrentPage(1);
+  }
+
+  const totalPages = useMemo(() => pagination.totalPages || 1, [pagination.totalPages]);
 
   return (
     <div className="homepage">
@@ -60,6 +87,28 @@ const HomePage = () => {
               onChange={handleSearch}
               data-testid="search-input"
             />
+            <div className="price-filters" data-testid="price-filters">
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                className="price-input"
+                placeholder="Min price"
+                value={minPrice}
+                onChange={handleMinPrice}
+                data-testid="min-price-input"
+              />
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                className="price-input"
+                placeholder="Max price"
+                value={maxPrice}
+                onChange={handleMaxPrice}
+                data-testid="max-price-input"
+              />
+            </div>
             <div className="category-filters" data-testid="category-filters">
               {categories.map((cat) => (
                 <button
@@ -76,12 +125,12 @@ const HomePage = () => {
 
           {loading && <p className="status-msg">Loading products...</p>}
           {error && <p className="status-msg error">{error}</p>}
-          {!loading && !error && filtered.length === 0 && (
+          {!loading && !error && products.length === 0 && (
             <p className="status-msg" data-testid="no-results">No products match your search.</p>
           )}
 
           <div className="products-grid" data-testid="products-grid">
-            {paginated.map((product) => {
+            {products.map((product) => {
               const cartItem = cartItems.find((i) => i.id === product.id);
               const inCart = cartItem ? cartItem.quantity : 0;
               const remaining = product.stock - inCart;
@@ -151,6 +200,12 @@ const HomePage = () => {
                 Next →
               </button>
             </div>
+          )}
+
+          {!loading && !error && pagination.total > 0 && (
+            <p className="status-msg" style={{ paddingTop: 0 }}>
+              Showing {products.length} of {pagination.total} products
+            </p>
           )}
         </div>
       </main>

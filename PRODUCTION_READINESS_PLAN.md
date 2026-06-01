@@ -25,7 +25,6 @@
 |-----|----------|--------|----------|
 | **Frontend Admin Auth Flow Validation** | 🔴 CRITICAL | Admin workflow must be validated end-to-end before release | 1-2h |
 | **No Performance Monitoring** | 🟠 HIGH | No SLA visibility, unknown if prod-ready | 4-6h |
-| **Missing Search/Filtering** | 🟠 HIGH | Poor UX, low discoverability, low conversion | 4-5h |
 
 ### 🟡 Medium Issues
 

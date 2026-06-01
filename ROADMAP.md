@@ -215,35 +215,23 @@ Referencias:
   - PRD NFR-1: Performance requirements not measured
 ```
 
-### 🟠 FEATURES ESPERADAS: Búsqueda y Filtrado
+### 🟢 FEATURES IMPLEMENTED: Search, Filtering, and Pagination
 ```
-Severidad: 🟠 MEDIA
-Impacto: Usuarios no pueden encontrar productos específicos
-Status: ❌ NO IMPLEMENTADO
+Severity: 🟢 IMPLEMENTED
+Impact: Users can find products faster and browse catalog pages cleanly
+Status: ✅ IMPLEMENTED
 
-El problema:
-  ❌ HomePage solo muestra lista completa
-  ❌ No hay búsqueda por nombre
-  ❌ No hay filtro por categoría
-  ❌ No hay filtro por rango de precio
-  ❌ No hay paginación clara
+Implemented:
+  ✓ Search by product name
+  ✓ Filter by category
+  ✓ Filter by price range
+  ✓ Debounced search input
+  ✓ Backend support for q, category, minPrice, maxPrice, page, limit
+  ✓ Paginated results from GET /api/products
 
-En PRD está: "OUT OF SCOPE (Future Phases) → Phase 2 → Product search and filtering"
-Pero es feature de UX standard en ecommerce
-
-Solución requerida:
-  [ ] Agregar barra de búsqueda
-  [ ] Agregar filtros por categoría
-  [ ] Agregar filtros por precio
-  [ ] Implementar debounce en búsqueda
-  [ ] Actualizar GET /api/products para aceptar params (q, category, minPrice, maxPrice)
-  [ ] Agregar paginación con offset/limit
-
-Tiempo estimado: 4-5 horas
-
-Referencias:
-  - PRD FR-1: No menciona búsqueda
-  - UX standard en ecommerce
+Notes:
+  • This feature is now part of the main ecommerce flow
+  • Remaining work is performance monitoring and production hardening
 ```
 
 ### 🟡 FEATURES ESPERADAS: Validación de Inventario en Carrito
