@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/connection');
 const { authenticateToken, requireRole } = require('../middleware/auth');
+const { validateOrderCreation, validateOrderId, validateOrderStatus } = require('../middleware/validation');
 
 const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
 
@@ -29,7 +30,7 @@ router.get('/', authenticateToken, requireRole('admin'), async (req, res) => {
 });
 
 // GET /api/orders/:id � full order detail with address and line items (PROTECTED - Admin only)
-router.get('/:id', authenticateToken, requireRole('admin'), async (req, res) => {
+router.get('/:id', authenticateToken, requireRole('admin'), validateOrderId, async (req, res) => {
   const { id } = req.params;
   try {
     const [[order]] = await pool.query(`
@@ -71,13 +72,9 @@ router.get('/:id', authenticateToken, requireRole('admin'), async (req, res) => 
 });
 
 // PATCH /api/orders/:id/status � update order status (PROTECTED - Admin only)
-router.patch('/:id/status', authenticateToken, requireRole('admin'), async (req, res) => {
+router.patch('/:id/status', authenticateToken, requireRole('admin'), validateOrderId, validateOrderStatus, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-
-  if (!status || !VALID_STATUSES.includes(status)) {
-    return res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(', ')}` });
-  }
 
   try {
     const [result] = await pool.query(
@@ -92,17 +89,8 @@ router.patch('/:id/status', authenticateToken, requireRole('admin'), async (req,
 });
 
 // POST /api/orders � create new order (PUBLIC - Used by checkout)
-router.post('/', async (req, res) => {
+router.post('/', validateOrderCreation, async (req, res) => {
   const { name, email, phone, address, items } = req.body;
-
-  // address expected: { street, city, state, zipCode, country }
-  if (
-    !name || !email || !address ||
-    !address.street || !address.city || !address.country ||
-    !Array.isArray(items) || items.length === 0
-  ) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
 
   const conn = await pool.getConnection();
   try {

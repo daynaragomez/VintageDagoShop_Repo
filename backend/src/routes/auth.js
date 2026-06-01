@@ -1,9 +1,21 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const rateLimit = require('express-rate-limit');
 const { generateToken } = require('../middleware/auth');
+const { validateLogin } = require('../middleware/validation');
 const pool = require('../db');
 
 const router = express.Router();
+
+// Rate limiting for login endpoint (5 requests per 15 minutes per IP)
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Too many login attempts, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true
+});
 
 /**
  * POST /api/auth/login
@@ -25,17 +37,9 @@ const router = express.Router();
  *   }
  * }
  */
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, validateLogin, async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Validate input
-    if (!email || !password) {
-      return res.status(400).json({
-        error: 'Validation error',
-        message: 'Email and password are required'
-      });
-    }
 
     // Find user by email
     const [users] = await pool.query(

@@ -108,19 +108,17 @@ IMMEDIATE (Before any deployment):
 
 ### Opportunities for Improvement
 
-#### 1. Error Handling & Validation
-```
-⚠️ No input validation layer
-⚠️ No SQL injection protection
-⚠️ No XSS protection
-⚠️ No rate limiting
+### 🟢 COMPLETED: Security Hardening
 
-Recommendation:
-  [ ] Add express-validator middleware
-  [ ] Sanitize all inputs
-  [ ] Add helmet.js for security headers
-  [ ] Add express-rate-limit for DDoS protection
-  [ ] Use prepared statements (already done ✓)
+```
+IMPLEMENTED:
+  ✅ Helmet.js security headers
+  ✅ CORS hardening with origin whitelist
+  ✅ express-validator input validation
+  ✅ Rate limiting (general + login endpoint)
+  ✅ Request body size limit (10KB)
+  ✅ Validation middleware for POST /api/orders
+  ✅ Validation middleware for PATCH /api/orders/:id/status
 ```
 
 #### 2. Configuration Management
