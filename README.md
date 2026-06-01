@@ -2,6 +2,9 @@
 
 E-commerce web app for vintage clothing. React 18 frontend, Express backend, MySQL 8 via Docker.
 
+**📊 Project Status**: ✅ 85% implemented | 🔴 Critical gaps: Admin auth | 🟠 Performance monitoring  
+**📚 Documentation**: [Full Index](./MASTER_INDEX.md) | [Roadmap](./ROADMAP.md) | [What's Missing?](./ROADMAP.md)
+
 ## Stack
 
 | Layer | Technology |
@@ -76,7 +79,22 @@ npx playwright test --grep "@checkout"    # checkout feature area
 | `@inventory` | Stock decrement consistency |
 | `@home` `@product` `@cart` `@checkout` | Feature area |
 
-## Database operations
+## Documentation
+
+| Purpose | Location | Read time |
+|---------|----------|-----------|
+| **📌 Start here** | [MASTER_INDEX.md](./MASTER_INDEX.md) | 5 min |
+| **🗺️ What's implemented vs what's missing** | [ROADMAP.md](./ROADMAP.md) | 10 min |
+| **🚀 Action plan to production** | [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) | 15 min |
+| **📚 Full docs by role** | [docs/DOCUMENTATION_INDEX.md](./docs/DOCUMENTATION_INDEX.md) | 3 min |
+| **🏗️ System architecture** | [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 10 min |
+| **📖 Product requirements** | [docs/PRD.md](./docs/PRD.md) | 15 min |
+| **🧪 Testing & framework** | [docs/TESTING.md](./docs/TESTING.md) + [docs/framework/IMPLEMENTATION_PLAN.md](./docs/framework/IMPLEMENTATION_PLAN.md) | 20 min |
+| **🚀 Deployment** | [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) | 5 min |
+
+---
+
+## 🚨 Critical Status
 
 ```bash
 # First time / full reset — destroys volume and re-applies schema + seeds
@@ -142,18 +160,28 @@ https://github.com/daynaragomez/VintageDagoShop_Repo
 
 ---
 
-## ?? Project Status & Documentation
+## 🚨 Critical Gaps (Production Blockers)
 
-**Current Development Phase:** Post-Audit - Planning Remediation
+| Gap | Severity | Impact | Timeline |
+|-----|----------|--------|----------|
+| **Admin routes have NO authentication** | 🔴 CRITICAL | Anyone can view/edit all orders | 6-8h |
+| **Performance not measured** | 🟠 MEDIUM | No SLA visibility | 4-6h |
+| **Search & filtering missing** | 🟠 MEDIUM | Poor UX for discovery | 4-5h |
+| **Deployment undocumented** | 🟠 MEDIUM | Manual deployment risk | 5-7h |
 
-For complete project status, audit findings, and next steps, see:
-- **[?? PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** - Living document with current status and roadmap
-- **[?? SDD-AUDIT-REPORT.md](docs/SDD-AUDIT-REPORT.md)** - Complete compliance audit
-- **[?? Documentation Index](docs/)** - All technical documentation
+**👉 [See ROADMAP.md for detailed implementation plan](./ROADMAP.md)**
 
-**Quick Status:**
-- ? Engineering Maturity: 85/100 (Excellent)
-- ? QA Maturity: 88/100 (Excellent)  
-- ?? SDD Compliance: 35/100 (Critical - Missing PRD and traceability)
+---
 
-**Next Actions:** Create PRD, establish requirements traceability, document deployment strategy
+## ?? Project Status
+
+**Implementation**: ✅ 85% (Core ecommerce flows done)  
+**Testing**: ✅ 88% (Excellent Playwright framework)  
+**Security**: 🔴 20% (Admin routes unprotected - CRITICAL)  
+**Performance**: 🟠 60% (Not measured)  
+**Overall Score**: 77/100 (Good, but production-blocked)
+
+For complete status, see:
+- **[ROADMAP.md](./ROADMAP.md)** - What's done, what's missing, prioritized roadmap
+- **[MASTER_INDEX.md](./MASTER_INDEX.md)** - Full documentation navigation
+- **[docs/PROJECT_STATUS.md](./docs/PROJECT_STATUS.md)** - Detailed current phase

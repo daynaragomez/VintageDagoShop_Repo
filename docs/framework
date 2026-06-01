@@ -1,0 +1,332 @@
+# Framework Architecture Diagrams
+
+## 🏗️ ARQUITECTURA ACTUAL DE 3 CAPAS
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│             LAYER 3: TESTS / SPECS                         │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  home.spec.js                                        │  │
+│  │  ✅ Tests limpios                                    │  │
+│  │  ✅ Usa fixtures inyectadas                          │  │
+│  │  ✅ Tags para categorización (@smoke, @ui)          │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+						  ↓ Inyección de dependencias
+┌─────────────────────────────────────────────────────────────┐
+│        LAYER 2: PAGE OBJECTS + STEPS + ASSERTIONS          │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ Pages (Localizadores)         Steps (Acciones)      │  │
+│  │  ├─ HomePage.js                ├─ HomeSteps.js     │  │
+│  │  ├─ ProductPage.js             ├─ ProductSteps.js  │  │
+│  │  ├─ CartPage.js                ├─ CartSteps.js     │  │
+│  │  └─ CheckoutPage.js            └─ CheckoutSteps.js │  │
+│  │                                                      │  │
+│  │ Assertions (Validaciones)                           │  │
+│  │  ├─ HomeAssertions.js                              │  │
+│  │  ├─ ProductAssertions.js                           │  │
+│  │  ├─ CartAssertions.js                              │  │
+│  │  └─ CheckoutAssertions.js                          │  │
+│  │                                                      │  │
+│  │ API Clients                  DB Helper              │  │
+│  │  ├─ ProductApiClient.js       └─ dbHelper.js       │  │
+│  │  └─ OrderApiClient.js                              │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                             │
+│  Test Data                                                  │
+│  ├─ testData.js                                            │
+│  └─ constants.js                                           │
+└─────────────────────────────────────────────────────────────┘
+						  ↓
+┌─────────────────────────────────────────────────────────────┐
+│              LAYER 1: CORE / CONFIG                        │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ Playwright Config         Custom Fixtures           │  │
+│  │  └─ playwright.config.js   └─ fixtures/index.js    │  │
+│  │                                                      │  │
+│  │ Base Page                  Browser Context         │  │
+│  │  └─ BasePage.js            └─ Contexto compartido  │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 ARQUITECTURA PROPUESTA (Con mejoras)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│             LAYER 3: TESTS / SPECS                         │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  home.spec.js                                        │  │
+│  │  ✅ Tests limpios                                    │  │
+│  │  ✅ Usa fixtures inyectadas                          │  │
+│  │  ✅ Logger automático                               │  │
+│  │  ✅ Datos desde JSON + faker                        │  │
+│  │  ✅ Global Setup maneja login                       │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+						  ↓ Inyección + Global Setup
+┌─────────────────────────────────────────────────────────────┐
+│        LAYER 2: PAGE OBJECTS + STEPS + ASSERTIONS          │
+│  (igual que antes, bien hecho)                             │
+└─────────────────────────────────────────────────────────────┘
+						  ↓
+┌─────────────────────────────────────────────────────────────┐
+│    HELPERS LAYER (NUEVO - Compartido)                     │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ ApiClient          Logger          WaitHelper       │  │
+│  │  (genérico)        (logging)       (waits smart)    │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+						  ↓
+┌─────────────────────────────────────────────────────────────┐
+│         TEST DATA LAYER (NUEVO - Modular)                 │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ test-data/            auth/                          │  │
+│  │  ├─ users.json        ├─ admin-auth.json           │  │
+│  │  ├─ products.json     ├─ user-auth.json            │  │
+│  │  └─ orders.json       └─ manager-auth.json         │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+						  ↓
+┌─────────────────────────────────────────────────────────────┐
+│     SETUP LAYER (NUEVO - Global Setup)                     │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ global-setup.js                                      │  │
+│  │  ├─ Login admin → guardar admin-auth.json          │  │
+│  │  ├─ Login user → guardar user-auth.json            │  │
+│  │  └─ global-teardown.js (cleanup)                   │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+						  ↓
+┌─────────────────────────────────────────────────────────────┐
+│              LAYER 1: CORE / CONFIG                        │
+│  (igual que antes, bien hecho)                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔄 FLUJO DE EJECUCIÓN DE UN TEST
+
+### Flujo ACTUAL (sin Global Setup)
+```
+1. Playwright arranca
+2. Browser abre
+3. beforeEach corre
+   └─ Test hace login manualmente ❌ LENTO
+4. Test ejecuta acciones
+5. Test verifica resultados
+6. Browser cierra
+7. Siguiente test repite pasos 1-6 ❌ Ineficiente
+```
+
+### Flujo PROPUESTO (con Global Setup)
+```
+1. Playwright lee config
+   └─ globalSetup corre UNA SOLA VEZ
+	  ├─ Login admin → admin-auth.json
+	  ├─ Login user → user-auth.json
+	  └─ Guarda sesiones
+
+2. Test 1 arranca
+   ├─ Carga user-auth.json (sesión guardada) ✅ RÁPIDO
+   ├─ beforeEach corre (solo setup, sin login)
+   ├─ Test ejecuta acciones
+   ├─ Test verifica resultados
+   └─ Sesión se reutiliza
+
+3. Test 2 arranca
+   ├─ Carga user-auth.json (sesión reutilizada) ✅ RÁPIDO
+   ├─ ... igual que Test 1
+
+4. Todos los tests terminan
+```
+
+**Resultado**: Tests ~3x más rápidos ⚡
+
+---
+
+## 📊 COMPONENTES Y SUS RESPONSABILIDADES
+
+```
+PLAYWRIGHT CONFIG
+├─ globalSetup → define qué hacer antes de todos los tests
+├─ projects → define navegadores y storage state
+├─ webServer → levanta servidor de desarrollo
+└─ reporters → define cómo reportar resultados
+
+CUSTOM FIXTURES (tests/fixtures/index.js)
+├─ page objects (homePage, productPage, etc.)
+├─ steps (homeSteps, productSteps, etc.)
+├─ assertions (homeAssert, productAssert, etc.)
+├─ api clients (productApi, orderApi)
+└─ helpers (db, api, logger, wait)
+
+TESTS (tests/e2e/specs/)
+├─ Usan fixtures inyectadas
+├─ Siguen patrón: Act → Assert
+├─ Son limpios y legibles
+└─ NO tienen lógica de UI
+
+PAGES (tests/e2e/pages/)
+├─ Definen localizadores
+├─ Heredan de BasePage
+├─ NO tienen assertions
+└─ NO tienen tests logic
+
+STEPS (tests/e2e/steps/)
+├─ Hacen acciones (clicks, fills, etc.)
+├─ Usan métodos de Pages
+├─ NO tienen assertions
+└─ SON reutilizables en múltiples tests
+
+ASSERTIONS (tests/e2e/assertions/)
+├─ Validan estados
+├─ Usan expect() de Playwright
+├─ NO hacen acciones
+└─ SON reutilizables en múltiples tests
+
+API CLIENTS (tests/e2e/api/)
+├─ Heredan de ApiClient (helper)
+├─ Hacen requests HTTP
+├─ Definen endpoints específicos
+└─ Usan Logger automáticamente
+
+DB HELPER (tests/e2e/db/)
+├─ Maneja conexión a DB
+├─ Reset datos para tests
+├─ inyectado vía fixture
+└─ Corre antes/después de cada test
+
+TEST DATA (tests/test-data/)
+├─ JSON files con datos
+├─ Importados por tests
+├─ Combinados con faker
+└─ Centralizados y mantenibles
+
+HELPERS (tests/helpers/)
+├─ ApiClient → HTTP genérico
+├─ Logger → logging centralizado
+├─ WaitHelper → waits inteligentes
+└─ AuthHelper → manejo de auth
+
+SETUP (tests/setup/)
+├─ global-setup.js → login por rol
+├─ global-teardown.js → cleanup
+└─ auth-helpers.js → utilities de auth
+```
+
+---
+
+## 🔀 FLUJO DE UNA REFACTORIZACIÓN DE TEST
+
+```
+Test ACTUAL
+	↓
+¿Tiene login manual?
+	├─ SÍ → Remover, usar Global Setup
+	└─ NO → Continuar
+	↓
+¿Tiene datos hardcodeados?
+	├─ SÍ → Mover a testData.js o JSON
+	└─ NO → Continuar
+	↓
+¿Hace requests API?
+	├─ SÍ → Usar ApiClient genérico
+	└─ NO → Continuar
+	↓
+¿Tiene waits arbitrarios?
+	├─ SÍ → Usar WaitHelper
+	└─ NO → Continuar
+	↓
+¿No tiene logging?
+	├─ SÍ → Agregar Logger
+	└─ NO → Test listo
+	↓
+Test REFACTORIZADO ✅
+```
+
+---
+
+## 📈 COMPARACIÓN: ANTES vs. DESPUÉS
+
+```
+METRICA              | ANTES  | DESPUÉS | MEJORA
+──────────────────────────────────────────────────
+Tiempo/test          | 8s     | 2-3s    | 3-4x
+Tests duplicados     | Alto   | Bajo    | -70%
+Mantenimiento        | Difícil| Fácil   | Mejor
+Type safety          | No     | Sí*     | ✅
+Documentación        | No     | Sí      | ✅
+Escalabilidad        | Media  | Alta    | ✅
+```
+*Con TypeScript en Fase 5
+
+---
+
+## 🎯 MAPA DE IMPLEMENTACIÓN
+
+```
+SEMANA 1: DOCUMENTACIÓN
+├─ FRAMEWORK_GUIDE.md ✓
+└─ CONTRIBUTING.md ✓
+
+SEMANA 2: GLOBAL SETUP
+├─ global-setup.js
+├─ storage state auth caching
+└─ actualizar playwright.config.js
+
+SEMANA 3: HELPERS
+├─ ApiClient genérico
+├─ Logger
+├─ WaitHelper
+└─ refactorizar API clients
+
+SEMANA 4: TEST DATA
+├─ Crear tests/test-data/ JSON
+├─ Instalar faker
+├─ Expandir testData.js
+└─ Refactorizar tests
+
+SEMANA 5+: TYPESCRIPT (Opcional)
+├─ Instalar y configurar
+├─ Migrar gradualmente
+└─ Type safe fixtures
+```
+
+---
+
+## 📊 SCORECARD FINAL
+
+```
+ASPECTO                ANTES    DESPUÉS   DIFERENCIA
+─────────────────────────────────────────────────────
+Arquitectura           9/10     9/10      =
+Fixtures               10/10    10/10     =
+Page Objects           9/10     9/10      =
+Global Setup           2/10     10/10     +8
+Storage State/Auth     2/10     10/10     +8
+Helpers                7/10     9/10      +2
+Test Data              7/10     9/10      +2
+Documentación          3/10     9/10      +6
+Type Safety            2/10     2/10*     = (*4/10 con TS)
+CI/CD                  4/10     5/10      +1
+─────────────────────────────────────────────────────
+TOTAL SCORE            6.8/10   8.5/10    +1.7
+```
+
+---
+
+## 🚀 PRÓXIMOS PASOS
+
+1. **Ahora**: Lee FRAMEWORK_ANALYSIS.md
+2. **Esta semana**: Implementa Fase 1 (Documentación)
+3. **Próxima semana**: Implementa Fase 2 (Global Setup)
+4. **Semanas 3-4**: Implementa Fases 3-4 (Helpers + Data)
+5. **Cuando sea listo**: Considera TypeScript (Fase 5)
+
+**Cada fase es independiente** - Puedes hacer Fase 2, luego 3, luego 4 sin problemas.
+
+¡Adelante! 🎉
