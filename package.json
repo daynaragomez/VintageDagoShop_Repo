@@ -10,6 +10,7 @@
     "staging:up": "docker compose -f docker-compose.staging.yml up -d --build",
     "staging:down": "docker compose -f docker-compose.staging.yml down",
     "staging:logs": "docker compose -f docker-compose.staging.yml logs -f",
+    "staging:doctor": "powershell -ExecutionPolicy Bypass -File ./scripts/staging-doctor.ps1",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\"",
     "test": "vitest",

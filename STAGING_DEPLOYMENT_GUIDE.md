@@ -15,6 +15,9 @@
 # 2) Start local staging stack
 npm run staging:up
 
+# If engine is not reachable
+npm run staging:doctor
+
 # 3) Follow logs
 npm run staging:logs
 
@@ -47,6 +50,28 @@ npm run staging:down
 - [ ] Staging environment credentials prepared (.env.staging)
 - [ ] Slack webhook URL configured for notifications
 - [ ] Team notified of staging deployment window
+
+---
+
+## 🛠️ DOCKER ENGINE TROUBLESHOOTING (Windows)
+
+If you see `//./pipe/docker_engine` connection errors:
+
+```powershell
+# 1) Run diagnostics
+npm run staging:doctor
+
+# 2) Check WSL backend state
+wsl -l -v
+
+# 3) If WSL translation errors appear, restart WSL + Docker Desktop
+wsl --shutdown
+Stop-Process -Name "Docker Desktop" -Force -ErrorAction SilentlyContinue
+Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+# 4) Re-validate
+npm run staging:doctor
+```
 
 ---
 
