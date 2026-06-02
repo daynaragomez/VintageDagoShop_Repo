@@ -2,13 +2,14 @@
 
 E-commerce web app for vintage clothing. React 18 frontend, Express backend, MySQL 8 via Docker.
 
-**📊 Project Status**: ✅ 85% implemented | 🔴 Critical gap: frontend admin auth flow | 🟠 Performance monitoring  
+**📊 Project Status**: 🟢 Staging-ready (88/100) | ✅ Auth + security + monitoring + CI/CD implemented | 🟡 Pending staging E2E sign-off  
 **📚 Documentation**: [Full Index](./MASTER_INDEX.md) | [Roadmap](./ROADMAP.md) | [Production Plan](./PRODUCTION_READINESS_PLAN.md) | [Decision Framework](./DECISION_FRAMEWORK.md)
 **🌐 Documentation Language**: English only for active documentation
 
 ### ⚡ Quick Navigation (First Time?)
 - **New to project?** → [START_HERE.md](./START_HERE.md) (5 min read)
-- **Want to go live?** → [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) (2-3 weeks)
+- **Want to go live?** → [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) (3-5 days after staging validation)
+- **Need staging runbook?** → [STAGING_DEPLOYMENT_GUIDE.md](./STAGING_DEPLOYMENT_GUIDE.md) (deployment + E2E validation)
 - **Need implementation history?** → [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md) (full consolidation + rationale)
 - **Need testing structure expansion?** → [FOLDER_EXPANSION_PLAN.md](./FOLDER_EXPANSION_PLAN.md) (phase-based plan)
 - **Confused what to do next?** → [DECISION_FRAMEWORK.md](./DECISION_FRAMEWORK.md) (3 clear options)
@@ -61,6 +62,9 @@ npm run build          # production build
 npm run lint           # ESLint
 npm test               # Vitest unit + integration
 npm run test:e2e       # Playwright E2E suite
+npm run staging:up     # launch local staging stack via Docker
+npm run staging:logs   # follow staging logs
+npm run staging:down   # stop staging stack
 ```
 
 ## E2E Test Tags
@@ -94,6 +98,7 @@ npx playwright test --grep "@checkout"    # checkout feature area
 | **📌 Start here** | [MASTER_INDEX.md](./MASTER_INDEX.md) | 5 min |
 | **🗺️ What's implemented vs what's missing** | [ROADMAP.md](./ROADMAP.md) | 10 min |
 | **🚀 Action plan to production** | [PRODUCTION_READINESS_PLAN.md](./PRODUCTION_READINESS_PLAN.md) | 15 min |
+| **🧪 Staging deployment + E2E sign-off** | [STAGING_DEPLOYMENT_GUIDE.md](./STAGING_DEPLOYMENT_GUIDE.md) | 15 min |
 | **📚 Full docs by role** | [docs/DOCUMENTATION_INDEX_BY_ROLE.md](./docs/DOCUMENTATION_INDEX_BY_ROLE.md) | 3 min |
 | **🏗️ System architecture** | [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 10 min |
 | **📖 Product requirements** | [docs/PRD.md](./docs/PRD.md) | 15 min |

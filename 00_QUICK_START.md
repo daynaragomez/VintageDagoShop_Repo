@@ -84,18 +84,15 @@ ANSWER:
 
 📊 CRITICAL STATUS:
 
-🟢 STATUS: Admin auth flow implemented
-  Impact: Admin routes are protected; final validation remains
-  Next step: verify login, role checks, and order access
-  Priority: validate before production release
+🟢 STATUS: STAGING-READY
+  Impact: Security hardening, monitoring, CI/CD, and admin auth are implemented
+  Next step: deploy to staging and run full E2E validation
+  Priority: complete staging sign-off before production deploy
 
-🟠 HIGH: Performance Not Measured + No Search/Filtering
-   Fix time: 8-11 hours (Week 2)
+🟡 REMAINING: Staging E2E + load baseline
+  Estimated time: 1-2 days
 
-🟡 MEDIUM: Deployment Strategy Not Documented
-   Fix time: 5-7 hours (Week 3)
-
-Overall: 67/100 → Must reach 92/100 before production
+Overall: 88/100 → Target 92/100 after staging validation
 
 ═════════════════════════════════════════════════════════════════════════════
 
@@ -116,7 +113,8 @@ WEEK 3 (5-7h) - MEDIUM
   ✓ Deployment strategy & CI/CD
   ✓ Pre-deployment verification
 
-PRODUCTION: June 18-20, 2026 (pending all checks)
+STAGING VALIDATION: June 2-4, 2026
+PRODUCTION: June 5-7, 2026 (pending staging sign-off)
 
 ═════════════════════════════════════════════════════════════════════════════
 
@@ -143,14 +141,17 @@ Root Level (Essential):
 
 STEP 1 (5 min): Read this file ✓
 
-STEP 2 (15 min): Open PRODUCTION_READINESS_PLAN.md
-				 Read: Current State Assessment
+STEP 2 (10 min): Open STAGING_DEPLOYMENT_GUIDE.md
+         Read: Docker Compose option + sign-off criteria
 
-STEP 3 (10 min): Assign Week 1 tasks to team
-				 Set up daily standup
+STEP 3 (5 min): Start staging stack
+         Run: npm run staging:up
 
-STEP 4 (6-8h):  Start Week 1 implementation
-				Follow task breakdown in PRODUCTION_READINESS_PLAN.md
+STEP 4 (30-60 min): Run E2E against staging
+         Run (PowerShell): $env:STAGING_URL='http://localhost:5173'; npm run test:e2e:staging
+
+STEP 5 (10 min): Record results
+         Update PRODUCTION_READINESS_PLAN.md checklist and test report
 
 ═════════════════════════════════════════════════════════════════════════════
 
@@ -182,9 +183,9 @@ STEP 4 (6-8h):  Start Week 1 implementation
 ✓ By-role guidance
 ✓ Document navigation maps
 
-READY TO START? → Open PRODUCTION_READINESS_PLAN.md
+READY TO START? → Open STAGING_DEPLOYMENT_GUIDE.md
 
 ═════════════════════════════════════════════════════════════════════════════
 
-Created: 2026-05-28 | Status: ✅ COMPLETE | Next: Week 1 implementation
+Created: 2026-05-28 | Updated: 2026-06-02 | Status: ✅ ACTIVE | Next: Staging deployment + E2E sign-off
 

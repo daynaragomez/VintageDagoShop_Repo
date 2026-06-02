@@ -1,5 +1,8 @@
 ﻿import { defineConfig, devices } from '@playwright/test';
 
+const targetBaseURL = process.env.STAGING_URL || 'http://localhost:5173';
+const useWebServer = !process.env.STAGING_URL;
+
 export default defineConfig({
   testDir: './tests/e2e/specs',
 
@@ -20,7 +23,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL:    'http://localhost:5173',
+    baseURL:    targetBaseURL,
     trace:      'on-first-retry',
     screenshot: 'only-on-failure',
     video:      'on-first-retry',
@@ -38,10 +41,12 @@ export default defineConfig({
   ],
 
   /* Start the Vite dev server automatically before running tests */
-  webServer: {
-    command:             'npm run dev',
-    url:                 'http://localhost:5173',
-    reuseExistingServer: !process.env.CI,
-    timeout:             30000,
-  },
+  webServer: useWebServer
+    ? {
+        command:             'npm run dev',
+        url:                 'http://localhost:5173',
+        reuseExistingServer: !process.env.CI,
+        timeout:             30000,
+      }
+    : undefined,
 });
