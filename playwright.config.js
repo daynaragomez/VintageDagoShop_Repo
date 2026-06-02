@@ -5,6 +5,7 @@ const useWebServer = !process.env.STAGING_URL;
 
 export default defineConfig({
   testDir: './tests/e2e/specs',
+  outputDir: 'test-results/artifacts',
 
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -18,7 +19,7 @@ export default defineConfig({
   /* Reporters */
   reporter: [
     ['list'],
-    ['html', { outputFolder: 'test-results/html-report', open: 'never' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['junit', { outputFile: 'test-results/junit.xml' }],
   ],
 

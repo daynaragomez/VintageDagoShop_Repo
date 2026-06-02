@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
 test.describe('Admin Authentication @admin @auth', () => {
   test('should login with valid admin credentials', async ({ page }) => {
