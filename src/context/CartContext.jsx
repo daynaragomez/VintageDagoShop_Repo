@@ -14,6 +14,12 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
+  function toSafePositiveInt(value, fallback = 0) {
+    const parsed = Number.parseInt(value, 10);
+    if (Number.isNaN(parsed)) return fallback;
+    return parsed;
+  }
+
   // Load cart from localStorage on mount
   useEffect(() => {
     const savedCart = localStorage.getItem('vintageDagoCart');
@@ -30,9 +36,10 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product) => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
+      const productStock = toSafePositiveInt(product.stock, 0);
 
       if (existingItem) {
-        if (existingItem.quantity >= product.stock) return prevItems;
+        if (existingItem.quantity >= productStock) return prevItems;
         return prevItems.map(item =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
@@ -40,7 +47,7 @@ export const CartProvider = ({ children }) => {
         );
       }
 
-      if (product.stock <= 0) return prevItems;
+      if (productStock <= 0) return prevItems;
       return [...prevItems, { ...product, quantity: 1 }];
     });
   };
@@ -50,14 +57,17 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, quantity) => {
-    if (quantity <= 0) {
+    const safeQuantity = toSafePositiveInt(quantity, 0);
+
+    if (safeQuantity <= 0) {
       removeFromCart(productId);
       return;
     }
+    
     setCartItems(prevItems =>
       prevItems.map(item =>
         item.id === productId
-          ? { ...item, quantity: Math.min(quantity, item.stock) }
+          ? { ...item, quantity: Math.min(safeQuantity, toSafePositiveInt(item.stock, 0)) }
           : item
       )
     );

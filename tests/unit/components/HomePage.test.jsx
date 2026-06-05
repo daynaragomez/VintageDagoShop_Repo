@@ -1,5 +1,6 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { CartProvider } from '../../../src/context/CartContext';
@@ -8,11 +9,13 @@ import HomePage from '../../../src/presentation/pages/HomePage/HomePage';
 // Mock the product service
 vi.mock('../../../src/infrastructure/api/productService', () => ({
   fetchProducts: vi.fn(() =>
-    Promise.resolve([
-      { id: 1, name: 'Vintage Leather Jacket', category: 'Jackets', price: 89.99, stock: 5 },
-      { id: 2, name: 'Retro Denim Jeans', category: 'Pants', price: 45.5, stock: 10 },
-      { id: 3, name: 'Vintage Band T-Shirt', category: 'Shirts', price: 29.99, stock: 15 },
-    ])
+    Promise.resolve({
+      products: [
+        { id: 1, name: 'Vintage Leather Jacket', category: 'Jackets', price: 89.99, stock: 5 },
+        { id: 2, name: 'Retro Denim Jeans', category: 'Pants', price: 45.5, stock: 10 },
+        { id: 3, name: 'Vintage Band T-Shirt', category: 'Shirts', price: 29.99, stock: 15 },
+      ],
+    })
   ),
 }));
 
@@ -63,9 +66,25 @@ describe('HomePage', () => {
     expect(screen.getByTestId('nav-cart')).toBeInTheDocument();
   });
 
-  test('renders search and category filters', async () => {
+  test('renders search input', async () => {
     renderHomePage();
     expect(screen.getByTestId('search-input')).toBeInTheDocument();
-    expect(screen.getByTestId('category-filters')).toBeInTheDocument();
+  });
+
+  test('filters products while typing in search', async () => {
+    const user = userEvent.setup();
+    renderHomePage();
+
+    await waitFor(() => {
+      expect(screen.getByText('Vintage Leather Jacket')).toBeInTheDocument();
+      expect(screen.getByText('Retro Denim Jeans')).toBeInTheDocument();
+      expect(screen.getByText('Vintage Band T-Shirt')).toBeInTheDocument();
+    });
+
+    await user.type(screen.getByTestId('search-input'), 'jacket');
+
+    expect(screen.getByText('Vintage Leather Jacket')).toBeInTheDocument();
+    expect(screen.queryByText('Retro Denim Jeans')).not.toBeInTheDocument();
+    expect(screen.queryByText('Vintage Band T-Shirt')).not.toBeInTheDocument();
   });
 });

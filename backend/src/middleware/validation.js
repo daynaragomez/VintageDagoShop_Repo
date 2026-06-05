@@ -23,6 +23,7 @@ function handleValidationErrors(req, res, next) {
 const validateLogin = [
   body('email')
     .trim()
+    .normalizeEmail()
     .isEmail()
     .withMessage('Must be a valid email address'),
   body('password')
@@ -37,27 +38,32 @@ const validateLogin = [
 const validateOrderCreation = [
   body('name')
     .trim()
+    .escape()
     .notEmpty()
     .withMessage('Customer name is required')
     .isLength({ max: 100 })
     .withMessage('Name must be 100 characters or less'),
   body('email')
     .trim()
+    .normalizeEmail()
     .isEmail()
     .withMessage('Must be a valid email address'),
   body('phone')
     .optional({ checkFalsy: true })
     .trim()
+    .escape()
     .matches(/^\+?[0-9\s\-()]{7,}$/)
     .withMessage('Must be a valid phone number'),
   body('address.street')
     .trim()
+    .escape()
     .notEmpty()
     .withMessage('Street address is required')
     .isLength({ max: 200 })
     .withMessage('Street address must be 200 characters or less'),
   body('address.city')
     .trim()
+    .escape()
     .notEmpty()
     .withMessage('City is required')
     .isLength({ max: 50 })
@@ -65,15 +71,18 @@ const validateOrderCreation = [
   body('address.state')
     .optional({ checkFalsy: true })
     .trim()
+    .escape()
     .isLength({ max: 50 })
     .withMessage('State must be 50 characters or less'),
   body('address.zipCode')
     .optional({ checkFalsy: true })
     .trim()
+    .escape()
     .matches(/^[A-Za-z0-9\s-]{2,20}$/)
     .withMessage('Must be a valid zip/postal code'),
   body('address.country')
     .trim()
+    .escape()
     .notEmpty()
     .withMessage('Country is required')
     .isLength({ max: 50 })
@@ -88,6 +97,7 @@ const validateOrderCreation = [
     .isInt({ min: 1, max: 1000 })
     .withMessage('Quantity must be between 1 and 1000'),
   body('items.*.unitPrice')
+    .optional({ checkFalsy: true })
     .isFloat({ min: 0 })
     .withMessage('Unit price must be a positive number'),
   handleValidationErrors

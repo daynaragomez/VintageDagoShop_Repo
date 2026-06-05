@@ -5,10 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:5000
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost:5000
       NODE_ENV: staging
     networks:
       - staging-network
@@ -69,8 +70,8 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "staging_user", "-pstaging_pass"]
       interval: 10s
       timeout: 5s
-      retries: 3
-      start_period: 30s
+      retries: 10
+      start_period: 60s
 
 volumes:
   staging-db-volume:

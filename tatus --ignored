@@ -1,0 +1,19 @@
+warning: LF will be replaced by CRLF in backend/src/routes/auth.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in backend/src/routes/orders.js.
+The file will have its original line endings in your working directory
+ 00_QUICK_START.md                                  |   3 [32m+[m[31m-[m
+ Dockerfile                                         |  18 [32m+[m[31m-[m
+ ROADMAP.md                                         | 196 [32m+++++++[m[31m-------[m
+ backend/src/db/connection.js                       |  16 [32m+[m[31m-[m
+ backend/src/middleware/validation.js               |  10 [32m+[m
+ backend/src/routes/auth.js                         |   2 [32m+[m[31m-[m
+ backend/src/routes/orders.js                       |  17 [32m+[m[31m-[m
+ database/seeds.sql                                 |  77 [32m++++[m[31m--[m
+ docker-compose.staging.yml                         |   7 [32m+[m[31m-[m
+ src/context/CartContext.jsx                        |  18 [32m+[m[31m-[m
+ .../pages/CheckoutPage/CheckoutPage.jsx            |  17 [32m+[m[31m-[m
+ src/presentation/pages/HomePage/HomePage.css       | 293 [32m++[m[31m-------------------[m
+ src/presentation/pages/HomePage/HomePage.jsx       | 145 [32m++[m[31m--------[m
+ tests/unit/components/HomePage.test.jsx            |  33 [32m++[m[31m-[m
+ 14 files changed, 308 insertions(+), 544 deletions(-)

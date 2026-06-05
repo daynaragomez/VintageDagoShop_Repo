@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
 import Navbar from "../../components/layout/Navbar/Navbar";
@@ -9,76 +9,50 @@ const HomePage = () => {
   const { addToCart, cartItems } = useCart();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState(['All']);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pagination, setPagination] = useState({ page: 1, limit: 12, total: 0, totalPages: 1 });
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 300);
-
-    return () => window.clearTimeout(timer);
-  }, [search]);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    fetchProducts({
-      q: debouncedSearch,
-      category: activeCategory,
-        minPrice,
-        maxPrice,
-      page: currentPage,
-      limit: 12,
-    })
+    fetchProducts()
       .then((result) => {
-        setProducts(result.products);
-        setPagination(result.pagination);
-        setCategories(['All', ...(result.categories || [])]);
+        if (Array.isArray(result)) {
+          setProducts(result);
+          return;
+        }
+
+        setProducts((result && result.products) || []);
       })
-      .catch(() => setError("Could not load products. Make sure the backend is running."))
+      .catch(() => setError('Could not load products. Make sure the backend is running.'))
       .finally(() => setLoading(false));
-  }, [debouncedSearch, activeCategory, currentPage]);
+  }, []);
 
   function handleSearch(e) {
     setSearch(e.target.value);
-    setCurrentPage(1);
   }
 
-  function handleCategory(cat) {
-    setActiveCategory(cat);
-    setCurrentPage(1);
-  }
+  const filteredProducts = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return products;
 
-  function handleMinPrice(e) {
-    setMinPrice(e.target.value);
-    setCurrentPage(1);
-  }
-
-  function handleMaxPrice(e) {
-    setMaxPrice(e.target.value);
-    setCurrentPage(1);
-  }
-
-  const totalPages = useMemo(() => pagination.totalPages || 1, [pagination.totalPages]);
+    return products.filter((product) => {
+      const name = String(product.name || '').toLowerCase();
+      const category = String(product.category || '').toLowerCase();
+      const description = String(product.description || '').toLowerCase();
+      return name.includes(term) || category.includes(term) || description.includes(term);
+    });
+  }, [products, search]);
 
   return (
     <div className="homepage">
       <Navbar />
       <main className="main-content">
         <div className="container">
-          <h2>Featured Vintage Clothing</h2>
-
-          <div className="search-filter-bar">
+          <div className="catalog-topbar">
+            <h2>Featured Vintage Clothing</h2>
             <input
               type="text"
               className="search-input"
@@ -87,50 +61,16 @@ const HomePage = () => {
               onChange={handleSearch}
               data-testid="search-input"
             />
-            <div className="price-filters" data-testid="price-filters">
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                className="price-input"
-                placeholder="Min price"
-                value={minPrice}
-                onChange={handleMinPrice}
-                data-testid="min-price-input"
-              />
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                className="price-input"
-                placeholder="Max price"
-                value={maxPrice}
-                onChange={handleMaxPrice}
-                data-testid="max-price-input"
-              />
-            </div>
-            <div className="category-filters" data-testid="category-filters">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  className={`category-btn${activeCategory === cat ? ' category-btn--active' : ''}`}
-                  onClick={() => handleCategory(cat)}
-                  data-testid={`category-btn-${cat.toLowerCase().replace(/\s+/g, '-')}`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
           </div>
 
           {loading && <p className="status-msg">Loading products...</p>}
           {error && <p className="status-msg error">{error}</p>}
-          {!loading && !error && products.length === 0 && (
+          {!loading && !error && filteredProducts.length === 0 && (
             <p className="status-msg" data-testid="no-results">No products match your search.</p>
           )}
 
           <div className="products-grid" data-testid="products-grid">
-            {products.map((product) => {
+            {filteredProducts.map((product) => {
               const cartItem = cartItems.find((i) => i.id === product.id);
               const inCart = cartItem ? cartItem.quantity : 0;
               const remaining = product.stock - inCart;
@@ -169,42 +109,9 @@ const HomePage = () => {
             })}
           </div>
 
-          {totalPages > 1 && (
-            <div className="pagination" data-testid="pagination">
-              <button
-                className="pagination__btn"
-                onClick={() => setCurrentPage((p) => p - 1)}
-                disabled={currentPage === 1}
-                data-testid="pagination-prev"
-              >
-                ← Prev
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  className={`pagination__btn${currentPage === page ? ' pagination__btn--active' : ''}`}
-                  onClick={() => setCurrentPage(page)}
-                  data-testid={`pagination-page-${page}`}
-                >
-                  {page}
-                </button>
-              ))}
-
-              <button
-                className="pagination__btn"
-                onClick={() => setCurrentPage((p) => p + 1)}
-                disabled={currentPage === totalPages}
-                data-testid="pagination-next"
-              >
-                Next →
-              </button>
-            </div>
-          )}
-
-          {!loading && !error && pagination.total > 0 && (
+          {!loading && !error && products.length > 0 && (
             <p className="status-msg" style={{ paddingTop: 0 }}>
-              Showing {products.length} of {pagination.total} products
+              Showing {filteredProducts.length} of {products.length} products
             </p>
           )}
         </div>

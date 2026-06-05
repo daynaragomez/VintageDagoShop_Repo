@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const rateLimit = require('express-rate-limit');
 const { generateToken } = require('../middleware/auth');
 const { validateLogin } = require('../middleware/validation');
-const pool = require('../db');
+const pool = require('../db/connection');
 
 const router = express.Router();
 

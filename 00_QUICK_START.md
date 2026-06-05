@@ -146,10 +146,9 @@ STEP 2 (10 min): Open STAGING_DEPLOYMENT_GUIDE.md
 
 STEP 3 (5 min): Start staging stack
          Run: npm run staging:up
-         If Docker fails: npm run staging:doctor
 
 STEP 4 (30-60 min): Run E2E against staging
-         Run (PowerShell): $env:STAGING_URL='http://localhost:5173'; npm run test:e2e:staging
+         Run: STAGING_URL=http://localhost:5173 npm run test:e2e:staging
 
 STEP 5 (10 min): Record results
          Update PRODUCTION_READINESS_PLAN.md checklist and test report

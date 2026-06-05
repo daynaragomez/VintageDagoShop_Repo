@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
 import Navbar from "../../components/layout/Navbar/Navbar";
-import { placeOrder } from "../../../infrastructure/api/productService";
+import { fetchProduct, placeOrder } from "../../../infrastructure/api/productService";
 import "./CheckoutPage.css";
 
 const CheckoutPage = () => {
@@ -38,6 +38,20 @@ const CheckoutPage = () => {
     setSubmitting(true);
     setApiError(null);
     try {
+      const stockChecks = await Promise.all(
+        cartItems.map(async (item) => {
+          const product = await fetchProduct(item.id);
+          return { item, stock: Number(product.stock) };
+        })
+      );
+
+      const insufficientStock = stockChecks.find(({ item, stock }) => stock < item.quantity);
+      if (insufficientStock) {
+        throw new Error(
+          `${insufficientStock.item.name} only has ${insufficientStock.stock} available. Please update your cart.`
+        );
+      }
+
       const order = await placeOrder({
         name: form.name,
         email: form.email,
@@ -52,7 +66,6 @@ const CheckoutPage = () => {
         items: cartItems.map((item) => ({
           productId: item.id,
           quantity: item.quantity,
-          unitPrice: parseFloat(item.price),
         })),
       });
       clearCart();

@@ -4,8 +4,6 @@ const pool = require('../db/connection');
 const { authenticateToken, requireRole } = require('../middleware/auth');
 const { validateOrderCreation, validateOrderId, validateOrderStatus } = require('../middleware/validation');
 
-const VALID_STATUSES = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
-
 // GET /api/orders � list all orders with customer name and totals (PROTECTED - Admin only)
 router.get('/', authenticateToken, requireRole('admin'), async (req, res) => {
   try {
@@ -96,15 +94,24 @@ router.post('/', validateOrderCreation, async (req, res) => {
   try {
     await conn.beginTransaction();
 
+    const normalizedItems = [];
+
     // 1. Validate stock for all items upfront
     for (const item of items) {
       const [rows] = await conn.query(
-        'SELECT stock FROM products WHERE id = ? FOR UPDATE',
+        'SELECT id, name, stock, price FROM products WHERE id = ? FOR UPDATE',
         [item.productId]
       );
       if (rows.length === 0) throw new Error(`Product ${item.productId} not found`);
       if (rows[0].stock < item.quantity)
         throw new Error(`Insufficient stock for product ${item.productId}`);
+
+      normalizedItems.push({
+        productId: rows[0].id,
+        productName: rows[0].name,
+        quantity: item.quantity,
+        unitPrice: Number(rows[0].price),
+      });
     }
 
     // 2. Insert customer
@@ -122,7 +129,7 @@ router.post('/', validateOrderCreation, async (req, res) => {
     const addressId = addressResult.insertId;
 
     // 4. Calculate totals
-    const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+    const subtotal = normalizedItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
     const tax = parseFloat((subtotal * 0.15).toFixed(2));
     const total = parseFloat((subtotal + tax).toFixed(2));
 
@@ -134,7 +141,7 @@ router.post('/', validateOrderCreation, async (req, res) => {
     const orderId = orderResult.insertId;
 
     // 6. Insert order items and decrement stock
-    for (const item of items) {
+    for (const item of normalizedItems) {
       await conn.query(
         'INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)',
         [orderId, item.productId, item.quantity, item.unitPrice]

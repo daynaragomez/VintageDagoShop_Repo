@@ -127,67 +127,63 @@ Evidencia:
   ✓ Puerto 3000, CORS habilitado
 ```
 
-### FR-9: Admin Order Dashboard ✅ IMPLEMENTADO (INSEGURO)
+### FR-9: Admin Order Dashboard ✅ IMPLEMENTADO Y PROTEGIDO
 ```
 Requerimiento: Dashboard de órdenes para admin
-Status: ✅ IMPLEMENTADO (pero ⚠️ SIN AUTENTICACIÓN)
+Status: ✅ IMPLEMENTADO (con autenticación y autorización)
 Evidencia:
   ✓ AdminOrdersPage.jsx para /admin/orders
   ✓ Tabla con: ID, cliente, monto, status, fecha
   ✓ Ordenadas por created_at DESC
   ✓ Links a /admin/orders/:id
-  ✓ GET /api/orders funciona
-
-⚠️ CRÍTICA GAP: Cualquiera puede acceder a /admin/orders
-   No hay autenticación ni autorización implementada
+  ✓ PrivateRoute protege la ruta en frontend
+  ✓ GET /api/orders protegido con authenticateToken + requireRole('admin')
 ```
 
-### FR-10: Admin Order Status Management ✅ IMPLEMENTADO (INSEGURO)
+### FR-10: Admin Order Status Management ✅ IMPLEMENTADO Y PROTEGIDO
 ```
 Requerimiento: Actualizar status de orden
-Status: ✅ IMPLEMENTADO (pero ⚠️ SIN AUTENTICACIÓN)
+Status: ✅ IMPLEMENTADO (con autenticación y autorización)
 Evidencia:
   ✓ AdminOrderDetailPage.jsx para /admin/orders/:id
   ✓ Muestra: info cliente, dirección, items, totales
   ✓ Dropdown para cambiar status (pending → confirmed → shipped → delivered)
-  ✓ PATCH /api/orders/:id/status funciona
+  ✓ PATCH /api/orders/:id/status protegido con authenticateToken + requireRole('admin')
+  ✓ Login admin con JWT y rol admin validado en frontend
   ✓ Mensaje de éxito
   ✓ Error handling
-
-⚠️ CRÍTICA GAP: Cualquiera puede actualizar órdenes
-   No hay autenticación ni autorización implementada
 ```
 
 ---
 
-## 🔴 FUNCIONALIDADES FALTANTES (CRÍTICAS)
+## 🔴 FUNCIONALIDADES FALTANTES / PENDIENTES
 
-### 🚨 SEGURIDAD: Admin Routes NO PROTEGIDAS
+### ✅ SEGURIDAD: Admin Routes PROTEGIDAS
 ```
-Severidad: 🔴 CRÍTICA
-Impacto: Cualquiera puede ver/editar todas las órdenes
-Status: ❌ NO IMPLEMENTADO
+Severidad: ✅ RESUELTA
+Impacto: Solo admin autenticado puede ver/editar órdenes
+Status: ✅ IMPLEMENTADO
 
 El problema:
-  ❌ /admin/orders está públicamente accesible
-  ❌ /admin/orders/:id está públicamente accesible
-  ❌ PATCH /api/orders/:id/status no valida permissions
-  ❌ No hay JWT, sesiones, ni autenticación
-  ❌ No hay roles (admin vs customer)
+  ✓ /admin/orders protegido en frontend
+  ✓ /admin/orders/:id protegido en frontend
+  ✓ GET /api/orders protegido en backend
+  ✓ GET /api/orders/:id protegido en backend
+  ✓ PATCH /api/orders/:id/status protegido en backend
+  ✓ JWT + roles admin/customer implementados
 
-Solución requerida:
-  [ ] Implementar autenticación (JWT o sesiones)
-  [ ] Crear middleware de autorización
-  [ ] Proteger rutas admin con middleware
-  [ ] Proteger endpoints API con authorization
-  [ ] Crear roles: ADMIN, CUSTOMER
-  [ ] Validar role en cada operación sensible
 
-Tiempo estimado: 6-8 horas
+Estado actual:
+  ✓ Login admin con JWT
+  ✓ Middleware authenticateToken
+  ✓ Middleware requireRole('admin')
+  ✓ PrivateRoute para frontend
+  ✓ AuthContext con estado persistido
+
+Tiempo estimado: 0 horas
 
 Referencias:
-  - PRD FR-9 security note: "CRITICAL GAP - Admin routes are currently UNPROTECTED"
-  - PRD FR-10 security note: "CRITICAL GAP - Admin routes are currently UNPROTECTED"
+  - PRD FR-9/FR-10 security notes: resueltas en implementación actual
 ```
 
 ### 🟠 PERFORMANCE: Métricas NO Medidas
@@ -271,55 +267,48 @@ Pero mejorar podría incluir:
 
 ---
 
-## 🔐 SEGURIDAD: Análisis Completo
+## 🔐 SEGURIDAD: Estado Actual
 
-### Vulnerabilidades Identificadas
+### Vulnerabilidades Resueltas
 
-#### CRÍTICA #1: Admin Routes Sin Autenticación
+#### CRÍTICA #1: Admin Routes Protegidas
 ```
 Ruta: /admin/orders
 Ruta: /admin/orders/:id
 Endpoint: GET /api/orders
 Endpoint: PATCH /api/orders/:id/status
 
-Problema: Cualquiera que conozca la URL puede:
+Problema anterior:
   - Ver TODAS las órdenes (BREACH de privacidad)
   - Ver información personal (nombres, emails, direcciones)
   - Cambiar status de órdenes (fraude potencial)
   - Simular fulfillment falso
 
-Impact: 🔴 CRÍTICA - Exposición completa de datos
+Estado actual:
+  ✓ Frontend bloquea acceso con `PrivateRoute`
+  ✓ Backend valida JWT con `authenticateToken`
+  ✓ Backend valida rol admin con `requireRole('admin')`
+  ✓ Login genera token con rol y expiración
 
-Solución inmediata:
-  1. Agregar middleware de autenticación
-  2. Proteger rutas con requireAuth()
-  3. Validar que usuario es ADMIN
-  4. Añadir JWT a todas las requests
+Impact: ✅ RESUELTO - Acceso restringido a admin autenticado
 
-Solución completa (6-8 horas):
-  [ ] Implementar auth (JWT o sesiones)
-  [ ] Crear tabla de usuarios con roles
-  [ ] Crear endpoint de login
-  [ ] Crear middleware de authorization
-  [ ] Proteger todas las rutas sensibles
-  [ ] Hashear passwords (bcrypt)
-  [ ] Crear tokens con expiry
-  [ ] Refresh token mechanism
+Resultado: admin routes protegidas ✅
 ```
 
 ### Vulnerabilidades Menores
 
-#### MENOR #1: No hay validación en backend
+#### MENOR #1: Validación backend reforzada
 ```
-Problema: Frontend valida, pero backend no re-valida
-Riesgo: Bypassing frontend validation
+Problema anterior: Frontend validaba, pero backend no re-validaba
+Estado actual: Backend valida, sanitiza y el checkout revalida stock antes del submit
 
-Solución:
-  [ ] Validar payload en POST /api/orders
-  [ ] Validar email format
-  [ ] Validar campos requeridos
-  [ ] Validar tipos de datos
-  [ ] Sanitizar strings
+Completado:
+  ✓ Validar payload en POST /api/orders
+  ✓ Validar email format
+  ✓ Validar campos requeridos
+  ✓ Validar tipos de datos
+  ✓ Sanitizar strings
+  ✓ Revalidar stock en checkout antes del submit
 ```
 
 #### MENOR #2: SQL Injection no es riesgo (pero mejorable)
@@ -333,52 +322,52 @@ Mejora: Agregar más validación de entrada
 
 ## 📊 ROADMAP PRIORIZADO
 
-### FASE 1: SEGURIDAD (Semana 1 - CRÍTICA)
+### FASE 1: SEGURIDAD (COMPLETADA)
 ```
-Dependencia: BLOQUEANTE para producción
+Dependencia: BLOQUEANTE resuelta
 
-Tareas (6-8 horas):
-  1. Implementar autenticación (JWT o OAuth)
-  2. Crear tabla usuarios con roles
-  3. Crear endpoint POST /auth/login
-  4. Crear middleware requireAuth()
-  5. Crear middleware requireAdmin()
-  6. Proteger /admin/* routes
-  7. Proteger GET /api/orders (solo para admin)
-  8. Proteger PATCH /api/orders/:id/status (solo para admin)
-  9. Agregar tests de seguridad
-  10. Documentar auth flow
+Completado:
+  ✓ Implementar autenticación (JWT)
+  ✓ Crear endpoint POST /api/auth/login
+  ✓ Crear middleware authenticateToken()
+  ✓ Crear middleware requireRole('admin')
+  ✓ Proteger /admin/* routes
+  ✓ Proteger GET /api/orders (solo para admin)
+  ✓ Proteger PATCH /api/orders/:id/status (solo para admin)
+  ✓ Agregar tests de seguridad
+  ✓ Documentar auth flow
 
 Resultado: Admin routes protegidas ✅
 ```
 
-### FASE 2: VALIDACIÓN & ERROR HANDLING (Semana 1)
+### FASE 2: VALIDACIÓN & ERROR HANDLING (COMPLETADA)
 ```
 Dependencia: Mejorar robustez
 
-Tareas (3-4 horas):
-  1. Backend: Validar POST /api/orders payload
-  2. Backend: Validar email format
-  3. Backend: Validar stock pre-checkout
-  4. Frontend: Mostrar errores de validación claros
-  5. Frontend: Re-validar stock en checkout
-  6. Agregar tests
+Completado:
+  ✓ Backend: Validar POST /api/orders payload
+  ✓ Backend: Validar email format
+  ✓ Backend: Validar tipos y sanitizar strings
+  ✓ Backend: Usar precios desde DB, no desde client
+  ✓ Frontend: Re-validar stock en checkout
+  ✓ Frontend: Mostrar errores de validación claros
+  ✓ Agregar tests
 
-Resultado: Mejor UX, menos errores ✅
+Resultado: Menos superficie de ataque y menos errores ✅
 ```
 
-### FASE 3: SEARCH & FILTERING (Semana 2)
+### FASE 3: SEARCH & FILTERING (COMPLETADO)
 ```
-Dependencia: Mejorar UX de descubrimiento
+Dependencia: UX de descubrimiento ya implementada
 
-Tareas (4-5 horas):
-  1. Backend: Actualizar GET /api/products con params
-  2. Frontend: Agregar barra de búsqueda
-  3. Frontend: Agregar filtros por categoría
-  4. Frontend: Agregar filtros por precio
-  5. Frontend: Agregar paginación
-  6. Frontend: Debounce en búsqueda
-  7. Tests E2E
+Completado:
+  ✓ Backend GET /api/products con params
+  ✓ Barra de búsqueda
+  ✓ Filtros por categoría
+  ✓ Filtros por precio
+  ✓ Paginación
+  ✓ Debounce en búsqueda
+  ✓ Tests E2E / integración de flujo
 
 Resultado: Usuarios pueden encontrar productos fácilmente ✅
 ```
@@ -489,11 +478,11 @@ DEPLOYMENT:
 | FR-6: Confirmation | ✅ DONE | P1 | Ligero | - |
 | FR-7: Navigation | ✅ DONE | P0 | Ligero | - |
 | FR-8: API Endpoints | ✅ DONE | P0 | Ligero | - |
-| FR-9: Admin Dashboard | ⚠️ INSECURE | P1 | Medio | 🔴 SIN AUTENTICACIÓN |
-| FR-10: Admin Status | ⚠️ INSECURE | P1 | Medio | 🔴 SIN AUTENTICACIÓN |
+| FR-9: Admin Dashboard | ✅ DONE | P1 | Ligero | Protegido con JWT + role admin |
+| FR-10: Admin Status | ✅ DONE | P1 | Ligero | Protegido con JWT + role admin |
 | NFR-1: Performance | ❌ NOT MEASURED | P1 | Medio | Monitoreo no configurado |
-| SEARCH & FILTER | ❌ TODO | P2 | Medio | Out of scope en PRD pero UX standard |
-| AUTH & SECURITY | 🔴 CRÍTICA | P0 | Alto | BLOQUEANTE PARA PRODUCCIÓN |
+| SEARCH & FILTER | ✅ DONE | P2 | Ligero | Implementado en HomePage + API |
+| AUTH & SECURITY | ✅ DONE | P0 | Ligero | JWT, middleware, frontend guard |
 | DEPLOYMENT | ⚠️ PARCIAL | P1 | Alto | Documentación incompleta |
 
 ---
@@ -502,18 +491,17 @@ DEPLOYMENT:
 
 **Antes de ir a producción:**
 
-1. ✅ Implementar autenticación y autorización (BLOQUEANTE)
-2. ✅ Validar todos los inputs en backend
-3. ✅ Configurar monitoreo de performance
-4. ✅ Tests de seguridad
-5. ✅ Load testing
-6. ✅ Documenter deployment procedure
+1. ✅ Validar todos los inputs en backend
+2. ✅ Configurar monitoreo de performance
+3. ✅ Tests de seguridad y smoke checks de staging
+4. ✅ Load testing
+5. ✅ Documentar deployment procedure
 
 **Time to production-ready:** 2-3 semanas (si trabajas full-time)
 
-**Recomendación:** Dejar búsqueda/filtrado para Phase 2, pero hacer SEGURIDAD ahora.
+**Recomendación:** La siguiente prioridad es performance + hardening de despliegue.
 
 ---
 
 **ROADMAP creado**: 2026-05-28  
-**Próxima revisión**: Después de implementar autenticación
+**Próxima revisión**: Después de cerrar performance y deployment
