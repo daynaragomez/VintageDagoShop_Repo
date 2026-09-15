@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { generateToken } from '../../../../backend/src/middleware/auth';
+import { generateToken } from '../../../backend/src/middleware/auth';
 
 test.describe('Admin access protection (smoke)', () => {
   test('disallow access to admin orders page without admin token', async ({ page }) => {
