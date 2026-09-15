@@ -1,7 +1,17 @@
 const jwt = require('jsonwebtoken');
 
-// JWT secret - in production, this should be in environment variables
-const JWT_SECRET = process.env.JWT_SECRET || 'vintage-dago-shop-secret-key-change-in-production';
+// JWT secret - require it from environment in CI/production. For local development, a warning is logged
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  // Do not crash here to preserve developer experience, but log a visible warning so it is not missed
+  // CI / production should always set JWT_SECRET to a strong value
+  // WARNING: using the app without JWT_SECRET in production is insecure
+  // Set JWT_SECRET in your environment or .env for local development
+  // Example: JWT_SECRET="your-strong-secret"
+  // This file intentionally does not provide a hardcoded fallback.
+  // eslint-disable-next-line no-console
+  console.warn('WARNING: JWT_SECRET is not set. Using the app without a secure JWT secret is insecure. Set JWT_SECRET in environment.');
+}
 
 /**
  * Authentication middleware
@@ -35,12 +45,16 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-const requireRole = (role) => (req, res, next) => {
-  if (!req.user || req.user.role !== role) {
-    return res.status(403).json({
-      error: 'Forbidden',
-      message: 'You do not have permission to access this resource'
-    });
+// requireRole accepts a single role string or an array of allowed roles
+const requireRole = (roleOrRoles) => (req, res, next) => {
+  const userRole = req.user && req.user.role;
+  if (!userRole) {
+    return res.status(403).json({ error: 'Forbidden', message: 'You do not have permission to access this resource' });
+  }
+
+  const allowedRoles = Array.isArray(roleOrRoles) ? roleOrRoles : [roleOrRoles];
+  if (!allowedRoles.includes(userRole)) {
+    return res.status(403).json({ error: 'Forbidden', message: 'You do not have permission to access this resource' });
   }
 
   next();
@@ -59,7 +73,7 @@ const generateToken = (user, expiresIn = '24h') => {
     role: user.role || 'user'
   };
 
-  return jwt.sign(payload, JWT_SECRET, { expiresIn });
+  return jwt.sign(payload, JWT_SECRET || '', { expiresIn });
 };
 
 module.exports = {
