@@ -4,6 +4,14 @@ on:
   push:
     branches: [ master ]
 
+# Limit concurrent runs to avoid overlapping deploys
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -23,11 +31,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          # Use an explicit semver to control the runtime used by job steps (not action internals)
+          node-version: '18.x'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
