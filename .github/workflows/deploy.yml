@@ -1,0 +1,68 @@
+name: CI - Build, Test, Deploy (staging)
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: rootsecret
+          MYSQL_DATABASE: vintagedago
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit & integration tests
+        run: npm test --silent
+
+      - name: Start services (docker-compose)
+        run: docker-compose -f docker-compose.prod.yml up -d --build
+
+      - name: Wait for backend
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://localhost:3000/api/health; then break; fi
+            sleep 2
+          done
+
+      - name: Run Playwright smoke tests
+        run: npx playwright test --grep "@smoke" --reporter=list
+
+      - name: Tear down
+        if: always()
+        run: docker-compose -f docker-compose.prod.yml down -v
+
+  deploy-staging:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to staging placeholder
+        run: echo "Replace this step with cloud provider deploy (ssh/docker compose/kubernetes)." 
+
+      - name: Notify
+        run: echo "Deployment to staging completed (placeholder)."
+
