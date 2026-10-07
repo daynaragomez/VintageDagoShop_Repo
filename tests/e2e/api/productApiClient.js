@@ -8,7 +8,9 @@ export class ProductApiClient {
 
   async getAll() {
     const res = await this.request.get(`${this.baseUrl}/products`);
-    return res.json();
+    const data = await res.json();
+    // Handle both array and object with products property
+    return Array.isArray(data) ? data : data.products || [];
   }
 
   async getById(id) {
