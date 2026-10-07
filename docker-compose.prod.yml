@@ -9,6 +9,13 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/catalog.sql:/docker-entrypoint-initdb.d/02-catalog.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     ports:
       - "3306:3306"
 
@@ -25,17 +32,18 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
       JWT_SECRET: ${JWT_SECRET}
-    ports:
-      - "3000:3000"
+      TRUST_PROXY_HOPS: 1
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      VITE_API_BASE_URL: http://localhost:3000/api
+      API_UPSTREAM: backend:3000
+      NGINX_ENVSUBST_FILTER: API_UPSTREAM
     ports:
       - "5173:5173"
 

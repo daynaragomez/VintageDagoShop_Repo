@@ -434,7 +434,7 @@ All functional requirements must pass the following test types:
 - **GitHub Actions:** CI/CD pipeline for automated testing
 
 ### Internal Dependencies
-- **Database Schema:** Must be initialized with database/init.sql and database/seeds.sql
+- **Database Schema:** initialize with `database/schema.sql`, then `database/catalog.sql` for initial products. `database/dev_fixtures.sql` is for local/staging only and must not be loaded in production.
 - **Environment Variables:** .env file must be configured (see .env.example)
 
 ---

@@ -15,7 +15,8 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
-      - ./database/seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql
+      - ./database/catalog.sql:/docker-entrypoint-initdb.d/02_catalog.sql
+      - ./database/dev_fixtures.sql:/docker-entrypoint-initdb.d/03_dev_fixtures.sql
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       interval: 10s
@@ -35,6 +36,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       PORT: 3000
       NODE_ENV: production
     ports:

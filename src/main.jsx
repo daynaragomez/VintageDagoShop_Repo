@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import performanceMonitor from './shared/utils/performanceMonitor';
+import './shared/utils/performanceMonitor';
 
 // Initialize performance monitoring
 // eslint-disable-next-line no-console

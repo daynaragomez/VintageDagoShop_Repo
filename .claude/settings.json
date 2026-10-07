@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Write-Output \"===== docs/ =====\"; Get-ChildItem -Path \"c:\\\\workspace2\\\\VintageDagoShop\\\\docs\" -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\workspace2\\\\VintageDagoShop\\\\\",\"\"\\) })",
+      "PowerShell(Write-Output \"===== src/ =====\"; Get-ChildItem -Path \"c:\\\\workspace2\\\\VintageDagoShop\\\\src\" -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\workspace2\\\\VintageDagoShop\\\\\",\"\"\\) }; Write-Output \"===== backend/ =====\"; Get-ChildItem -Path \"c:\\\\workspace2\\\\VintageDagoShop\\\\backend\" -Recurse -File | Where-Object { $_.FullName -notmatch \"node_modules\" } | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\workspace2\\\\VintageDagoShop\\\\\",\"\"\\) }; Write-Output \"===== database/ =====\"; Get-ChildItem -Path \"c:\\\\workspace2\\\\VintageDagoShop\\\\database\" -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\workspace2\\\\VintageDagoShop\\\\\",\"\"\\) })",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:5173/)"
+    ]
+  }
+}

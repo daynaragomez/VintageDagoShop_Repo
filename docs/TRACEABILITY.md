@@ -1,6 +1,8 @@
 # Requirements Traceability Matrix
 ## VintageDagoShop
 
+> Implementation and coverage statuses in this matrix are a retroactive baseline. Re-check against code/tests before using them as release evidence; current runtime/test results are in [PROJECT_STATUS.md](PROJECT_STATUS.md).
+
 > **Purpose:** Map requirements ? implementation ? tests to ensure complete coverage  
 > **Last Updated:** 2026-05-27  
 > **Status:** Retroactive Baseline
@@ -350,15 +352,15 @@
    - **Requirement IDs Affected:** NFR-002
    - **Recommendation:** Add load tests with k6 or Apache JMeter
 
-5. **Admin Feature Testing: Missing**
-   - **Impact:** Admin routes (REQ-009, REQ-010) are implemented but have no E2E or unit tests
+5. **Admin UI E2E Testing: Pending**
+   - **Impact:** Auth middleware has unit tests; the complete login-to-order-management browser flow still needs E2E validation
    - **Requirement IDs Affected:** REQ-009, REQ-010
    - **Recommendation:** Add E2E tests for /admin/orders and /admin/orders/:id pages, test order status updates
 
-6. **Admin Authentication: Missing**
-   - **Impact:** Admin routes are publicly accessible - CRITICAL SECURITY GAP
+6. **Admin Authentication: Implemented; release verification pending**
+   - **Impact:** Backend endpoints and frontend routes enforce admin access; complete E2E verification is still required
    - **Requirement IDs Affected:** REQ-009, REQ-010
-   - **Recommendation:** Implement authentication/authorization before production deployment
+   - **Recommendation:** Run protected-route and full admin-flow tests before production deployment
    - **Impact:** Cannot validate NFR-002 scalability requirements
    - **Requirement IDs Affected:** NFR-002
    - **Recommendation:** Add load tests with k6 or Apache JMeter

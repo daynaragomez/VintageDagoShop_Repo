@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint no-console: off */
 
 /**
  * Admin Auth Validation Script

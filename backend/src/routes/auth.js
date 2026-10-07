@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const { generateToken } = require('../middleware/auth');
 const { validateLogin } = require('../middleware/validation');
 const pool = require('../db/connection');
+const logger = require('../utils/logger');
 
 const router = express.Router();
 
@@ -83,7 +84,7 @@ router.post('/login', loginLimiter, validateLogin, async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
+    logger.error('Login error', { error });
     res.status(500).json({
       error: 'Server error',
       message: 'An error occurred during login'

@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../db/connection');
 const { authenticateToken, requireRole } = require('../middleware/auth');
 const { validateOrderCreation, validateOrderId, validateOrderStatus } = require('../middleware/validation');
+const { aggregateOrderItems } = require('../utils/orderItems');
 
 // GET /api/orders � list all orders with customer name and totals (PROTECTED - Admin only)
 router.get('/', authenticateToken, requireRole('admin'), async (req, res) => {
@@ -95,9 +96,10 @@ router.post('/', validateOrderCreation, async (req, res) => {
     await conn.beginTransaction();
 
     const normalizedItems = [];
+    const aggregatedItems = aggregateOrderItems(items);
 
     // 1. Validate stock for all items upfront
-    for (const item of items) {
+    for (const item of aggregatedItems) {
       const [rows] = await conn.query(
         'SELECT id, name, stock, price FROM products WHERE id = ? FOR UPDATE',
         [item.productId]

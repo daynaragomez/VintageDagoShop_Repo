@@ -9,6 +9,11 @@ const authRouter = require('./routes/auth');
 
 const app = express();
 
+const trustedProxyHops = Number.parseInt(process.env.TRUST_PROXY_HOPS || '0', 10);
+if (trustedProxyHops > 0) {
+  app.set('trust proxy', trustedProxyHops);
+}
+
 // Security headers
 app.use(helmet());
 

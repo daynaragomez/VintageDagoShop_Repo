@@ -1,81 +1,26 @@
 # Database
 
-## Start
+MySQL 8 is the application database. The Express service connects through a `mysql2` pool using `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` and `DB_PASSWORD`.
 
-```bash
-docker-compose up -d --build
-```
+## SQL files
 
-MySQL is ready when:
-```bash
-docker logs vintagedago_mysql 2>&1 | grep "ready for connections"
-```
+| File | Purpose | Environment |
+|---|---|---|
+| `database/schema.sql` | Tables, indexes and foreign keys, including `users` | All |
+| `database/catalog.sql` | Initial categories and products | Fresh local/staging/production database |
+| `database/dev_fixtures.sql` | Sample customer/order and local admin test user | Local/staging only; never production |
+| `database/add_users_table.sql` | Standalone migration for an existing DB missing `users` | Reviewed manual migration |
 
-## Connection details
+`docker-compose.yml` and `docker-compose.staging.yml` initialize schema, catalog and development fixtures. `docker-compose.prod.yml` initializes schema and catalog only.
 
-| Parameter | Value |
-|---|---|
-| Host | localhost |
-| Port | 3306 |
-| Database | vintagedago |
-| User | vintagedago_user |
-| Password | secret |
+## Existing MySQL volumes
 
-phpMyAdmin: http://localhost:8080 — user: `vintagedago_user` / pass: `secret`
+MySQL runs `/docker-entrypoint-initdb.d` scripts only when its data directory is empty. A named volume keeps its initialized users, passwords and schema; editing `.env` or mounted SQL files does not update it. If the backend gets `ER_ACCESS_DENIED_ERROR`, verify the existing MySQL account/volume configuration and take a backup before any repair.
 
-## Reset stock and orders (keeps containers running)
+`docker compose down` preserves data. `docker compose down -v` deletes the named volume and its data; use only when that loss is intentional.
 
-```bash
-docker exec vintagedago_mysql mysql -uvintagedago_user -psecret vintagedago -e "
-  DELETE FROM order_items;
-  DELETE FROM orders;
-  DELETE FROM addresses;
-  DELETE FROM customers;
-  ALTER TABLE order_items AUTO_INCREMENT = 1;
-  ALTER TABLE orders      AUTO_INCREMENT = 1;
-  ALTER TABLE addresses   AUTO_INCREMENT = 1;
-  ALTER TABLE customers   AUTO_INCREMENT = 1;
-  UPDATE products SET stock = 5  WHERE name = 'Vintage Leather Jacket';
-  UPDATE products SET stock = 8  WHERE name = 'Retro Denim Jeans';
-  UPDATE products SET stock = 12 WHERE name = 'Vintage Band T-Shirt';
-"
-```
+## Tables
 
-## Full reset (destroys volume and re-applies schema + seeds)
+`categories`, `products`, `customers`, `addresses`, `orders`, `order_items`, `users`.
 
-```bash
-docker-compose down -v
-docker-compose up -d --build
-```
-
-## Prices
-
-Prices are stored in the `products` table (DECIMAL 10,2). Seed values:
-
-| Product | Price |
-|---|---|
-| Vintage Leather Jacket | 89.99 |
-| Retro Denim Jeans | 45.50 |
-| Vintage Band T-Shirt | 29.99 |
-
-To update a price:
-```bash
-docker exec vintagedago_mysql mysql -uvintagedago_user -psecret vintagedago \
-  -e "UPDATE products SET price = 79.99 WHERE name = 'Vintage Leather Jacket';"
-```
-
-## Schema
-
-See `database/schema.sql` for the full schema definition.  
-See `database/seeds.sql` for initial data.
-
-### Tables
-
-| Table | Purpose |
-|---|---|
-| `categories` | Lookup table — eliminates repeating category strings |
-| `products` | Catalog items with stock and FK to categories |
-| `customers` | Customer records extracted per order |
-| `addresses` | Structured shipping addresses linked to customers |
-| `orders` | Order header — references customer + address, stores subtotal/tax/total |
-| `order_items` | Line items per order — references product, stores quantity and unit price |
+See `database/schema.sql` for columns and relationships. Order creation locks product rows, uses database prices, and commits customer/address/order/items and stock decrement atomically.

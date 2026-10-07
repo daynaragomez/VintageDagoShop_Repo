@@ -1,43 +1,30 @@
-# Deployment Checklist (Staging / Production)
+# Release Checklist
 
-This checklist is intended to guide a safe staging and production deployment for VintageDagoShop.
+Marcar un punto solo después de registrar el comando y el resultado del entorno objetivo.
 
-## Pre-deployment
-- [ ] Confirm environment variables set in CI/staging: JWT_SECRET, DB credentials, S3 keys (if any)
-- [ ] Run integration tests: `npm test` (backend) and `npm run test:integration`
-- [ ] Run Playwright smoke tests: `npx playwright test --grep "@smoke"`
-- [ ] Ensure backups configured for DB
-- [ ] Obtain TLS certs for domain
-- [ ] Configure DNS and load balancer
+## Staging
 
-## Build
-- [ ] Build backend image: `docker build -t vintagedago-backend ./backend`
-- [ ] Build frontend image: `docker build -t vintagedago-frontend .`
-- [ ] Tag images and push to registry
+- [ ] `.env` no rastreado contiene `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_ROOT_PASSWORD` y un `JWT_SECRET` fuerte.
+- [ ] El volumen usa credenciales compatibles; no borrarlo para evitar investigar el mismatch.
+- [ ] `docker compose config --quiet` pasa.
+- [ ] `docker compose up -d --build` pasa y MySQL queda healthy.
+- [ ] `GET /api/health` responde correctamente.
+- [ ] `GET /api/products` devuelve el catálogo.
+- [ ] `npm run build` y `npm test -- --run` pasan.
+- [ ] `npm run lint` sale con código 0 y cero warnings.
+- [ ] `npm run test:e2e` pasa con el stack activo.
 
-## Deploy (staging)
-- [ ] Deploy docker-compose.prod.yml to staging host with env values
-- [ ] Start services and confirm health endpoints
-- [ ] Run Playwright smoke tests against STAGING_URL
-- [ ] Verify logs for errors
+## Producción
 
-## Deploy (production)
-- [ ] Promote images from staging or rebuild for prod
-- [ ] Fill production secrets in CI/CD
-- [ ] Run DB migrations (if any)
-- [ ] Start services behind load balancer
-- [ ] Run full test suite and smoke tests
+- [ ] Secretos privados y distintos de los fixtures locales.
+- [ ] Admin aprovisionado de forma segura; no cargar `database/dev_fixtures.sql`.
+- [ ] Migración/rollback de volúmenes existentes probados con backup.
+- [ ] Proxy frontend, TLS, CORS, health checks y storage persistente verificados en infraestructura destino.
+- [ ] Backup/restore y monitoreo comprobados.
+- [ ] API niega acceso anónimo a admin; login y flujo de pedidos probado end-to-end.
 
 ## Post-deploy
-- [ ] Monitor logs for 24h
-- [ ] Verify order placement and checkout flows
-- [ ] Verify admin permissions and deny anonymous access
-- [ ] Ensure backups are scheduled
 
-## Rollback
-- [ ] If critical failures, rollback to previous image tag
-- [ ] Investigate and fix issues, then redeploy
-
----
-
-Keep this file updated after each deployment.
+- [ ] Verificar health, catálogo, checkout y permisos admin.
+- [ ] Revisar logs, backups y alertas.
+- [ ] Registrar versión, salida de verificación y referencia de rollback.

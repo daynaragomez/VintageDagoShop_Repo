@@ -5,12 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        VITE_API_URL: http://localhost:5000
     ports:
       - "5173:5173"
     environment:
       NODE_ENV: staging
+      API_UPSTREAM: backend-staging:3000
+      NGINX_ENVSUBST_FILTER: API_UPSTREAM
     networks:
       - staging-network
     depends_on:
@@ -38,6 +38,7 @@ services:
       JWT_SECRET: test-secret-key-staging-do-not-use-production
       CORS_ORIGIN: http://localhost:5173
       API_PORT: 3000
+      TRUST_PROXY_HOPS: 1
       LOG_LEVEL: debug
     depends_on:
       db-staging:
@@ -62,7 +63,8 @@ services:
       MYSQL_PASSWORD: staging_pass
     volumes:
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-      - ./database/seeds.sql:/docker-entrypoint-initdb.d/02-seeds.sql:ro
+      - ./database/catalog.sql:/docker-entrypoint-initdb.d/02-catalog.sql:ro
+      - ./database/dev_fixtures.sql:/docker-entrypoint-initdb.d/03-dev-fixtures.sql:ro
       - staging-db-volume:/var/lib/mysql
     networks:
       - staging-network

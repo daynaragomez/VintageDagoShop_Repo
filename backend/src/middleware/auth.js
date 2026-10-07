@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 // JWT secret - require it from environment in CI/production. For local development, a warning is logged
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('JWT_SECRET is required in production');
+  }
   // Do not crash here to preserve developer experience, but log a visible warning so it is not missed
   // CI / production should always set JWT_SECRET to a strong value
   // WARNING: using the app without JWT_SECRET in production is insecure
@@ -21,9 +24,9 @@ if (!JWT_SECRET) {
 const authenticateToken = (req, res, next) => {
   // Get token from Authorization header
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Format: "Bearer TOKEN"
+  const [scheme, token, ...extraParts] = authHeader ? authHeader.trim().split(/\s+/) : [];
 
-  if (!token) {
+  if (scheme?.toLowerCase() !== 'bearer' || !token || extraParts.length > 0) {
     return res.status(401).json({
       error: 'Authentication required',
       message: 'No token provided'
