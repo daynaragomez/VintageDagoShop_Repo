@@ -27,7 +27,13 @@ npm run test:e2e:staging
 npm run staging:down
 ```
 
-The latest local E2E/release flow is not signed off: the previous DB volume rejected the current backend credentials, and the frontend response was not validated successfully. See [PROJECT_STATUS.md](PROJECT_STATUS.md).
+**E2E Testing Standards**: See [E2E_TESTING_STANDARDS.md](E2E_TESTING_STANDARDS.md) for architecture, test patterns, and best practices.
+
+### Recent Fixes (2026-10-07)
+- ✅ Added `JWT_SECRET` to CI workflow (was causing backend startup failures)
+- ✅ Fixed admin authentication tests (removed invalid backend code imports)
+- ✅ Improved test selectors and error handling in admin specs
+- ✅ Standardized test patterns to use Page Objects + Steps + Assertions (BDD)
 
 ## Test layout
 
