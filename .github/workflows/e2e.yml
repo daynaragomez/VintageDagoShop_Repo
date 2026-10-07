@@ -42,7 +42,8 @@ jobs:
           DB_USER=vintagedago_user
           DB_PASSWORD=secret
           DB_ROOT_PASSWORD=rootsecret
-          NODE_ENV=production
+          JWT_SECRET=ci-test-jwt-secret-key-must-be-long
+          NODE_ENV=development
           EOF
 
       - name: Start Docker services (MySQL + Backend)
