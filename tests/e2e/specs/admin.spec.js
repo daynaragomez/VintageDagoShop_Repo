@@ -140,6 +140,8 @@ test.describe('Admin Order Management @admin @orders', () => {
   });
 });
 
+test.describe('API Security @admin @security', () => {
+  
   test('should block API requests without token', async ({ request }) => {
     // Try to fetch orders without authentication
     const response = await request.get('http://localhost:3000/api/orders');
