@@ -3,46 +3,35 @@
  * 
  * Tests for adding products to cart with various scenarios
  * 
- * ✓ Tags: @smoke @P1 @cart @addToCart
- * ✓ AAA Pattern: Arrange (setup) → Act (user actions) → Assert (verify)
- * ✓ Naming: "should {user action} {expected result}"
+ * ✓ Tags: @P1 @cart @addToCart
+ * ✓ Structure: Suite (descriptive) → Test (Cxxxxxx) → Only steps/assertions
+ * ✓ Test format: CxxxN - Readable name @CxxxN (no arrange code, only act/assert)
  * 
  * Focus: Cart operations, quantity management, persistence
  * NOT focus: Checkout (covered in separate suite)
  */
 
-import { test } from '@playwright/test';
-import { HomePage } from '../pages/HomePage.js';
+import { test, expect } from '@playwright/test';
 import { ProductBrowsingPage } from '../pages/ProductBrowsingPage.js';
 import { AddToCartPage } from '../pages/AddToCartPage.js';
-import { HomeSteps } from '../steps/HomeSteps.js';
 import { ProductBrowsingSteps } from '../steps/ProductBrowsingSteps.js';
 import { AddToCartSteps } from '../steps/AddToCartSteps.js';
-import { HomePageAssertions } from '../assertions/HomePageAssertions.js';
 import { AddToCartAssertions } from '../assertions/AddToCartAssertions.js';
 import { DbHelper } from '../support/db-helper.js';
 import { Logger } from '../support/logger.js';
 
 const logger = new Logger('addToCart.spec');
-
-// Test data - using known products from database
 const PRODUCT_IDS = [1, 2, 3];
-const INITIAL_CART_COUNT = 0;
 
-test.describe('Add to Cart @smoke @P1', () => {
+test.describe('Add to Cart Operations @P1 @addToCart', () => {
   let dbHelper;
-  let homePage;
   let productBrowsingPage;
   let addToCartPage;
-  let homeSteps;
   let productBrowsingSteps;
   let addToCartSteps;
-  let homePageAssertions;
   let addToCartAssertions;
 
   test.beforeEach(async ({ page }) => {
-    // Arrange: Initialize objects
-    logger.info('Setting up Add to Cart test');
     
     dbHelper = new DbHelper({
       host: process.env.DB_HOST || 'localhost',
@@ -54,15 +43,10 @@ test.describe('Add to Cart @smoke @P1', () => {
     await dbHelper.connect();
     await dbHelper.resetDatabase();
     
-    homePage = new HomePage(page);
     productBrowsingPage = new ProductBrowsingPage(page);
     addToCartPage = new AddToCartPage(page);
-    
-    homeSteps = new HomeSteps(homePage);
     productBrowsingSteps = new ProductBrowsingSteps(productBrowsingPage);
     addToCartSteps = new AddToCartSteps(addToCartPage);
-    
-    homePageAssertions = new HomePageAssertions(homePage);
     addToCartAssertions = new AddToCartAssertions(addToCartPage);
   });
 
@@ -72,245 +56,107 @@ test.describe('Add to Cart @smoke @P1', () => {
     }
   });
 
-  // ==================== SMOKE TESTS ====================
-
-  test('should add product to cart with default quantity and update badge', async () => {
-    // Arrange: Navigate to shop
-    const productIdToAdd = PRODUCT_IDS[0];
-    const expectedCartCount = 1;
-    
-    // Act: User navigates to shop and adds product
-    logger.info('Navigating to shop');
+  test('C001 - Add product with default quantity and update badge @C001 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding product ${productIdToAdd} to cart with default quantity`);
-    await addToCartSteps.userAddsProductToCart(productIdToAdd);
-    
-    // Assert: Verify cart updated
-    logger.info(`Verifying cart badge shows ${expectedCartCount} item`);
-    await addToCartAssertions.cartBadgeShowsCount(expectedCartCount);
+    await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
+    await addToCartAssertions.cartBadgeShowsCount(1);
     await addToCartAssertions.successMessageIsDisplayed();
   });
 
-  test('should add product to cart with custom quantity', async () => {
-    // Arrange
-    const productIdToAdd = PRODUCT_IDS[0];
-    const customQuantity = 3;
-    const expectedCartCount = 3;
-    
-    // Act: Navigate and add with custom quantity
+  test('C002 - Add product with custom quantity @C002', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding product ${productIdToAdd} with quantity ${customQuantity}`);
-    await addToCartSteps.userAddsProductToCartWithQuantity(productIdToAdd, customQuantity);
-    
-    // Assert: Verify correct quantity
-    logger.info('Verifying cart shows correct quantity');
-    await addToCartAssertions.cartBadgeShowsCount(expectedCartCount);
+    await addToCartSteps.userAddsProductToCartWithQuantity(PRODUCT_IDS[0], 3);
+    await addToCartAssertions.cartBadgeShowsCount(3);
   });
 
-  test('should add multiple different products to cart', async () => {
-    // Arrange
-    const productsToAdd = PRODUCT_IDS;
-    const expectedCartCount = productsToAdd.length;
-    
-    // Act: Navigate and add multiple products
+  test('C003 - Add multiple different products to cart @C003 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding ${productsToAdd.length} different products to cart`);
-    await addToCartSteps.userAddsMultipleProductsToCart(productsToAdd);
-    
-    // Assert: Verify all products added
-    logger.info(`Verifying cart contains ${expectedCartCount} different products`);
-    await addToCartAssertions.cartBadgeShowsCount(expectedCartCount);
+    await addToCartSteps.userAddsMultipleProductsToCart(PRODUCT_IDS);
+    await addToCartAssertions.cartBadgeShowsCount(3);
   });
 
-  test('should cancel add to cart operation without adding product', async () => {
-    // Arrange
-    const productIdToAdd = PRODUCT_IDS[0];
-    const expectedCartCountAfterCancel = 0;
-    
-    // Act: Navigate and cancel add
+  test('C004 - Cancel add to cart operation @C004', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Attempting to add product ${productIdToAdd} then canceling`);
-    await addToCartSteps.userCancelsAddingProductToCart(productIdToAdd);
-    
-    // Assert: Verify product not added
-    logger.info('Verifying cart remains empty after canceling');
-    await addToCartAssertions.cartBadgeShowsCount(expectedCartCountAfterCancel);
+    await addToCartSteps.userCancelsAddingProductToCart(PRODUCT_IDS[0]);
+    await addToCartAssertions.cartBadgeShowsCount(0);
   });
 
-  test('should handle out of stock products appropriately', async () => {
-    // Arrange: Make product 1 out of stock
-    const outOfStockProductId = 1;
+  test('C005 - Handle out of stock products @C005 @smoke', async () => {
     await dbHelper.executeInTransaction(async (conn) => {
-      await conn.query('UPDATE products SET stock = 0 WHERE id = ?', [outOfStockProductId]);
+      await conn.query('UPDATE products SET stock = 0 WHERE id = ?', [1]);
     });
     
-    // Act: Navigate to shop
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    // Assert: Verify add to cart button is disabled
-    logger.info('Verifying add to cart button is disabled for out of stock product');
-    await addToCartAssertions.addToCartButtonIsDisabledForProduct(outOfStockProductId);
+    await addToCartAssertions.addToCartButtonIsDisabledForProduct(1);
   });
 
-  test('should update cart badge correctly when adding multiple quantities of same product', async () => {
-    // Arrange
-    const productId = PRODUCT_IDS[0];
-    const timesToAdd = 3;
-    const expectedTotalQuantity = timesToAdd;
-    
-    // Act: Navigate and add same product multiple times
+  test('C006 - Update badge when adding same product multiple times @C006', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding same product ${timesToAdd} times with quantity 1 each`);
-    await addToCartSteps.userAddsSameProductToCartMultipleTimes(productId, timesToAdd);
-    
-    // Assert: Verify total quantity
-    logger.info(`Verifying cart shows total of ${expectedTotalQuantity} items`);
-    await addToCartAssertions.cartBadgeShowsCount(expectedTotalQuantity);
+    await addToCartSteps.userAddsSameProductToCartMultipleTimes(PRODUCT_IDS[0], 3);
+    await addToCartAssertions.cartBadgeShowsCount(3);
   });
 
-  test('should persist cart data after page reload', async () => {
-    // Arrange
-    const productIdToAdd = PRODUCT_IDS[0];
-    const expectedCartCount = 1;
-    
-    // Act: Add product
+  test('C007 - Persist cart data after page reload @C007 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    logger.info('Adding product to cart');
-    await addToCartSteps.userAddsProductToCart(productIdToAdd);
+    await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     
-    // Verify cart has item
     const countBefore = await addToCartPage.getCartItemCount();
-    logger.info(`Cart count before reload: ${countBefore}`);
-    
-    // Reload page
-    logger.info('Reloading page');
     addToCartPage.page.reload();
     await addToCartPage.page.waitForLoadState('domcontentloaded');
     
-    // Assert: Verify cart persisted
-    logger.info('Verifying cart persisted after reload');
     await addToCartAssertions.cartPersistedAfterPageReload(countBefore);
-    await addToCartAssertions.cartBadgeShowsCount(expectedCartCount);
+    await addToCartAssertions.cartBadgeShowsCount(1);
   });
 
-  // ==================== ADDITIONAL COVERAGE TESTS ====================
-
-  test('should display success message after adding product', async () => {
-    // Arrange
-    const productIdToAdd = PRODUCT_IDS[0];
-    
-    // Act: Navigate and add product
+  test('C008 - Display success message after adding product @C008 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    await addToCartSteps.userAddsProductToCart(productIdToAdd);
-    
-    // Assert: Verify success message
-    logger.info('Verifying success message displayed');
+    await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     await addToCartAssertions.successMessageIsDisplayed();
     await addToCartAssertions.successMessageIndicatesProductAdded();
   });
 
-  test('should allow user to continue shopping after adding product', async () => {
-    // Arrange
-    const productIdToAdd = PRODUCT_IDS[0];
-    
-    // Act: Navigate, add product, and continue shopping
+  test('C009 - Allow user to continue shopping after adding product @C009', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    const urlBefore = addToCartPage.page.url();
+    await addToCartSteps.userAddsProductAndContinuesShopping(PRODUCT_IDS[0]);
     
-    logger.info('Adding product and continuing shopping');
-    await addToCartSteps.userAddsProductAndContinuesShopping(productIdToAdd);
-    
-    // Assert: Verify stayed on shop page and cart updated
-    logger.info('Verifying user stayed on shop page');
-    const urlAfter = addToCartPage.page.url();
-    // Both should be shop pages but may have different query params
-    expect(urlAfter).toContain('shop');
+    expect(addToCartPage.page.url()).toContain('shop');
     await addToCartAssertions.cartBadgeShowsCount(1);
   });
 
-  test('should increase cart total price when adding expensive product', async () => {
-    // Arrange: Get initial cart total
-    const productIdToAdd = PRODUCT_IDS[0];
+  test('C010 - Increase cart total price when adding product @C010', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    const initialTotal = await addToCartPage.getCartTotalPrice();
-    logger.info(`Initial cart total: ${initialTotal}`);
-    
-    // Act: Add product
-    logger.info(`Adding product ${productIdToAdd}`);
-    await addToCartSteps.userAddsProductToCart(productIdToAdd);
-    
-    // Assert: Verify total increased
-    logger.info('Verifying cart total increased');
+    await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     await addToCartAssertions.cartTotalPriceIsDisplayed();
     await addToCartAssertions.cartTotalShowsCurrencyFormat();
   });
 
-  test('should add multiple products with different quantities', async () => {
-    // Arrange
-    const productId1 = PRODUCT_IDS[0];
-    const quantity1 = 2;
-    const productId2 = PRODUCT_IDS[1];
-    const quantity2 = 3;
-    const expectedTotalItems = quantity1 + quantity2;
-    
-    // Act: Navigate and add products with different quantities
+  test('C011 - Add multiple products with different quantities @C011 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding product ${productId1} with quantity ${quantity1}`);
-    await addToCartSteps.userAddsProductToCartWithQuantity(productId1, quantity1);
-    
-    logger.info(`Adding product ${productId2} with quantity ${quantity2}`);
-    await addToCartSteps.userAddsProductToCartWithQuantity(productId2, quantity2);
-    
-    // Assert: Verify total
-    logger.info(`Verifying cart total is ${expectedTotalItems} items`);
-    await addToCartAssertions.cartBadgeShowsCount(expectedTotalItems);
+    await addToCartSteps.userAddsProductToCartWithQuantity(PRODUCT_IDS[0], 2);
+    await addToCartSteps.userAddsProductToCartWithQuantity(PRODUCT_IDS[1], 3);
+    await addToCartAssertions.cartBadgeShowsCount(5);
   });
 
-  test('should disable add to cart button for zero-stock product', async () => {
-    // Arrange: Set product 2 stock to 0
-    const outOfStockId = PRODUCT_IDS[1];
+  test('C012 - Disable add to cart button for zero-stock product @C012 @smoke', async () => {
     await dbHelper.executeInTransaction(async (conn) => {
-      await conn.query('UPDATE products SET stock = 0 WHERE id = ?', [outOfStockId]);
+      await conn.query('UPDATE products SET stock = 0 WHERE id = ?', [PRODUCT_IDS[1]]);
     });
     
-    // Act: Navigate to shop
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    // Assert: Verify button disabled
-    logger.info('Verifying out of stock product button is disabled');
-    await addToCartAssertions.addToCartButtonIsDisabledForProduct(outOfStockId);
-    
-    // Verify other products still enabled
-    const inStockId = PRODUCT_IDS[0];
-    logger.info('Verifying in-stock product button is enabled');
-    await addToCartAssertions.addToCartButtonIsEnabledForProduct(inStockId);
+    await addToCartAssertions.addToCartButtonIsDisabledForProduct(PRODUCT_IDS[1]);
+    await addToCartAssertions.addToCartButtonIsEnabledForProduct(PRODUCT_IDS[0]);
   });
 
-  test('should maintain cart state when quickly adding products', async () => {
-    // Arrange
-    const productsToAdd = [PRODUCT_IDS[0], PRODUCT_IDS[1]];
-    
-    // Act: Navigate and quickly add products
+  test('C013 - Maintain cart state when quickly adding products @C013', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
+    await addToCartSteps.userRapidlyAddsMultipleProducts([PRODUCT_IDS[0], PRODUCT_IDS[1]]);
     
-    logger.info('Rapidly adding multiple products');
-    await addToCartSteps.userRapidlyAddsMultipleProducts(productsToAdd);
-    
-    // Assert: Verify all products added
-    logger.info('Verifying all products were added despite rapid additions');
     const finalCount = await addToCartPage.getCartItemCount();
-    expect(finalCount).toBeGreaterThanOrEqual(productsToAdd.length);
+    expect(finalCount).toBeGreaterThanOrEqual(2);
   });
 });
 
-test.describe('Add to Cart - Quantity Control @P1', () => {
+test.describe('Quantity Control @P1 @addToCart', () => {
   let dbHelper;
   let productBrowsingPage;
   let addToCartPage;
@@ -319,8 +165,6 @@ test.describe('Add to Cart - Quantity Control @P1', () => {
   let addToCartAssertions;
 
   test.beforeEach(async ({ page }) => {
-    logger.info('Setting up Quantity Control test');
-    
     dbHelper = new DbHelper({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'vintagedago_user',
@@ -344,36 +188,15 @@ test.describe('Add to Cart - Quantity Control @P1', () => {
     }
   });
 
-  test('should increase quantity using increment button', async () => {
-    // Arrange
-    const productId = 1;
-    const increments = 3;
-    const expectedQuantity = 1 + increments;
-    
-    // Act: Navigate and add with quantity increase
+  test('C014 - Increase quantity using increment button @C014 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding product with ${increments} quantity increments`);
-    await addToCartSteps.userClicksIncreaseQuantityButtonMultipleTimes(productId, increments);
-    
-    // Assert: Verify quantity
-    logger.info(`Verifying cart shows ${expectedQuantity} items`);
-    await addToCartAssertions.cartBadgeShowsCount(expectedQuantity);
+    await addToCartSteps.userClicksIncreaseQuantityButtonMultipleTimes(PRODUCT_IDS[0], 3);
+    await addToCartAssertions.cartBadgeShowsCount(4);
   });
 
-  test('should type custom quantity directly in input', async () => {
-    // Arrange
-    const productId = 1;
-    const customQuantity = '5';
-    
-    // Act: Navigate and add with custom quantity input
+  test('C015 - Type custom quantity directly in input @C015', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
-    
-    logger.info(`Adding product with custom quantity: ${customQuantity}`);
-    await addToCartSteps.userTypesCustomQuantityAndAdds(productId, customQuantity);
-    
-    // Assert: Verify quantity in cart
-    logger.info('Verifying custom quantity added to cart');
-    await addToCartAssertions.cartBadgeShowsCount(parseInt(customQuantity));
+    await addToCartSteps.userTypesCustomQuantityAndAdds(PRODUCT_IDS[0], '5');
+    await addToCartAssertions.cartBadgeShowsCount(5);
   });
 });
