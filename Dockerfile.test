@@ -1,0 +1,39 @@
+# Dockerfile for running E2E tests in container
+# Usage: docker build -f Dockerfile.test -t vintagedago-test .
+# Usage: docker run --rm vintagedago-test
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install Playwright dependencies
+RUN apk add --no-cache \
+    chromium \
+    firefox \
+    webkit-dev \
+    libc6-compat \
+    libstdc++ \
+    ca-certificates
+
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Install Playwright browsers
+RUN npx playwright install --with-deps chromium
+
+# Copy application files
+COPY . .
+
+# Set environment
+ENV NODE_ENV=test
+ENV LOG_LEVEL=info
+ENV CI=true
+
+# Expose ports for debugging if needed
+EXPOSE 5173
+
+# Run tests
+CMD ["npm", "run", "test:e2e"]

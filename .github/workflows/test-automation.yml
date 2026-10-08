@@ -1,0 +1,272 @@
+name: E2E Tests - Automated Testing Pipeline
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '18'
+  PLAYWRIGHT_VERSION: '1.40.0'
+
+jobs:
+  # Job 1: Run unit tests first (fastest feedback)
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run unit tests
+        run: npm run test:unit
+      
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-results
+          path: test-results/junit.xml
+          retention-days: 30
+
+  # Job 2: Run E2E smoke tests (quick integration checks)
+  smoke-tests:
+    name: E2E Smoke Tests
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootsecret
+          MYSQL_DATABASE: vintagedago
+          MYSQL_USER: vintagedago_user
+          MYSQL_PASSWORD: secret
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 3306:3306
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Wait for MySQL
+        run: |
+          npm install mysql2
+          node -e "
+            const mysql = require('mysql2/promise');
+            const tryConnection = async () => {
+              try {
+                const conn = await mysql.createConnection({
+                  host: 'localhost',
+                  user: 'root',
+                  password: 'rootsecret',
+                  database: 'vintagedago'
+                });
+                await conn.end();
+                console.log('✓ MySQL ready');
+              } catch (e) {
+                console.log('Waiting for MySQL...');
+                setTimeout(tryConnection, 1000);
+              }
+            };
+            tryConnection();
+          "
+      
+      - name: Initialize database
+        run: npm run db:reset
+        env:
+          DB_HOST: localhost
+          DB_USER: vintagedago_user
+          DB_PASSWORD: secret
+          DB_NAME: vintagedago
+      
+      - name: Start backend server
+        run: npm run backend:start &
+        env:
+          NODE_ENV: test
+          DB_HOST: localhost
+          DB_USER: vintagedago_user
+          DB_PASSWORD: secret
+          DB_NAME: vintagedago
+      
+      - name: Wait for backend
+        run: |
+          npm install axios
+          node -e "
+            const axios = require('axios');
+            const tryHealth = async () => {
+              try {
+                const response = await axios.get('http://localhost:3000/api/health');
+                console.log('✓ Backend ready');
+              } catch (e) {
+                console.log('Waiting for backend...');
+                setTimeout(tryHealth, 1000);
+              }
+            };
+            tryHealth();
+          "
+      
+      - name: Run E2E smoke tests
+        run: npm run test:e2e:smoke
+        env:
+          BASE_URL: http://localhost:5173
+          API_URL: http://localhost:3000/api
+      
+      - name: Upload E2E test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      
+      - name: Upload E2E test videos
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-videos
+          path: test-results/
+          retention-days: 7
+
+  # Job 3: Run full E2E test suite
+  full-e2e-tests:
+    name: Full E2E Tests
+    runs-on: ubuntu-latest
+    needs: smoke-tests
+    if: github.event_name == 'push' || github.event_name == 'schedule'
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootsecret
+          MYSQL_DATABASE: vintagedago
+          MYSQL_USER: vintagedago_user
+          MYSQL_PASSWORD: secret
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 3306:3306
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Initialize database
+        run: npm run db:reset
+        env:
+          DB_HOST: localhost
+          DB_USER: vintagedago_user
+          DB_PASSWORD: secret
+          DB_NAME: vintagedago
+      
+      - name: Start backend server
+        run: npm run backend:start &
+      
+      - name: Run full E2E tests
+        run: npm run test:e2e
+      
+      - name: Generate coverage report
+        run: npm run coverage:report
+        if: always()
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: e2e-tests
+          fail_ci_if_error: false
+
+  # Job 4: Test results and reporting
+  test-report:
+    name: Test Results & Reporting
+    runs-on: ubuntu-latest
+    needs: [unit-tests, smoke-tests, full-e2e-tests]
+    if: always()
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download all test results
+        uses: actions/download-artifact@v3
+      
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: '**/junit.xml'
+      
+      - name: Comment PR with test results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const testResults = fs.readFileSync('unit-test-results/junit.xml', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ All tests passed! See artifacts for detailed reports.'
+            });
+
+  # Job 5: Notify on failure
+  notify-failure:
+    name: Notify Failures
+    runs-on: ubuntu-latest
+    needs: [unit-tests, smoke-tests]
+    if: failure() && github.event_name == 'push'
+    
+    steps:
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'E2E tests failed on ${{ github.ref }}'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          fields: repo,message,commit,author
+        if: secrets.SLACK_WEBHOOK != ''

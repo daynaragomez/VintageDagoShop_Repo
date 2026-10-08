@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # MySQL Database for testing
+  mysql-test:
+    image: mysql:8.0
+    container_name: vintagedago_mysql_test
+    ports:
+      - "3307:3306"  # Use different port than dev
+    environment:
+      MYSQL_ROOT_PASSWORD: rootsecret
+      MYSQL_DATABASE: vintagedago_test
+      MYSQL_USER: vintagedago_user
+      MYSQL_PASSWORD: secret
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/dev_fixtures.sql:/docker-entrypoint-initdb.d/02-fixtures.sql
+      - mysql_test_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+    networks:
+      - test-network
+
+  # Backend API for testing
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vintagedago_backend_test
+    ports:
+      - "3001:3000"  # Use different port than dev
+    environment:
+      NODE_ENV: test
+      DB_HOST: mysql-test
+      DB_PORT: 3306
+      DB_NAME: vintagedago_test
+      DB_USER: vintagedago_user
+      DB_PASSWORD: secret
+      JWT_SECRET: test_secret
+      LOG_LEVEL: info
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src
+    networks:
+      - test-network
+
+  # Frontend for E2E testing
+  frontend-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: vintagedago_frontend_test
+    ports:
+      - "5174:5173"  # Use different port than dev
+    environment:
+      VITE_API_BASE_URL: http://localhost:3001/api
+      NODE_ENV: test
+    depends_on:
+      - backend-test
+    networks:
+      - test-network
+
+  # Playwright Test Runner
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.40.0-jammy
+    container_name: vintagedago_playwright
+    working_dir: /app
+    environment:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 0
+      NODE_ENV: test
+      LOG_LEVEL: debug
+      VITE_API_BASE_URL: http://backend-test:3000/api
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - playwright_test_results:/app/test-results
+      - playwright_coverage:/app/coverage
+    depends_on:
+      - frontend-test
+      - backend-test
+    networks:
+      - test-network
+    command: >
+      sh -c "
+      npm install &&
+      npm run db:reset &&
+      npx playwright test --workers=1 --reporter=html --reporter=list
+      "
+
+volumes:
+  mysql_test_data:
+  playwright_test_results:
+  playwright_coverage:
+
+networks:
+  test-network:
+    driver: bridge
