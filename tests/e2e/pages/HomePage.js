@@ -22,22 +22,46 @@ export class HomePage extends BasePage {
   async goto() {
     await this.navigate('/');
     
-    // Wait for either products-grid or error message
-    try {
-      await Promise.race([
-        this.productsGrid.waitFor({ state: 'visible', timeout: 15000 }),
-        this.errorMessage.waitFor({ state: 'visible', timeout: 15000 })
-          .then(() => { throw new Error('Products failed to load'); })
-      ]);
-    } catch (e) {
-      // If we got error message or timeout, try reloading
-      if (e.message.includes('Products failed to load') || e.message.includes('timeout')) {
-        await this.page.reload();
-        await this.productsGrid.waitFor({ state: 'visible', timeout: 15000 });
-      } else {
-        throw e;
+    // Use waitForFunction with explicit retry logic to avoid race conditions
+    const maxRetries = 3;
+    let lastError;
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        // Check if products grid has loaded with at least one product
+        await this.page.waitForFunction(
+          () => {
+            const grid = document.querySelector('[data-testid="products-grid"]');
+            return grid && grid.children && grid.children.length > 0;
+          },
+          { timeout: 15000 }
+        );
+        // Success - grid loaded with products
+        return;
+      } catch (e) {
+        lastError = e;
+        
+        // Check if error message appeared (API failure)
+        const errorMsg = await this.page.$('[data-testid*="error"]');
+        if (errorMsg) {
+          throw new Error('API returned error - products failed to load');
+        }
+        
+        // If we haven't exceeded max retries, reload and try again
+        if (attempt < maxRetries - 1) {
+          console.warn(`HomePage.goto() retry ${attempt + 1}/${maxRetries}: ${e.message}`);
+          await this.page.reload();
+          // Wait a bit before retry
+          await this.page.waitForTimeout(500);
+        }
       }
     }
+    
+    // All retries exhausted
+    throw new Error(
+      `HomePage failed to load products after ${maxRetries} attempts. ` +
+      `Last error: ${lastError?.message || 'Unknown'}`
+    );
   }
 
   async getProductCount() {
