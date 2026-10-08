@@ -55,10 +55,15 @@ function runCommand(cmd, options = {}) {
 function checkContainerRunning() {
   try {
     const DOCKER = getDockerCmd();
-    const cmd = `${DOCKER} exec ${CONTAINER} mysql -u${MYSQL_USER} -p${MYSQL_PASS} ${DB} -e "SELECT 1;" 2>/dev/null`;
+    const nullRedirect = platform() === 'win32' ? '$null' : '/dev/null';
+    // Use MYSQL_PWD env var for security (no password in command line)
+    const cmd = platform() === 'win32'
+      ? `${DOCKER} exec -e MYSQL_PWD="${MYSQL_PASS}" ${CONTAINER} mysql -u${MYSQL_USER} ${DB} -e "SELECT 1;"`
+      : `${DOCKER} exec -e MYSQL_PWD="${MYSQL_PASS}" ${CONTAINER} mysql -u${MYSQL_USER} ${DB} -e "SELECT 1;" 2>/dev/null`;
+    
     execSync(cmd, { stdio: 'pipe', shell: true });
     return true;
-  } catch {
+  } catch (e) {
     return false;
   }
 }
