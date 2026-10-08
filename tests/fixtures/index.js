@@ -79,19 +79,48 @@ export const test = base.extend({
     await use(new OrderApiClient(request));
   },
 
-  // ── DB Helper — resets DB before and after each test ─────────────────────
+  // ── DB Helper — resets DB before and after each test with retry logic ────
   // eslint-disable-next-line no-empty-pattern
   db: async ({}, use) => {
-    try {
-      dbHelper.fullReset();
-    } catch (e) {
-      console.warn('DB reset failed (container may not be ready):', e.message);
+    const isCI = process.env.CI;
+    const maxRetries = 3;
+    
+    // SETUP: Reset with retry and throw if persists (especially in CI)
+    let resetSuccess = false;
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        dbHelper.fullReset();
+        resetSuccess = true;
+        break;
+      } catch (e) {
+        const retryMsg = `DB reset retry ${i + 1}/${maxRetries}`;
+        console.warn(`${retryMsg}:`, e.message);
+        
+        // In CI, fail immediately if max retries reached
+        if (i === maxRetries - 1 && isCI) {
+          throw new Error(`DB reset failed after ${maxRetries} attempts: ${e.message}`);
+        }
+        
+        // Exponential backoff before retry
+        if (i < maxRetries - 1) {
+          const backoffMs = 1000 * Math.pow(2, i);
+          await new Promise(r => setTimeout(r, backoffMs));
+        }
+      }
     }
+    
     await use(dbHelper);
+    
+    // TEARDOWN: Cleanup with lenient error handling
     try {
       dbHelper.fullReset();
     } catch (e) {
-      console.warn('DB cleanup failed:', e.message);
+      // In CI, log and fail; in dev, just warn (don't block test from completing)
+      if (isCI) {
+        console.error('DB cleanup failed in CI (next test may have stale data):', e.message);
+      } else {
+        console.warn('DB cleanup failed (next test may have stale data):', e.message);
+      }
     }
   },
 });

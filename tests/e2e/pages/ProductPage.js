@@ -28,26 +28,43 @@ export class ProductPage extends BasePage {
   async getStock() { return this.stock.textContent(); }
 
   async addToCart() {
+    const maxRetries = 3;
+    
     // Wait for button to be visible
     await this.addToCartBtn.waitFor({ state: 'visible', timeout: 5000 });
     
-    // Wait a bit for any pending updates
-    await this.page.waitForTimeout(500);
+    // Wait for button to be enabled (not disabled)
+    try {
+      await this.page.waitForFunction(
+        () => {
+          const btn = document.querySelector('[data-testid="btn-add-to-cart"]');
+          return btn && !btn.disabled;
+        },
+        { timeout: 5000 }
+      );
+    } catch (e) {
+      console.warn('Button did not become enabled within 5s, will retry on click');
+    }
     
-    // Click the button (retry if it fails due to disabled state)
+    // Click the button with retry logic
     let clicked = false;
-    for (let attempt = 0; attempt < 3; attempt++) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
         await this.addToCartBtn.click({ timeout: 2000 });
         clicked = true;
+        console.log(`✓ Add to cart clicked (attempt ${attempt + 1})`);
         break;
       } catch (e) {
-        if (attempt < 2 && e.message.includes('not enabled')) {
-          // Wait a bit and retry
-          await this.page.waitForTimeout(1000);
+        if (attempt < maxRetries - 1 && e.message.includes('not enabled')) {
+          // Exponential backoff: 1s, 2s, 4s
+          const backoffMs = 1000 * Math.pow(2, attempt);
+          console.warn(`⚠ Retry ${attempt + 1}/${maxRetries}: Button not enabled, waiting ${backoffMs}ms...`);
+          await this.page.waitForTimeout(backoffMs);
           continue;
         }
-        throw e;
+        throw new Error(
+          `Failed to click Add to Cart after ${attempt + 1} attempt(s): ${e.message}`
+        );
       }
     }
     
