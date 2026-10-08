@@ -56,32 +56,32 @@ test.describe('Add to Cart Operations @P1 @addToCart', () => {
     }
   });
 
-  test('C001 - Add product with default quantity and update badge @C001 @smoke', async () => {
+  test('should C001 add product with default quantity and update badge @C001 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     await addToCartAssertions.cartBadgeShowsCount(1);
     await addToCartAssertions.successMessageIsDisplayed();
   });
 
-  test('C002 - Add product with custom quantity @C002', async () => {
+  test('should C002 add product with custom quantity @C002', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductToCartWithQuantity(PRODUCT_IDS[0], 3);
     await addToCartAssertions.cartBadgeShowsCount(3);
   });
 
-  test('C003 - Add multiple different products to cart @C003 @smoke', async () => {
+  test('should C003 add multiple different products to cart @C003 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsMultipleProductsToCart(PRODUCT_IDS);
     await addToCartAssertions.cartBadgeShowsCount(3);
   });
 
-  test('C004 - Cancel add to cart operation @C004', async () => {
+  test('should C004 cancel add to cart operation @C004', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userCancelsAddingProductToCart(PRODUCT_IDS[0]);
     await addToCartAssertions.cartBadgeShowsCount(0);
   });
 
-  test('C005 - Handle out of stock products @C005 @smoke', async () => {
+  test('should C005 handle out of stock products @C005 @smoke', async () => {
     await dbHelper.executeInTransaction(async (conn) => {
       await conn.query('UPDATE products SET stock = 0 WHERE id = ?', [1]);
     });
@@ -90,13 +90,13 @@ test.describe('Add to Cart Operations @P1 @addToCart', () => {
     await addToCartAssertions.addToCartButtonIsDisabledForProduct(1);
   });
 
-  test('C006 - Update badge when adding same product multiple times @C006', async () => {
+  test('should C006 update badge when adding same product multiple times @C006', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsSameProductToCartMultipleTimes(PRODUCT_IDS[0], 3);
     await addToCartAssertions.cartBadgeShowsCount(3);
   });
 
-  test('C007 - Persist cart data after page reload @C007 @smoke', async () => {
+  test('should C007 persist cart data after page reload @C007 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     
@@ -108,14 +108,14 @@ test.describe('Add to Cart Operations @P1 @addToCart', () => {
     await addToCartAssertions.cartBadgeShowsCount(1);
   });
 
-  test('C008 - Display success message after adding product @C008 @smoke', async () => {
+  test('should C008 display success message after adding product @C008 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     await addToCartAssertions.successMessageIsDisplayed();
     await addToCartAssertions.successMessageIndicatesProductAdded();
   });
 
-  test('C009 - Allow user to continue shopping after adding product @C009', async () => {
+  test('should C009 allow user to continue shopping after adding product @C009', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductAndContinuesShopping(PRODUCT_IDS[0]);
     
@@ -123,21 +123,21 @@ test.describe('Add to Cart Operations @P1 @addToCart', () => {
     await addToCartAssertions.cartBadgeShowsCount(1);
   });
 
-  test('C010 - Increase cart total price when adding product @C010', async () => {
+  test('should C010 increase cart total price when adding product @C010', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductToCart(PRODUCT_IDS[0]);
     await addToCartAssertions.cartTotalPriceIsDisplayed();
     await addToCartAssertions.cartTotalShowsCurrencyFormat();
   });
 
-  test('C011 - Add multiple products with different quantities @C011 @smoke', async () => {
+  test('should C011 add multiple products with different quantities @C011 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userAddsProductToCartWithQuantity(PRODUCT_IDS[0], 2);
     await addToCartSteps.userAddsProductToCartWithQuantity(PRODUCT_IDS[1], 3);
     await addToCartAssertions.cartBadgeShowsCount(5);
   });
 
-  test('C012 - Disable add to cart button for zero-stock product @C012 @smoke', async () => {
+  test('should C012 disable add to cart button for zero-stock product @C012 @smoke', async () => {
     await dbHelper.executeInTransaction(async (conn) => {
       await conn.query('UPDATE products SET stock = 0 WHERE id = ?', [PRODUCT_IDS[1]]);
     });
@@ -147,7 +147,7 @@ test.describe('Add to Cart Operations @P1 @addToCart', () => {
     await addToCartAssertions.addToCartButtonIsEnabledForProduct(PRODUCT_IDS[0]);
   });
 
-  test('C013 - Maintain cart state when quickly adding products @C013', async () => {
+  test('should C013 maintain cart state when quickly adding products @C013', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userRapidlyAddsMultipleProducts([PRODUCT_IDS[0], PRODUCT_IDS[1]]);
     
@@ -188,13 +188,13 @@ test.describe('Quantity Control @P1 @addToCart', () => {
     }
   });
 
-  test('C014 - Increase quantity using increment button @C014 @smoke', async () => {
+  test('should C014 increase quantity using increment button @C014 @smoke', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userClicksIncreaseQuantityButtonMultipleTimes(PRODUCT_IDS[0], 3);
     await addToCartAssertions.cartBadgeShowsCount(4);
   });
 
-  test('C015 - Type custom quantity directly in input @C015', async () => {
+  test('should C015 type custom quantity directly in input @C015', async () => {
     await productBrowsingSteps.userNavigatesToProductListing();
     await addToCartSteps.userTypesCustomQuantityAndAdds(PRODUCT_IDS[0], '5');
     await addToCartAssertions.cartBadgeShowsCount(5);
