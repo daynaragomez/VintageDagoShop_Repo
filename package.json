@@ -13,13 +13,15 @@
     "staging:doctor": "powershell -ExecutionPolicy Bypass -File ./scripts/staging-doctor.ps1",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{js,jsx,json,css,md}\"",
+    "db:reset": "node scripts/db-reset.js",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "test:e2e": "playwright test",
-    "test:e2e:staging": "playwright test tests/e2e/specs",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e": "npm run db:reset && playwright test",
+    "test:e2e:staging": "npm run db:reset && playwright test tests/e2e/specs",
+    "test:e2e:ui": "npm run db:reset && playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:smoke": "npm run db:reset && playwright test --grep @smoke"
   },
   "dependencies": {
     "react": "^18.2.0",
