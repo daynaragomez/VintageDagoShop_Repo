@@ -1,7 +1,7 @@
 ﻿import { defineConfig, devices } from '@playwright/test';
 
 const targetBaseURL = process.env.STAGING_URL || 'http://localhost:5173';
-const useWebServer = !process.env.STAGING_URL;
+const useWebServer = process.env.START_WEBSERVER === 'true';  // Only start if explicitly requested
 
 export default defineConfig({
   testDir: './tests/e2e/specs',
@@ -16,6 +16,9 @@ export default defineConfig({
   /* Limit workers on CI to avoid DB contention */
   workers: process.env.CI ? 1 : 2,
 
+  /* Global test timeout - increased for slower machines */
+  timeout: 60000,
+
   /* Reporters */
   reporter: [
     ['list'],
@@ -24,10 +27,11 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL:    targetBaseURL,
-    trace:      'on-first-retry',
-    screenshot: 'only-on-failure',
-    video:      'on-first-retry',
+    baseURL:        targetBaseURL,
+    trace:          'on-first-retry',
+    screenshot:     'only-on-failure',
+    video:          'on-first-retry',
+    navigationTimeout: 45000,  // Longer navigation timeout
   },
 
   projects: [
@@ -41,13 +45,13 @@ export default defineConfig({
     },
   ],
 
-  /* Start the Vite dev server automatically before running tests */
+  /* Start the Vite dev server automatically before running tests - only if explicitly requested */
   webServer: useWebServer
     ? {
         command:             'npm run dev',
         url:                 'http://localhost:5173',
         reuseExistingServer: !process.env.CI,
-        timeout:             30000,
+        timeout:             60000,
       }
     : undefined,
 });

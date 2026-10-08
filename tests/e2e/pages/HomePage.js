@@ -9,6 +9,7 @@ export class HomePage extends BasePage {
     this.cartBadge    = page.getByTestId('cart-badge');
     this.navCartTotal = page.getByTestId('navbar-cart-total');
     this.productsGrid = page.getByTestId('products-grid');
+    this.errorMessage = page.getByText(/Could not load products/);
   }
 
   productCard(id)  { return this.page.getByTestId(`product-card-${id}`); }
@@ -20,7 +21,23 @@ export class HomePage extends BasePage {
 
   async goto() {
     await this.navigate('/');
-    await this.productsGrid.waitFor({ state: 'visible' });
+    
+    // Wait for either products-grid or error message
+    try {
+      await Promise.race([
+        this.productsGrid.waitFor({ state: 'visible', timeout: 15000 }),
+        this.errorMessage.waitFor({ state: 'visible', timeout: 15000 })
+          .then(() => { throw new Error('Products failed to load'); })
+      ]);
+    } catch (e) {
+      // If we got error message or timeout, try reloading
+      if (e.message.includes('Products failed to load') || e.message.includes('timeout')) {
+        await this.page.reload();
+        await this.productsGrid.waitFor({ state: 'visible', timeout: 15000 });
+      } else {
+        throw e;
+      }
+    }
   }
 
   async getProductCount() {

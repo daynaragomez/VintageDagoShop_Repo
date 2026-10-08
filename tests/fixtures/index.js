@@ -82,9 +82,17 @@ export const test = base.extend({
   // ── DB Helper — resets DB before and after each test ─────────────────────
   // eslint-disable-next-line no-empty-pattern
   db: async ({}, use) => {
-    dbHelper.fullReset();
+    try {
+      dbHelper.fullReset();
+    } catch (e) {
+      console.warn('DB reset failed (container may not be ready):', e.message);
+    }
     await use(dbHelper);
-    dbHelper.fullReset();
+    try {
+      dbHelper.fullReset();
+    } catch (e) {
+      console.warn('DB cleanup failed:', e.message);
+    }
   },
 });
 

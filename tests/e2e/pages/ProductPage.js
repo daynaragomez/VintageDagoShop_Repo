@@ -28,8 +28,35 @@ export class ProductPage extends BasePage {
   async getStock() { return this.stock.textContent(); }
 
   async addToCart() {
-    await this.addToCartBtn.click();
-    await this.qtyControls.waitFor({ state: 'visible' });
+    // Wait for button to be visible
+    await this.addToCartBtn.waitFor({ state: 'visible', timeout: 5000 });
+    
+    // Wait a bit for any pending updates
+    await this.page.waitForTimeout(500);
+    
+    // Click the button (retry if it fails due to disabled state)
+    let clicked = false;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        await this.addToCartBtn.click({ timeout: 2000 });
+        clicked = true;
+        break;
+      } catch (e) {
+        if (attempt < 2 && e.message.includes('not enabled')) {
+          // Wait a bit and retry
+          await this.page.waitForTimeout(1000);
+          continue;
+        }
+        throw e;
+      }
+    }
+    
+    if (!clicked) {
+      throw new Error('Failed to click Add to Cart button after 3 attempts');
+    }
+    
+    // Wait for quantity controls to appear
+    await this.qtyControls.waitFor({ state: 'visible', timeout: 5000 });
   }
 
   async incrementQty() {
