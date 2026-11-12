@@ -39,8 +39,8 @@ export class AddToCartSteps {
     if (isModalOpen) {
       await this.addToCartPage.confirmAddToCart();
     } else {
-      // If no modal, wait for cart to update
-      await this.addToCartPage.page.waitForLoadState('networkidle');
+      // If no modal, wait for page to update
+      await this.addToCartPage.page.waitForLoadState('domcontentloaded');
     }
   }
 

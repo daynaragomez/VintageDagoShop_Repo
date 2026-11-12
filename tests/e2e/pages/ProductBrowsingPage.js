@@ -214,7 +214,7 @@ export class ProductBrowsingPage extends BasePage {
    * Waits for products grid to load
    */
   async goto() {
-    await this.navigate('/shop');
+    await this.navigate('/');
     // Wait for products grid to load with at least one product
     await this.waitForElement(this.productsGrid);
     // Wait for at least one product card to appear
