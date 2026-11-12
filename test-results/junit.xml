@@ -1,2 +1,2119 @@
-<testsuites id="" name="" tests="0" failures="0" skipped="0" errors="0" time="70.48541800000001">
+<testsuites id="" name="" tests="82" failures="5" skipped="0" errors="42" time="840.8203199999999">
+<testsuite name="addToCart.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="15" failures="2" skipped="0" time="145.945" errors="8">
+<testcase name="Add to Cart Operations @P1 @addToCart › should C001 add product with default quantity and update badge @C001 @smoke" classname="addToCart.spec.js" time="1.602">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+]]>
+</system-out>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C002 add product with custom quantity @C002" classname="addToCart.spec.js" time="12.877">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-6ec1f-t-with-custom-quantity-C002-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-6ec1f-t-with-custom-quantity-C002-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:68:3 › Add to Cart Operations @P1 @addToCart › should C002 add product with custom quantity @C002 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('add-to-cart-modal') to be visible
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at AddToCartPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at AddToCartPage.waitForAddToCartModal (C:\workspace2\VintageDagoShop\tests\e2e\pages\AddToCartPage.js:304:16)
+        at AddToCartSteps.userAddsProductToCartWithQuantity (C:\workspace2\VintageDagoShop\tests\e2e\steps\AddToCartSteps.js:63:30)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:70:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-6ec1f-t-with-custom-quantity-C002-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-6ec1f-t-with-custom-quantity-C002-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C003 add multiple different products to cart @C003 @smoke" classname="addToCart.spec.js" time="2.269">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+]]>
+</system-out>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C004 cancel add to cart operation @C004" classname="addToCart.spec.js" time="10.56">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-2f580--add-to-cart-operation-C004-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-2f580--add-to-cart-operation-C004-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:80:3 › Add to Cart Operations @P1 @addToCart › should C004 cancel add to cart operation @C004 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('add-to-cart-modal') to be visible
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at AddToCartPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at AddToCartPage.waitForAddToCartModal (C:\workspace2\VintageDagoShop\tests\e2e\pages\AddToCartPage.js:304:16)
+        at AddToCartSteps.userCancelsAddingProductToCart (C:\workspace2\VintageDagoShop\tests\e2e\steps\AddToCartSteps.js:171:30)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:82:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-2f580--add-to-cart-operation-C004-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-2f580--add-to-cart-operation-C004-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C005 handle out of stock products @C005 @smoke" classname="addToCart.spec.js" time="1.108">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+]]>
+</system-out>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C006 update badge when adding same product multiple times @C006" classname="addToCart.spec.js" time="2.439">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+]]>
+</system-out>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C007 persist cart data after page reload @C007 @smoke" classname="addToCart.spec.js" time="60.128">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-6fd9a-fter-page-reload-C007-smoke-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-6fd9a-fter-page-reload-C007-smoke-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded." type="Error">
+<![CDATA[  [chromium] › addToCart.spec.js:101:3 › Add to Cart Operations @P1 @addToCart › should C007 persist cart data after page reload @C007 @smoke 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.textContent: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('cart-badge')
+
+
+       at ..\pages\AddToCartPage.js:140
+
+      138 |    */
+      139 |   async getCartItemCount() {
+    > 140 |     const badgeText = await this.cartBadgeCounter.textContent();
+          |                                                   ^
+      141 |     return parseInt(badgeText) || 0;
+      142 |   }
+      143 |
+        at AddToCartPage.getCartItemCount (C:\workspace2\VintageDagoShop\tests\e2e\pages\AddToCartPage.js:140:51)
+        at AddToCartAssertions.cartPersistedAfterPageReload (C:\workspace2\VintageDagoShop\tests\e2e\assertions\AddToCartAssertions.js:370:49)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:109:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-6fd9a-fter-page-reload-C007-smoke-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-6fd9a-fter-page-reload-C007-smoke-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C008 display success message after adding product @C008 @smoke" classname="addToCart.spec.js" time="0.868">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-8464e-r-adding-product-C008-smoke-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-8464e-r-adding-product-C008-smoke-chromium\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(received).toBeTruthy()" type="expect.toBeTruthy">
+<![CDATA[  [chromium] › addToCart.spec.js:113:3 › Add to Cart Operations @P1 @addToCart › should C008 display success message after adding product @C008 @smoke 
+
+    Error: expect(received).toBeTruthy()
+
+    Received: false
+
+       at ..\assertions\AddToCartAssertions.js:131
+
+      129 |   async successMessageIsDisplayed() {
+      130 |     const isVisible = await this.addToCartPage.isSuccessMessageVisible();
+    > 131 |     expect(isVisible).toBeTruthy();
+          |                       ^
+      132 |   }
+      133 |
+      134 |   /**
+        at AddToCartAssertions.successMessageIsDisplayed (C:\workspace2\VintageDagoShop\tests\e2e\assertions\AddToCartAssertions.js:131:23)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:116:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-8464e-r-adding-product-C008-smoke-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-8464e-r-adding-product-C008-smoke-chromium\error-context.md
+]]>
+</failure>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C009 allow user to continue shopping after adding product @C009" classname="addToCart.spec.js" time="0.826">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-5d6c3-g-after-adding-product-C009-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-5d6c3-g-after-adding-product-C009-chromium\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(received).toContain(expected) // indexOf" type="expect.toContain">
+<![CDATA[  [chromium] › addToCart.spec.js:120:3 › Add to Cart Operations @P1 @addToCart › should C009 allow user to continue shopping after adding product @C009 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "shop"
+    Received string:    "http://localhost:5173/"
+
+      122 |     await addToCartSteps.userAddsProductAndContinuesShopping(PRODUCT_IDS[0]);
+      123 |     
+    > 124 |     expect(addToCartPage.page.url()).toContain('shop');
+          |                                      ^
+      125 |     await addToCartAssertions.cartBadgeShowsCount(1);
+      126 |   });
+      127 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:124:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-5d6c3-g-after-adding-product-C009-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-5d6c3-g-after-adding-product-C009-chromium\error-context.md
+]]>
+</failure>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C010 increase cart total price when adding product @C010" classname="addToCart.spec.js" time="0.841">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+]]>
+</system-out>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C011 add multiple products with different quantities @C011 @smoke" classname="addToCart.spec.js" time="10.592">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-e6925-erent-quantities-C011-smoke-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-e6925-erent-quantities-C011-smoke-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:135:3 › Add to Cart Operations @P1 @addToCart › should C011 add multiple products with different quantities @C011 @smoke 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('add-to-cart-modal') to be visible
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at AddToCartPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at AddToCartPage.waitForAddToCartModal (C:\workspace2\VintageDagoShop\tests\e2e\pages\AddToCartPage.js:304:16)
+        at AddToCartSteps.userAddsProductToCartWithQuantity (C:\workspace2\VintageDagoShop\tests\e2e\steps\AddToCartSteps.js:63:30)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:137:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-e6925-erent-quantities-C011-smoke-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-e6925-erent-quantities-C011-smoke-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C012 disable add to cart button for zero-stock product @C012 @smoke" classname="addToCart.spec.js" time="10.464">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-a8ff9-ro-stock-product-C012-smoke-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-a8ff9-ro-stock-product-C012-smoke-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:142:3 › Add to Cart Operations @P1 @addToCart › should C012 disable add to cart button for zero-stock product @C012 @smoke 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:147:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-a8ff9-ro-stock-product-C012-smoke-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-a8ff9-ro-stock-product-C012-smoke-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Add to Cart Operations @P1 @addToCart › should C013 maintain cart state when quickly adding products @C013" classname="addToCart.spec.js" time="10.495">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-6804c-uickly-adding-products-C013-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Add-to-Cart-Oper-6804c-uickly-adding-products-C013-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:152:3 › Add to Cart Operations @P1 @addToCart › should C013 maintain cart state when quickly adding products @C013 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:153:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-6804c-uickly-adding-products-C013-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Add-to-Cart-Oper-6804c-uickly-adding-products-C013-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Quantity Control @P1 @addToCart › should C014 increase quantity using increment button @C014 @smoke" classname="addToCart.spec.js" time="10.437">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Quantity-Control-b688c-increment-button-C014-smoke-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Quantity-Control-b688c-increment-button-C014-smoke-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:193:3 › Quantity Control @P1 @addToCart › should C014 increase quantity using increment button @C014 @smoke 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:194:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Quantity-Control-b688c-increment-button-C014-smoke-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Quantity-Control-b688c-increment-button-C014-smoke-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Quantity Control @P1 @addToCart › should C015 type custom quantity directly in input @C015" classname="addToCart.spec.js" time="10.439">
+<system-out>
+<![CDATA[✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\addToCart-Quantity-Control-85197-tity-directly-in-input-C015-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\addToCart-Quantity-Control-85197-tity-directly-in-input-C015-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › addToCart.spec.js:199:3 › Quantity Control @P1 @addToCart › should C015 type custom quantity directly in input @C015 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\addToCart.spec.js:200:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\addToCart-Quantity-Control-85197-tity-directly-in-input-C015-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\addToCart-Quantity-Control-85197-tity-directly-in-input-C015-chromium\error-context.md
+]]>
+</error>
+</testcase>
+</testsuite>
+<testsuite name="admin-access.spec.ts" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="2" failures="1" skipped="0" time="2.039" errors="0">
+<testcase name="Admin access protection (smoke) › disallow access to admin orders page without admin token" classname="admin-access.spec.ts" time="1.37">
+</testcase>
+<testcase name="Admin access protection (smoke) › disallow access with non-admin token (UI check)" classname="admin-access.spec.ts" time="0.669">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\admin-access-Admin-access--19dc6-h-non-admin-token-UI-check--chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\admin-access-Admin-access--19dc6-h-non-admin-token-UI-check--chromium\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(received).toBeTruthy()" type="expect.toBeTruthy">
+<![CDATA[  [chromium] › admin-access.spec.ts:10:3 › Admin access protection (smoke) › disallow access with non-admin token (UI check) 
+
+    Error: expect(received).toBeTruthy()
+
+    Received: false
+
+      26 |     if (!isRedirected) {
+      27 |       const errorVisible = await page.locator('text=/Access Denied|Unauthorized|401/i').isVisible().catch(() => false);
+    > 28 |       expect(isRedirected || errorVisible).toBeTruthy();
+         |                                            ^
+      29 |     } else {
+      30 |       expect(isRedirected).toBe(true);
+      31 |     }
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\admin-access.spec.ts:28:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\admin-access-Admin-access--19dc6-h-non-admin-token-UI-check--chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\admin-access-Admin-access--19dc6-h-non-admin-token-UI-check--chromium\error-context.md
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="admin.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="8" failures="1" skipped="0" time="13.238" errors="0">
+<testcase name="Admin Authentication @admin @auth › should login with valid admin credentials" classname="admin.spec.js" time="0.734">
+</testcase>
+<testcase name="Admin Authentication @admin @auth › should reject invalid credentials" classname="admin.spec.js" time="2.735">
+</testcase>
+<testcase name="Admin Authentication @admin @auth › should logout successfully" classname="admin.spec.js" time="0.653">
+</testcase>
+<testcase name="Admin Order Management @admin @orders › should display orders list" classname="admin.spec.js" time="0.713">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\admin-Admin-Order-Manageme-ce021--should-display-orders-list-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\admin-Admin-Order-Manageme-ce021--should-display-orders-list-chromium\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(received).toContain(expected) // indexOf" type="expect.toContain">
+<![CDATA[  [chromium] › admin.spec.js:86:3 › Admin Order Management @admin @orders › should display orders list 
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "/admin/orders"
+    Received string:    "http://localhost:5173/admin/login"
+
+      91 |     } else {
+      92 |       // If no table, at least check that we're on the orders page
+    > 93 |       expect(page.url()).toContain('/admin/orders');
+         |                          ^
+      94 |     }
+      95 |   });
+      96 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\admin.spec.js:93:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\admin-Admin-Order-Manageme-ce021--should-display-orders-list-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\admin-Admin-Order-Manageme-ce021--should-display-orders-list-chromium\error-context.md
+]]>
+</failure>
+</testcase>
+<testcase name="Admin Order Management @admin @orders › should view order details" classname="admin.spec.js" time="5.558">
+</testcase>
+<testcase name="Admin Order Management @admin @orders › should update order status" classname="admin.spec.js" time="2.766">
+</testcase>
+<testcase name="API Security @admin @security › should block API requests without token" classname="admin.spec.js" time="0.051">
+</testcase>
+<testcase name="API Security @admin @security › should block API requests with invalid token" classname="admin.spec.js" time="0.028">
+</testcase>
+</testsuite>
+<testsuite name="api.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="5" failures="0" skipped="0" time="3.451" errors="0">
+<testcase name="API — Products › GET /api/products returns 3 products" classname="api.spec.js" time="0.024">
+</testcase>
+<testcase name="API — Products › each product has id, name, price and stock" classname="api.spec.js" time="0.025">
+</testcase>
+<testcase name="API — Products › GET /api/products/:id returns correct product" classname="api.spec.js" time="0.012">
+</testcase>
+<testcase name="API — Orders › POST /api/orders decrements stock by quantity ordered" classname="api.spec.js" time="1.789">
+</testcase>
+<testcase name="API — Orders › POST /api/orders returns 400 when quantity exceeds stock" classname="api.spec.js" time="1.601">
+</testcase>
+</testsuite>
+<testsuite name="cart.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="9" failures="0" skipped="0" time="5.826" errors="0">
+<testcase name="Cart Page › shows empty state when cart has no items" classname="cart.spec.js" time="0.43">
+</testcase>
+<testcase name="Cart Page › shows item row after adding product" classname="cart.spec.js" time="0.553">
+</testcase>
+<testcase name="Cart Page › item name matches the added product" classname="cart.spec.js" time="0.503">
+</testcase>
+<testcase name="Cart Page › order total matches product price" classname="cart.spec.js" time="0.691">
+</testcase>
+<testcase name="Cart Page › removing item leaves cart empty" classname="cart.spec.js" time="0.645">
+</testcase>
+<testcase name="Cart Page › adding 2 products shows 2 rows" classname="cart.spec.js" time="0.803">
+</testcase>
+<testcase name="Cart Page › total sums both products correctly" classname="cart.spec.js" time="0.791">
+</testcase>
+<testcase name="Cart Page › plus button is disabled when qty reaches stock" classname="cart.spec.js" time="0.818">
+</testcase>
+<testcase name="Cart Page › Proceed to Checkout navigates to /checkout" classname="cart.spec.js" time="0.592">
+</testcase>
+</testsuite>
+<testsuite name="checkout.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="8" failures="1" skipped="0" time="69.644" errors="1">
+<testcase name="Checkout Page › checkout form is visible" classname="checkout.spec.js" time="0.578">
+</testcase>
+<testcase name="Checkout Page › order summary shows 1 item" classname="checkout.spec.js" time="0.695">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\checkout-Checkout-Page-order-summary-shows-1-item-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\checkout-Checkout-Page-order-summary-shows-1-item-chromium\error-context.md]]
+]]>
+</system-out>
+<failure message="expect(received).toBe(expected) // Object.is equality" type="expect.toBe">
+<![CDATA[  [chromium] › checkout.spec.js:20:3 › Checkout Page › order summary shows 1 item @ui @checkout ────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 3
+
+       at ..\assertions\CheckoutAssertions.js:7
+
+       5 |
+       6 |   async formIsVisible()               { await expect(this.checkout.checkoutForm).toBeVisible(); }
+    >  7 |   async orderItemCountIs(expected)    { expect(await this.checkout.getOrderItemCount()).toBe(expected); }
+         |                                                                                         ^
+       8 |   async orderTotalIsCloseTo(expected) { expect(await this.checkout.getOrderTotal()).toBeCloseTo(expected, 1); }
+       9 |   async nameErrorVisible()            { await expect(this.checkout.errorName).toBeVisible(); }
+      10 |   async emailErrorVisible()           { await expect(this.checkout.errorEmail).toBeVisible(); }
+        at CheckoutAssertions.orderItemCountIs (C:\workspace2\VintageDagoShop\tests\e2e\assertions\CheckoutAssertions.js:7:89)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\checkout.spec.js:21:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\checkout-Checkout-Page-order-summary-shows-1-item-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\checkout-Checkout-Page-order-summary-shows-1-item-chromium\error-context.md
+]]>
+</failure>
+</testcase>
+<testcase name="Checkout Page › order total matches product price" classname="checkout.spec.js" time="1.082">
+</testcase>
+<testcase name="Checkout Page › shows name error when name is empty" classname="checkout.spec.js" time="60.111">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\checkout-Checkout-Page-shows-name-error-when-name-is-empty-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\checkout-Checkout-Page-shows-name-error-when-name-is-empty-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › checkout.spec.js:28:3 › Checkout Page › shows name error when name is empty @ui @checkout @validation 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       7 | test.describe('Checkout Page', { tag: ['@ui', '@checkout'] }, () => {
+       8 |
+    >  9 |   test.beforeEach(async ({ homeSteps, cartSteps }) => {
+         |        ^
+      10 |     await homeSteps.openShop();
+      11 |     await homeSteps.addProductToCart(LEATHER_JACKET.id);
+      12 |     await homeSteps.navigateToCart();
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\checkout.spec.js:9:8
+
+    Error: page.waitForTimeout: Target page, context or browser has been closed
+
+       at ..\pages\BasePage.js:52
+
+      50 |         lastError = error;
+      51 |         if (attempt < maxRetries - 1) {
+    > 52 |           await this.page.waitForTimeout(500 * (attempt + 1));
+         |                           ^
+      53 |         }
+      54 |       }
+      55 |     }
+        at HomePage.click (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:52:27)
+        at HomeSteps.addProductToCart (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:31:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\checkout.spec.js:11:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\checkout-Checkout-Page-shows-name-error-when-name-is-empty-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\checkout-Checkout-Page-shows-name-error-when-name-is-empty-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Checkout Page › shows email error when email is invalid" classname="checkout.spec.js" time="0.925">
+</testcase>
+<testcase name="Checkout Page › shows card error when card is missing" classname="checkout.spec.js" time="0.684">
+</testcase>
+<testcase name="Checkout Page › successful order navigates to confirmation" classname="checkout.spec.js" time="2.812">
+</testcase>
+<testcase name="Checkout Page › cart is empty after successful order" classname="checkout.spec.js" time="2.757">
+</testcase>
+</testsuite>
+<testsuite name="e2e-flow.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="4" failures="0" skipped="0" time="113.656" errors="2">
+<testcase name="E2E — Full Purchase Flow › user completes full purchase: browse → cart → checkout → confirmation" classname="e2e-flow.spec.js" time="2.965">
+</testcase>
+<testcase name="E2E — Full Purchase Flow › stock decrements in DB after purchase" classname="e2e-flow.spec.js" time="2.465">
+</testcase>
+<testcase name="E2E — Full Purchase Flow › user can purchase multiple products in one order" classname="e2e-flow.spec.js" time="47.294">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\e2e-flow-E2E-—-Full-Purcha-a3be7-tiple-products-in-one-order-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\e2e-flow-E2E-—-Full-Purcha-a3be7-tiple-products-in-one-order-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="page.waitForURL: Timeout 45000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › e2e-flow.spec.js:56:3 › E2E — Full Purchase Flow › user can purchase multiple products in one order @e2e @critical @smoke @e2e 
+
+    TimeoutError: page.waitForURL: Timeout 45000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/confirmation" until "load"
+    ============================================================
+
+       at ..\steps\CheckoutSteps.js:7
+
+       5 |   async fillAndSubmitOrder(formData) {
+       6 |     await this.checkout.submitOrder(formData);
+    >  7 |     await this.checkout.page.waitForURL('**/confirmation');
+         |                              ^
+       8 |   }
+       9 |   async submitWithInvalidData(formData)   { await this.checkout.submitOrder(formData); }
+      10 | }
+        at CheckoutSteps.fillAndSubmitOrder (C:\workspace2\VintageDagoShop\tests\e2e\steps\CheckoutSteps.js:7:30)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\e2e-flow.spec.js:67:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\e2e-flow-E2E-—-Full-Purcha-a3be7-tiple-products-in-one-order-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\e2e-flow-E2E-—-Full-Purcha-a3be7-tiple-products-in-one-order-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="E2E — Full Purchase Flow › user can shop again after order confirmation" classname="e2e-flow.spec.js" time="60.932">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\e2e-flow-E2E-—-Full-Purcha-0814e-in-after-order-confirmation-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\e2e-flow-E2E-—-Full-Purcha-0814e-in-after-order-confirmation-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded." type="Error">
+<![CDATA[  [chromium] › e2e-flow.spec.js:72:3 › E2E — Full Purchase Flow › user can shop again after order confirmation @e2e @critical @smoke @e2e 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\e2e-flow.spec.js:76:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\e2e-flow-E2E-—-Full-Purcha-0814e-in-after-order-confirmation-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\e2e-flow-E2E-—-Full-Purcha-0814e-in-after-order-confirmation-chromium\error-context.md
+]]>
+</error>
+</testcase>
+</testsuite>
+<testsuite name="home.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="8" failures="0" skipped="0" time="481.33" errors="8">
+<testcase name="Home Page › navbar is visible" classname="home.spec.js" time="60.167">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-navbar-is-visible-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-navbar-is-visible-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:12:3 › Home Page › navbar is visible @smoke @ui @home @smoke ───────────
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-navbar-is-visible-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-navbar-is-visible-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › renders 3 products from the database" classname="home.spec.js" time="60.124">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-renders-3-products-from-the-database-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-renders-3-products-from-the-database-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:16:3 › Home Page › renders 3 products from the database @smoke @ui @home @smoke 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-renders-3-products-from-the-database-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-renders-3-products-from-the-database-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › displays all product names" classname="home.spec.js" time="60.135">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-displays-all-product-names-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-displays-all-product-names-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:20:3 › Home Page › displays all product names @smoke @ui @home ─────────
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-displays-all-product-names-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-displays-all-product-names-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › cart badge is hidden when cart is empty" classname="home.spec.js" time="60.126">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-cart-badge-is-hidden-when-cart-is-empty-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-cart-badge-is-hidden-when-cart-is-empty-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:28:3 › Home Page › cart badge is hidden when cart is empty @smoke @ui @home @smoke 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-cart-badge-is-hidden-when-cart-is-empty-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-cart-badge-is-hidden-when-cart-is-empty-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › Add to Cart button is enabled for in-stock product" classname="home.spec.js" time="60.391">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-Add-to-Cart-fa005-nabled-for-in-stock-product-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-Add-to-Cart-fa005-nabled-for-in-stock-product-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:32:3 › Home Page › Add to Cart button is enabled for in-stock product @smoke @ui @home 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-Add-to-Cart-fa005-nabled-for-in-stock-product-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-Add-to-Cart-fa005-nabled-for-in-stock-product-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › cart badge shows 1 after adding a product" classname="home.spec.js" time="60.135">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-cart-badge-shows-1-after-adding-a-product-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-cart-badge-shows-1-after-adding-a-product-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:36:3 › Home Page › cart badge shows 1 after adding a product @smoke @ui @home 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-cart-badge-shows-1-after-adding-a-product-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-cart-badge-shows-1-after-adding-a-product-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › Add to Cart label updates to In Cart after adding" classname="home.spec.js" time="60.126">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-Add-to-Cart-0ecdd-tes-to-In-Cart-after-adding-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-Add-to-Cart-0ecdd-tes-to-In-Cart-after-adding-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:41:3 › Home Page › Add to Cart label updates to In Cart after adding @smoke @ui @home 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-Add-to-Cart-0ecdd-tes-to-In-Cart-after-adding-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-Add-to-Cart-0ecdd-tes-to-In-Cart-after-adding-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Home Page › View Details navigates to product page" classname="home.spec.js" time="60.126">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\home-Home-Page-View-Details-navigates-to-product-page-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\home-Home-Page-View-Details-navigates-to-product-page-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › home.spec.js:46:3 › Home Page › View Details navigates to product page @smoke @ui @home 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Home Page', { tag: ['@smoke', '@ui', '@home'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ homeSteps }) => {
+         |        ^
+       9 |     await homeSteps.openShop();
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:8:8
+
+    Error: page.$: Target page, context or browser has been closed
+
+       at ..\pages\HomePage.js:45
+
+      43 |         
+      44 |         // Check if error message appeared (API failure)
+    > 45 |         const errorMsg = await this.page.$('[data-testid*="error"]');
+         |                                          ^
+      46 |         if (errorMsg) {
+      47 |           throw new Error('API returned error - products failed to load');
+      48 |         }
+        at HomePage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\HomePage.js:45:42)
+        at HomeSteps.openShop (C:\workspace2\VintageDagoShop\tests\e2e\steps\HomeSteps.js:23:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\home.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\home-Home-Page-View-Details-navigates-to-product-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\home-Home-Page-View-Details-navigates-to-product-page-chromium\error-context.md
+]]>
+</error>
+</testcase>
+</testsuite>
+<testsuite name="product.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="7" failures="0" skipped="0" time="420.62" errors="7">
+<testcase name="Product Page › displays product name" classname="product.spec.js" time="60.076">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-displays-product-name-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-displays-product-name-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:12:3 › Product Page › displays product name @ui @product @smoke ─────
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-displays-product-name-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-displays-product-name-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Page › displays correct price" classname="product.spec.js" time="60.076">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-displays-correct-price-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-displays-correct-price-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:16:3 › Product Page › displays correct price @ui @product @smoke ────
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-displays-correct-price-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-displays-correct-price-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Page › displays in stock message" classname="product.spec.js" time="60.09">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-displays-in-stock-message-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-displays-in-stock-message-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:20:3 › Product Page › displays in stock message @ui @product ────────
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-displays-in-stock-message-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-displays-in-stock-message-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Page › Add to Cart button is visible initially" classname="product.spec.js" time="60.091">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-Add-to-Cart-button-is-visible-initially-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-Add-to-Cart-button-is-visible-initially-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:24:3 › Product Page › Add to Cart button is visible initially @ui @product 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-Add-to-Cart-button-is-visible-initially-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-Add-to-Cart-button-is-visible-initially-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Page › quantity controls appear after adding to cart" classname="product.spec.js" time="60.097">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-quant-8b4f3-appear-after-adding-to-cart-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-quant-8b4f3-appear-after-adding-to-cart-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:28:3 › Product Page › quantity controls appear after adding to cart @ui @product 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-quant-8b4f3-appear-after-adding-to-cart-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-quant-8b4f3-appear-after-adding-to-cart-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Page › plus button is disabled when quantity equals stock" classname="product.spec.js" time="60.09">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-plus--42ee9--when-quantity-equals-stock-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-plus--42ee9--when-quantity-equals-stock-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:34:3 › Product Page › plus button is disabled when quantity equals stock @ui @product @boundary 
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-plus--42ee9--when-quantity-equals-stock-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-plus--42ee9--when-quantity-equals-stock-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Page › View Cart navigates to cart page" classname="product.spec.js" time="60.1">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|artifacts\product-Product-Page-View-Cart-navigates-to-cart-page-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\product-Product-Page-View-Cart-navigates-to-cart-page-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="Test timeout of 60000ms exceeded while running &quot;beforeEach&quot; hook." type="Error">
+<![CDATA[  [chromium] › product.spec.js:44:3 › Product Page › View Cart navigates to cart page @ui @product ─
+
+    Test timeout of 60000ms exceeded while running "beforeEach" hook.
+
+       6 | test.describe('Product Page', { tag: ['@ui', '@product'] }, () => {
+       7 |
+    >  8 |   test.beforeEach(async ({ productSteps }) => {
+         |        ^
+       9 |     await productSteps.openProduct(LEATHER_JACKET.id);
+      10 |   });
+      11 |
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:8:8
+
+    Error: locator.waitFor: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByTestId('product-detail-name') to be visible
+
+
+       at ..\pages\ProductPage.js:23
+
+      21 |   async goto(productId) {
+      22 |     await this.navigate(`/product/${productId}`);
+    > 23 |     await this.name.waitFor({ state: 'visible' });
+         |                     ^
+      24 |   }
+      25 |
+      26 |   async getName()  { return this.name.textContent(); }
+        at ProductPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductPage.js:23:21)
+        at ProductSteps.openProduct (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductSteps.js:4:34)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\product.spec.js:9:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\product-Product-Page-View-Cart-navigates-to-cart-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\product-Product-Page-View-Cart-navigates-to-cart-page-chromium\error-context.md
+]]>
+</error>
+</testcase>
+</testsuite>
+<testsuite name="productBrowsing.spec.js" timestamp="2026-11-12T17:47:11.027Z" hostname="chromium" tests="16" failures="0" skipped="0" time="168.267" errors="16">
+<testcase name="Product Browsing @smoke @P1 › should display products grid on shop page load" classname="productBrowsing.spec.js" time="10.539">
+<system-out>
+<![CDATA[[2m2026-11-12T17:57:59.152Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-7ec97-ucts-grid-on-shop-page-load-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-7ec97-ucts-grid-on-shop-page-load-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:65:3 › Product Browsing @smoke @P1 › should display products grid on shop page load 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:67:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-7ec97-ucts-grid-on-shop-page-load-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-7ec97-ucts-grid-on-shop-page-load-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should display correct number of products" classname="productBrowsing.spec.js" time="10.493">
+<system-out>
+<![CDATA[[2m2026-11-12T17:58:11.036Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-1149e--correct-number-of-products-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-1149e--correct-number-of-products-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:74:3 › Product Browsing @smoke @P1 › should display correct number of products 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:79:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-1149e--correct-number-of-products-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-1149e--correct-number-of-products-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should display product information correctly" classname="productBrowsing.spec.js" time="10.606">
+<system-out>
+<![CDATA[[2m2026-11-12T17:58:22.999Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-e0dc6-oduct-information-correctly-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-e0dc6-oduct-information-correctly-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:86:3 › Product Browsing @smoke @P1 › should display product information correctly 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:88:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-e0dc6-oduct-information-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-e0dc6-oduct-information-correctly-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should display add to cart button for available products" classname="productBrowsing.spec.js" time="10.594">
+<system-out>
+<![CDATA[[2m2026-11-12T17:58:35.254Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-80723-tton-for-available-products-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-80723-tton-for-available-products-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:100:3 › Product Browsing @smoke @P1 › should display add to cart button for available products 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:102:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-80723-tton-for-available-products-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-80723-tton-for-available-products-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should show products as in stock with valid quantity" classname="productBrowsing.spec.js" time="10.991">
+<system-out>
+<![CDATA[[2m2026-11-12T17:58:47.983Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-1c6f6-n-stock-with-valid-quantity-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-1c6f6-n-stock-with-valid-quantity-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:111:3 › Product Browsing @smoke @P1 › should show products as in stock with valid quantity 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:113:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-1c6f6-n-stock-with-valid-quantity-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-1c6f6-n-stock-with-valid-quantity-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should allow user to view product details" classname="productBrowsing.spec.js" time="10.54">
+<system-out>
+<![CDATA[[2m2026-11-12T17:59:00.364Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-471b1-ser-to-view-product-details-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-471b1-ser-to-view-product-details-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:122:3 › Product Browsing @smoke @P1 › should allow user to view product details 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:127:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-471b1-ser-to-view-product-details-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-471b1-ser-to-view-product-details-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should display search functionality" classname="productBrowsing.spec.js" time="10.477">
+<system-out>
+<![CDATA[[2m2026-11-12T17:59:12.163Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-6935d-isplay-search-functionality-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-6935d-isplay-search-functionality-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:139:3 › Product Browsing @smoke @P1 › should display search functionality 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:141:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-6935d-isplay-search-functionality-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-6935d-isplay-search-functionality-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should filter products and display results" classname="productBrowsing.spec.js" time="10.449">
+<system-out>
+<![CDATA[[2m2026-11-12T17:59:24.005Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-005a2-roducts-and-display-results-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-005a2-roducts-and-display-results-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:148:3 › Product Browsing @smoke @P1 › should filter products and display results 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:150:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-005a2-roducts-and-display-results-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-005a2-roducts-and-display-results-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should clear filters and show all products again" classname="productBrowsing.spec.js" time="10.536">
+<system-out>
+<![CDATA[[2m2026-11-12T17:59:35.742Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-f3676-and-show-all-products-again-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-f3676-and-show-all-products-again-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:162:3 › Product Browsing @smoke @P1 › should clear filters and show all products again 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:164:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-f3676-and-show-all-products-again-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-f3676-and-show-all-products-again-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should display product ratings when available" classname="productBrowsing.spec.js" time="10.444">
+<system-out>
+<![CDATA[[2m2026-11-12T17:59:47.495Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-47986-duct-ratings-when-available-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-47986-duct-ratings-when-available-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:175:3 › Product Browsing @smoke @P1 › should display product ratings when available 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:177:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-47986-duct-ratings-when-available-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-47986-duct-ratings-when-available-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should maintain product list state after scrolling" classname="productBrowsing.spec.js" time="10.44">
+<system-out>
+<![CDATA[[2m2026-11-12T17:59:59.183Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-106f6--list-state-after-scrolling-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-106f6--list-state-after-scrolling-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:190:3 › Product Browsing @smoke @P1 › should maintain product list state after scrolling 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:195:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-106f6--list-state-after-scrolling-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-106f6--list-state-after-scrolling-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Browsing @smoke @P1 › should show product out of stock state if stock is zero" classname="productBrowsing.spec.js" time="10.513">
+<system-out>
+<![CDATA[[2m2026-11-12T18:00:10.933Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Browsing test
+✓ Database pool initialized
+✓ Database reset complete
+✓ Database pool closed
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-bb99f-tock-state-if-stock-is-zero-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Br-bb99f-tock-state-if-stock-is-zero-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:208:3 › Product Browsing @smoke @P1 › should show product out of stock state if stock is zero 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:215:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Br-bb99f-tock-state-if-stock-is-zero-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Br-bb99f-tock-state-if-stock-is-zero-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Search @smoke @P1 › should search for products by name and display results" classname="productBrowsing.spec.js" time="10.402">
+<system-out>
+<![CDATA[[2m2026-11-12T18:00:22.761Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Search test
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Se-eecff-by-name-and-display-results-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Se-eecff-by-name-and-display-results-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:236:3 › Product Search @smoke @P1 › should search for products by name and display results 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:241:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Se-eecff-by-name-and-display-results-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Se-eecff-by-name-and-display-results-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Search @smoke @P1 › should display no results message when search returns empty" classname="productBrowsing.spec.js" time="10.412">
+<system-out>
+<![CDATA[[2m2026-11-12T18:00:34.535Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Search test
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Se-4d70e-e-when-search-returns-empty-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-Se-4d70e-e-when-search-returns-empty-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:251:3 › Product Search @smoke @P1 › should display no results message when search returns empty 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:256:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-Se-4d70e-e-when-search-returns-empty-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-Se-4d70e-e-when-search-returns-empty-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Sorting @P1 › should display sort selector on products page" classname="productBrowsing.spec.js" time="10.453">
+<system-out>
+<![CDATA[[2m2026-11-12T18:00:46.387Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Sorting test
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-So-a3ee2-t-selector-on-products-page-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-So-a3ee2-t-selector-on-products-page-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:283:3 › Product Sorting @P1 › should display sort selector on products page 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:285:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-So-a3ee2-t-selector-on-products-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-So-a3ee2-t-selector-on-products-page-chromium\error-context.md
+]]>
+</error>
+</testcase>
+<testcase name="Product Sorting @P1 › should sort products by price low to high" classname="productBrowsing.spec.js" time="10.378">
+<system-out>
+<![CDATA[[2m2026-11-12T18:00:57.930Z[0m [1m[34m[productBrowsing.spec][0m [36mINFO[0m Setting up Product Sorting test
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-So-7f149-oducts-by-price-low-to-high-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|artifacts\productBrowsing-Product-So-7f149-oducts-by-price-low-to-high-chromium\error-context.md]]
+]]>
+</system-out>
+<error message="locator.waitFor: Timeout 10000ms exceeded." type="TimeoutError">
+<![CDATA[  [chromium] › productBrowsing.spec.js:292:3 › Product Sorting @P1 › should sort products by price low to high 
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+      - waiting for getByTestId('products-grid') to be visible
+        23 × locator resolved to hidden <div class="products-grid" data-testid="products-grid"></div>
+
+
+       at ..\pages\BasePage.js:90
+
+      88 |   async waitForElement(locator, options = {}) {
+      89 |     const timeout = options.timeout || this.timeout;
+    > 90 |     await locator.waitFor({ state: 'visible', timeout });
+         |                   ^
+      91 |   }
+      92 |
+      93 |   async waitForNavigation(action) {
+        at ProductBrowsingPage.waitForElement (C:\workspace2\VintageDagoShop\tests\e2e\pages\BasePage.js:90:19)
+        at ProductBrowsingPage.goto (C:\workspace2\VintageDagoShop\tests\e2e\pages\ProductBrowsingPage.js:219:16)
+        at ProductBrowsingSteps.userNavigatesToProductListing (C:\workspace2\VintageDagoShop\tests\e2e\steps\ProductBrowsingSteps.js:32:5)
+        at C:\workspace2\VintageDagoShop\tests\e2e\specs\productBrowsing.spec.js:294:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\..\..\test-results\artifacts\productBrowsing-Product-So-7f149-oducts-by-price-low-to-high-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\..\..\test-results\artifacts\productBrowsing-Product-So-7f149-oducts-by-price-low-to-high-chromium\error-context.md
+]]>
+</error>
+</testcase>
+</testsuite>
 </testsuites>

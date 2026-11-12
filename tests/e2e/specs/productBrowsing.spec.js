@@ -11,12 +11,15 @@
  * NOT focus: Cart operations (covered in separate suite)
  */
 
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { ProductBrowsingPage } from '../pages/ProductBrowsingPage.js';
 import { ProductBrowsingSteps } from '../steps/ProductBrowsingSteps.js';
 import { ProductBrowsingAssertions } from '../assertions/ProductBrowsingAssertions.js';
-import { DbHelper } from '../support/db-helper.js';
-import { Logger } from '../support/logger.js';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const DatabaseHelper = require('../support/db-helper.js');
+const Logger = require('../support/logger.js');
 
 const logger = new Logger('productBrowsing.spec');
 
@@ -36,7 +39,7 @@ test.describe('Product Browsing @smoke @P1', () => {
     // Arrange: Initialize objects
     logger.info('Setting up Product Browsing test');
     
-    dbHelper = new DbHelper({
+    dbHelper = new DatabaseHelper({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'vintagedago_user',
       password: process.env.DB_PASSWORD || 'secret',
@@ -53,7 +56,7 @@ test.describe('Product Browsing @smoke @P1', () => {
 
   test.afterEach(async () => {
     if (dbHelper) {
-      await dbHelper.closeConnection();
+      await dbHelper.disconnect();
     }
   });
 
